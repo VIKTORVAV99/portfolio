@@ -2,4 +2,9 @@
 @tailwind components;
 @tailwind utilities;
 
-
+@font-face {
+	font-family: Inter;
+	font-weight: 400 700;
+	src: url('/fonts/Inter.var.woff2') format('woff2-variations');
+	font-display: swap;
+}
