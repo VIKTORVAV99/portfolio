@@ -1,2 +1,8 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<div class="flex w-screen h-screen items-center justify-center">
+	<div>
+		<h1 class="text-3xl">Viktor Andersson</h1>
+	</div>
+</div>
+
+<style lang="postcss">
+</style>
