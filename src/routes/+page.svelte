@@ -2,14 +2,21 @@
 	import UnderConstruction from '../components/UnderConstruction.svelte';
 </script>
 
-<main>
-	<div class="flex w-full h-screen items-center justify-center absolute">
+<svelte:head>
+	<title>Viktor Andersson</title>
+</svelte:head>
+
+<div class="flex flex-col w-screen h-screen">
+	<UnderConstruction />
+	<main class="flex grow items-center justify-center ">
 		<div>
-			<h1 class="text-3xl font-inter">Viktor Andersson</h1>
+			<h1 class="text-3xl font-inter text-ghost-white">Viktor Andersson</h1>
 		</div>
-	</div>
-</main>
-<UnderConstruction />
+	</main>
+</div>
 
 <style lang="postcss">
+	div {
+		--tw-bg-opacity: 0.9;
+	}
 </style>
