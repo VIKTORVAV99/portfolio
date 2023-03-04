@@ -2,6 +2,10 @@
 	import UnderConstruction from '../components/UnderConstruction.svelte';
 </script>
 
+<svelte:head>
+	<title>Viktor Andersson</title>
+</svelte:head>
+
 <main>
 	<div class="flex w-full h-screen items-center justify-center absolute">
 		<div>
