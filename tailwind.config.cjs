@@ -6,7 +6,7 @@ module.exports = {
 	theme: {
 		extend: {
 			animation: {
-				marquee: '200s linear 0s infinite normal running marquee'
+				marquee: '10s linear 0s infinite normal running marquee'
 			}
 		},
 		fontFamily: {
