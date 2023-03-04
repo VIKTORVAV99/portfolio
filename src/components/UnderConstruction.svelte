@@ -20,17 +20,4 @@
 </div>
 
 <style lang="postcss">
-	/* Custom classes */
-
-	.marquee {
-		flex: 0 0 auto;
-		min-width: 100%;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		animation: scroll 200s linear 0s infinite;
-		animation-play-state: running;
-		animation-delay: 0s;
-		animation-direction: normal;
-	}
 </style>
