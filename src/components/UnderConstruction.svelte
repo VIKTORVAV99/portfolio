@@ -1,21 +1,21 @@
 <div class="flex flex-row items-center overflow-x-hidden w-full bg-yellow-400 shadow">
 	<animated.ul class="inline-block whitespace-nowrap animate-marquee">
-		<li class="inline-block relative">/// Under Construction</li>
-		<li class="inline-block relative">/// Under Construction</li>
-		<li class="inline-block relative">/// Under Construction</li>
-		<li class="inline-block relative">/// Under Construction</li>
-		<li class="inline-block relative">/// Under Construction</li>
-		<li class="inline-block relative">/// Under Construction</li>
-		<li class="inline-block relative">/// Under Construction</li>
-		<li class="inline-block relative">/// Under Construction</li>
-		<li class="inline-block relative">/// Under Construction</li>
-		<li class="inline-block relative">/// Under Construction</li>
-		<li class="inline-block relative">/// Under Construction</li>
-		<li class="inline-block relative">/// Under Construction</li>
-		<li class="inline-block relative">/// Under Construction</li>
-		<li class="inline-block relative">/// Under Construction</li>
-		<li class="inline-block relative">/// Under Construction</li>
-		<li class="inline-block relative">/// Under Construction</li>
+		<animated.li class="inline-block relative">/// Under Construction</animated.li>
+		<animated.li class="inline-block relative">/// Under Construction</animated.li>
+		<animated.li class="inline-block relative">/// Under Construction</animated.li>
+		<animated.li class="inline-block relative">/// Under Construction</animated.li>
+		<animated.li class="inline-block relative">/// Under Construction</animated.li>
+		<animated.li class="inline-block relative">/// Under Construction</animated.li>
+		<animated.li class="inline-block relative">/// Under Construction</animated.li>
+		<animated.li class="inline-block relative">/// Under Construction</animated.li>
+		<animated.li class="inline-block relative">/// Under Construction</animated.li>
+		<animated.li class="inline-block relative">/// Under Construction</animated.li>
+		<animated.li class="inline-block relative">/// Under Construction</animated.li>
+		<animated.li class="inline-block relative">/// Under Construction</animated.li>
+		<animated.li class="inline-block relative">/// Under Construction</animated.li>
+		<animated.li class="inline-block relative">/// Under Construction</animated.li>
+		<animated.li class="inline-block relative">/// Under Construction</animated.li>
+		<animated.li class="inline-block relative">/// Under Construction</animated.li>
 	</animated.ul>
 </div>
 
