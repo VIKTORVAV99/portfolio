@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  schedule:
+    - cron: '0 7 * * 1'
+
+jobs:
+  prettier:
+    name: Prettier
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node v18.x
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+      - name: Set NPM cache directory
+        run: npm set cache .npm
+      - name: Restore NPM cache
+        uses: actions/cache@v3
+        with:
+          path: .npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm
+      - name: Restore node_modules
+        id: node_modules-cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+      - name: Install dependencies
+        if: steps.node_modules-cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Prettier
+        run: npm run format:check
