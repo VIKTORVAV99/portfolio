@@ -2,9 +2,22 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Fonts */
+
 @font-face {
 	font-family: Inter;
 	font-weight: 400 700;
 	src: url('/fonts/Inter.var.woff2') format('woff2-variations');
 	font-display: swap;
+}
+
+/* Animation Keyframes */
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
 }

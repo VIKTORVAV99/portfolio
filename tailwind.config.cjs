@@ -4,7 +4,11 @@ const defaultConfig = require('tailwindcss/defaultConfig');
 module.exports = {
 	content: ['./src/**/*.{html,js,svelte,ts}'],
 	theme: {
-		extend: {},
+		extend: {
+			animation: {
+				marquee: '200s linear 0s infinite normal running marquee'
+			}
+		},
 		fontFamily: {
 			inter: ['Inter', ...defaultConfig.theme.fontFamily.sans]
 		}
