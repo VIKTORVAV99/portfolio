@@ -114,3 +114,39 @@ jobs:
         run: npm ci
       - name: Svelte Check
         run: npm run check:ci
+  build:
+    name: Build for production
+    runs-on: ubuntu-latest
+    needs:
+      - eslint
+      - svelte-check
+    timeout-minutes: 5
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Setup Node lts/*
+        uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+      - name: Restore node_modules
+        id: node_modules-cache
+        uses: actions/cache@v3
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node_modules-${{ hashFiles('package-lock.json') }}
+      - name: Set NPM cache directory
+        if: steps.node_modules-cache.outputs.cache-hit != 'true'
+        run: npm set cache .npm
+      - name: Restore NPM cache
+        if: steps.node_modules-cache.outputs.cache-hit != 'true'
+        uses: actions/cache@v3
+        with:
+          path: .npm
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-npm
+      - name: Install dependencies
+        if: steps.node_modules-cache.outputs.cache-hit != 'true'
+        run: npm ci
+      - name: Build
+        run: npm run build:ci

@@ -5,6 +5,7 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
+		"build:ci": "vite build --mode production",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:ci": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --output machine --fail-on-warnings",
