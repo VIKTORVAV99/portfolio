@@ -48,7 +48,7 @@ self.addEventListener('fetch', (event) => {
 		try {
 			const response = await fetch(event.request);
 
-			if (response.status === 200 && (event.request.url.indexOf('http') === 0)) {
+			if (response.status === 200 && event.request.url.indexOf('http') === 0) {
 				cache.put(event.request, response.clone());
 			}
 
