@@ -10,13 +10,15 @@
 	<UnderConstruction />
 	<main class="flex grow items-center justify-center ">
 		<div>
-			<h1 class="text-3xl font-inter text-ghost-white">Viktor Andersson</h1>
+			<h1 class="text-6xl font-inter">Viktor Andersson</h1>
 		</div>
 	</main>
+	<footer class="flex grow justify-center items-end">
+		<div>
+			<p>Footer</p>
+		</div>
+	</footer>
 </div>
 
 <style lang="postcss">
-	div {
-		--tw-bg-opacity: 0.9;
-	}
 </style>
