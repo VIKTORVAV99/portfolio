@@ -13,9 +13,12 @@ module.exports = {
 			'forest-green': '#248232',
 			'oxford-blue': '#0a122a',
 			'celestial-blue': '#009ddc',
-			black: '#000000',
+			black: '#000',
 			'black-t-1': '#000000EE',
-			'ghost-white': '#f7f7ff'
+			white: '#fff',
+			'ghost-white': '#f7f7ff',
+			'dark-gray': '#4C4E52',
+			'linkedin-blue': '#0077b5'
 		},
 		extend: {
 			animation: {
