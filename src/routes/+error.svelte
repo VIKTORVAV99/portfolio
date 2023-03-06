@@ -1,24 +1,16 @@
-<script lang="typescript">
+<script lang="ts">
+	import { page } from '$app/stores';
 	import UnderConstruction from '$components/UnderConstruction.svelte';
 	import Main from '$components/Main.svelte';
 	import TitleText from '$components/TitleText.svelte';
-	import IconSet from '$components/IconSet.svelte';
 	import Footer from '$components/Footer.svelte';
 </script>
-
-<svelte:head>
-	<title>Viktor Andersson</title>
-	<link rel="canonical" href="https://viktor.andersson.tech" />
-</svelte:head>
 
 <div class="flex flex-col min-h-screen">
 	<UnderConstruction />
 	<Main>
-		<TitleText text="Viktor Andersson" />
-		<IconSet />
+		<TitleText text={$page.status} />
+		<p>{$page.error?.message}</p>
 	</Main>
 	<Footer />
 </div>
-
-<style lang="postcss">
-</style>
