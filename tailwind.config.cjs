@@ -23,6 +23,12 @@ module.exports = {
 		extend: {
 			animation: {
 				marquee: '10s linear 0s infinite normal running marquee'
+			},
+			keyframes: {
+				marquee: {
+					'0%': { transform: 'translateX(0%)' },
+					'100%': { transform: 'translateX(-100%)' }
+				}
 			}
 		},
 		fontFamily: {

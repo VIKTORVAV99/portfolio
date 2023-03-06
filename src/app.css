@@ -12,14 +12,3 @@
 	font-named-instance: 'Regular';
 	src: local('Inter V'), local('Inter'), url('/fonts/Inter-roman.var.woff2?v=3.19') format('woff2');
 }
-
-/* Animation Keyframes */
-
-@keyframes marquee {
-	0% {
-		transform: translateX(0%);
-	}
-	100% {
-		transform: translateX(-100%);
-	}
-}
