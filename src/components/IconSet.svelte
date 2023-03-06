@@ -2,7 +2,7 @@
 	import Icon from 'svelte-awesome';
 	import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin';
 	import { faSquareGithub } from '@fortawesome/free-brands-svg-icons/faSquareGithub';
-	export let scale: number = 3;
+	export let scale = 3;
 </script>
 
 <!--
