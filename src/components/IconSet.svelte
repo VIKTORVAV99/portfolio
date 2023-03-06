@@ -1,6 +1,6 @@
 <script lang="ts">
 	import Icon from 'svelte-awesome';
-	import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedIn';
+	import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin';
 	import { faSquareGithub } from '@fortawesome/free-brands-svg-icons/faSquareGithub';
   export let scale: number = 3;
 </script>
