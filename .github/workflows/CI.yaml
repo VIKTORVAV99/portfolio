@@ -171,6 +171,8 @@ jobs:
       name: GitHub Pages
       url: ${{ steps.deployment.outputs.page_url}}
     steps:
+      - name: Log actor
+        run: echo ${{ github.actor }}
       - name: Download build artifact
         uses: actions/download-artifact@v3
         with:
