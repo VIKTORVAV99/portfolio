@@ -115,7 +115,7 @@ jobs:
       - name: Svelte Check
         run: npm run check:ci
   build:
-    name: Build for production
+    name: Build
     runs-on: ubuntu-latest
     needs:
       - eslint
@@ -158,7 +158,7 @@ jobs:
           path: build
   deploy:
     name: Deploy to GitHub Pages
-    if: github.ref_name == 'main'
+    if: github.ref_name == 'main' && github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     needs:
       - build
