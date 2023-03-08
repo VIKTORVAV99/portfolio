@@ -1,8 +1,11 @@
 <script lang="ts">
 </script>
 
-<footer class="flex justify-center w-full bottom-0">
-	<div>
-		<p>Footer</p>
+<div class="flex flex-col justify-center">
+	<div class="flex flex-row justify-center items-center">
+		<a href="/about">About</a>
 	</div>
-</footer>
+	<div class="flex flex-row justify-center items-center">
+		<small class="items-end"> 2023 &copy; Viktor Andersson </small>
+	</div>
+</div>

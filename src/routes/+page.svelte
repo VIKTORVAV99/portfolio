@@ -1,9 +1,6 @@
-<script lang="typescript">
-	import UnderConstruction from '$components/UnderConstruction.svelte';
-	import Main from '$components/Main.svelte';
+<script lang="ts">
 	import TitleText from '$components/TitleText.svelte';
 	import IconSet from '$components/IconSet.svelte';
-	import Footer from '$components/Footer.svelte';
 </script>
 
 <svelte:head>
@@ -11,13 +8,13 @@
 	<link rel="canonical" href="https://viktor.andersson.tech" />
 </svelte:head>
 
-<div class="flex flex-col min-h-screen">
-	<UnderConstruction />
-	<Main>
+<div class="flex justify-center mt-[100px]">
+	<div class="flex flex-col">
 		<TitleText text="Viktor Andersson" />
-		<IconSet />
-	</Main>
-	<Footer />
+		<div class="flex justify-center">
+			<IconSet scale={3} />
+		</div>
+	</div>
 </div>
 
 <style lang="postcss">

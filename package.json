@@ -18,6 +18,7 @@
 	},
 	"devDependencies": {
 		"@fortawesome/free-brands-svg-icons": "^6.3.0",
+		"@skeletonlabs/skeleton": "^0.132.5",
 		"@sveltejs/adapter-static": "^2.0.1",
 		"@sveltejs/kit": "^1.10.0",
 		"@typescript-eslint/eslint-plugin": "^5.54.1",

@@ -2,25 +2,16 @@ const defaultConfig = require('tailwindcss/defaultConfig');
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-	content: ['./src/**/*.{html,js,svelte,ts}'],
+	darkMode: 'class',
+	content: [
+		'./src/**/*.{html,js,svelte,ts}',
+		require('path').join(require.resolve('@skeletonlabs/skeleton'), '../**/*.{html,js,svelte,ts}')
+	],
 	theme: {
-		colors: {
-			transparent: 'transparent',
-			current: 'currentColor',
-			canary: '#fee900',
-			'canary-t-1': '#fee900EE',
-			flame: '#ec4e20',
-			'forest-green': '#248232',
-			'oxford-blue': '#0a122a',
-			'celestial-blue': '#009ddc',
-			black: '#000',
-			'black-t-1': '#000000EE',
-			white: '#fff',
-			'ghost-white': '#f7f7ff',
-			'dark-gray': '#4C4E52',
-			'linkedin-blue': '#0077b5'
-		},
 		extend: {
+			colors: {
+				'linkedin-blue': '#0077B5'
+			},
 			animation: {
 				marquee: '10s linear 0s infinite normal running marquee'
 			},
@@ -29,11 +20,11 @@ module.exports = {
 					'0%': { transform: 'translateX(0%)' },
 					'100%': { transform: 'translateX(-100%)' }
 				}
+			},
+			fontFamily: {
+				sans: ['Inter', ...defaultConfig.theme.fontFamily.sans]
 			}
-		},
-		fontFamily: {
-			inter: ['Inter', ...defaultConfig.theme.fontFamily.sans]
 		}
 	},
-	plugins: []
+	plugins: [...require('@skeletonlabs/skeleton/tailwind/skeleton.cjs')()]
 };
