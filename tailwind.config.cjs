@@ -13,7 +13,7 @@ module.exports = {
 				'linkedin-blue': '#0077B5'
 			},
 			animation: {
-				marquee: '10s linear 0s infinite normal running marquee'
+				marquee: '150s linear 0s infinite normal running marquee'
 			},
 			keyframes: {
 				marquee: {
