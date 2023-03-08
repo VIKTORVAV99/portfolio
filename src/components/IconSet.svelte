@@ -10,11 +10,11 @@
   IconSet that contains the social media icons and links them.
   This component uses flex and flex row to align the icons horizontally.
   -->
-<div class="flex flex-row justify-center items-center mt-2">
+<div class="flex flex-row justify-center items-center">
 	<a title="LinkedIn" href="https://www.linkedin.com/in/viktor-va-andersson/" class="m-3">
-		<Icon data={faLinkedin} {scale} class="text-dark-gray hover:text-linkedin-blue" />
+		<Icon data={faLinkedin} {scale} class="text-dark-gray [&>path]:hover:fill-linkedin-blue" />
 	</a>
 	<a title="GitHub" href="http://github.com/VIKTORVAV99" class="m-3">
-		<Icon data={faSquareGithub} {scale} class="text-dark-gray hover:text-white" />
+		<Icon data={faSquareGithub} {scale} class="text-dark-gray [&>path]:hover:fill-white" />
 	</a>
 </div>
