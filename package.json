@@ -6,6 +6,7 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"build:ci": "vite build --mode production",
+		"postbuild:ci": "svelte-sitemap --domain https://viktor.andersson.tech",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:ci": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --output machine --fail-on-warnings",
@@ -35,11 +36,11 @@
 		"svelte": "^3.54.0",
 		"svelte-awesome": "^3.1.0",
 		"svelte-check": "^3.0.1",
+		"svelte-sitemap": "^2.6.0",
 		"tailwindcss": "^3.2.7",
 		"tslib": "^2.4.1",
 		"typescript": "^4.9.3",
 		"vite": "^4.0.0",
-		"vite-plugin-sitemap": "^0.3.0",
 		"vitest": "^0.29.2"
 	},
 	"type": "module"
