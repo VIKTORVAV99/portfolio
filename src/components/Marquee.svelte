@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let duration: number = 150;
+	export let duration = 150;
 	export let direction: 'normal' | 'reversed' = 'normal';
 	export let hover: 'paused' | 'running' = 'running';
 </script>
