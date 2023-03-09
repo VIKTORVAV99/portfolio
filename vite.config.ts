@@ -1,8 +1,17 @@
 import { sveltekit } from '@sveltejs/kit/vite';
 import { defineConfig } from 'vitest/config';
+import Sitemap from 'vite-plugin-sitemap';
 
 export default defineConfig({
-	plugins: [sveltekit()],
+	plugins: [
+		sveltekit(),
+		Sitemap({
+			hostname: 'https://viktor.andersson.tech',
+			outDir: 'build',
+			robots: [{ userAgent: '*', allow: '/', disallow: '' }],
+			exclude: ['/404']
+		})
+	],
 	test: {
 		include: ['src/**/*.{test,spec}.{js,ts}']
 	},
