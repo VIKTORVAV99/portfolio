@@ -31,8 +31,7 @@
 		}
 	}
 	div > div {
-		animation: marquee var(--marquee-duration) linear 0s infinite;
-		animation-direction: var(--marquee-direction);
+		animation: marquee var(--marquee-duration) linear 0s infinite var(--marquee-direction);
 	}
 	div:hover > div {
 		animation-play-state: var(--marquee-hover);
