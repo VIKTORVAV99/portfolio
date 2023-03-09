@@ -7,7 +7,7 @@ export default defineConfig({
 		sveltekit(),
 		Sitemap({
 			hostname: 'https://viktor.andersson.tech',
-			outDir: process.env.CI ? './home/runner/work/personal-website/build' : 'build',
+			outDir: 'build',
 			robots: [{ userAgent: '*', allow: '/', disallow: '' }],
 			exclude: ['/404']
 		})
