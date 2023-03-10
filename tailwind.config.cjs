@@ -12,15 +12,6 @@ module.exports = {
 			colors: {
 				'linkedin-blue': '#0077B5'
 			},
-			animation: {
-				marquee: '150s linear 0s infinite normal running marquee'
-			},
-			keyframes: {
-				marquee: {
-					'0%': { transform: 'translateX(0%)' },
-					'100%': { transform: 'translateX(-100%)' }
-				}
-			},
 			fontFamily: {
 				sans: ['Inter', ...defaultConfig.theme.fontFamily.sans]
 			}
