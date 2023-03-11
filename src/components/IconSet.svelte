@@ -3,6 +3,21 @@
 	import { faLinkedin } from '@fortawesome/free-brands-svg-icons/faLinkedin';
 	import { faSquareGithub } from '@fortawesome/free-brands-svg-icons/faSquareGithub';
 	export let scale = 3;
+
+	const icons = [
+		{
+			name: 'LinkedIn',
+			url: 'https://www.linkedin.com/in/viktor-va-andersson/',
+			icon: faLinkedin,
+			color: 'linkedin-blue'
+		},
+		{
+			name: 'GitHub',
+			url: 'https://github.com/vitkorvav99',
+			icon: faSquareGithub,
+			color: 'white'
+		}
+	];
 </script>
 
 <!--
@@ -10,11 +25,11 @@
   IconSet that contains the social media icons and links them.
   This component uses flex and flex row to align the icons horizontally.
   -->
+
 <div class="flex flex-row justify-center items-center">
-	<a title="LinkedIn" href="https://www.linkedin.com/in/viktor-va-andersson/" class="m-3">
-		<Icon data={faLinkedin} {scale} class="text-dark-gray [&>path]:hover:fill-linkedin-blue" />
-	</a>
-	<a title="GitHub" href="http://github.com/VIKTORVAV99" class="m-3">
-		<Icon data={faSquareGithub} {scale} class="text-dark-gray [&>path]:hover:fill-white" />
-	</a>
+	{#each icons as icon}
+		<a href={icon.url} class="m-3" title={icon.name}>
+			<Icon data={icon.icon} {scale} class="text-dark-gray [&>path]:hover:fill-{icon.color}" />
+		</a>
+	{/each}
 </div>

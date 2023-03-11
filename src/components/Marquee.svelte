@@ -10,7 +10,7 @@
 -->
 
 <div
-	class="flex w-full flex-row overflow-x-hidden bg-warning-400 shadow text-black"
+	class="flex w-full flex-row overflow-x-hidden {$$props.class}"
 	style="--marquee-duration: {duration}s;--marquee-direction:{direction};--marquee-hover:{hover}"
 >
 	<div class="animate-marquee flex-none min-w-full flex-row items-center">

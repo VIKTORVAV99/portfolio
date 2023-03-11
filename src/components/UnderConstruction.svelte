@@ -7,7 +7,7 @@
 	Animated Under Construction banner.
 -->
 
-<Marquee>
+<Marquee class="bg-warning-400 shadow text-black">
 	<ul>
 		<li class="relative inline-block">&nbsp/// Under Construction</li>
 		<li class="relative inline-block">&nbsp/// Under Construction</li>
