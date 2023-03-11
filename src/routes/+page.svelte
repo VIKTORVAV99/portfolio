@@ -1,7 +1,6 @@
 <script lang="ts">
 	import TitleText from '$components/TitleText.svelte';
 	import IconSet from '$components/IconSet.svelte';
-	import FrameworksBanner from '$components/FrameworksBanner.svelte';
 </script>
 
 <svelte:head>
