@@ -151,7 +151,7 @@ jobs:
       - name: Build
         run: npm run build:ci
       - name: Upload build artifact
-        if: github.ref_name == 'main'
+        if: github.ref_name == 'main' && !contains(github.event.head_commit.message, '[No Deploy]')
         uses: actions/upload-artifact@v3
         with:
           name: build
