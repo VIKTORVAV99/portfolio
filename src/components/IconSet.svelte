@@ -13,7 +13,7 @@
 		},
 		{
 			name: 'GitHub',
-			url: 'https://github.com/vitkorvav99',
+			url: 'https://github.com/viktorvav99',
 			icon: faSquareGithub,
 			color: 'white'
 		}
