@@ -1,7 +1,7 @@
 <script lang="ts">
 </script>
 
-<div class="flex flex-col justify-center">
+<div class="flex flex-col justify-center variant-glass-secondary">
 	<div class="flex flex-row justify-center items-center">
 		<a href="/about">About</a>
 	</div>
