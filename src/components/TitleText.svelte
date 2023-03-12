@@ -1,5 +1,4 @@
 <script lang="ts">
-	export let text: string | number;
 </script>
 
 <!-- @component
@@ -12,5 +11,5 @@ TitleText component that auto scales the text size based on the screen size.
     lg:text-5xl
     xl:text-6xl font-inter"
 >
-	{text}
+	<slot />
 </h1>

@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let duration = 150;
-	export let direction: 'normal' | 'reversed' = 'normal';
+	export let direction: 'normal' | 'reverse' = 'normal';
 	export let hover: 'paused' | 'running' = 'running';
 </script>
 

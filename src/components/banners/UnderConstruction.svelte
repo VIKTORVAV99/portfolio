@@ -1,5 +1,5 @@
 <script lang="ts">
-	import Marquee from './Marquee.svelte';
+	import Marquee from '../Marquee.svelte';
 </script>
 
 <!--

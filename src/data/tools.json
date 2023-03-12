@@ -1,0 +1,26 @@
+[
+	{
+		"name": "Prettier",
+		"url": "https://prettier.io",
+		"imagePath": "/images/logos/tools/prettier-logo-dark.svg",
+		"alt": "Prettier Logo"
+	},
+	{
+		"name": "NPM",
+		"url": "https://www.npmjs.com/",
+		"imagePath": "/images/logos/tools/npm-logo-red.svg",
+		"alt": "NPM Logo"
+	},
+	{
+		"name": "ESLint",
+		"url": "https://eslint.org/",
+		"imagePath": "/images/logos/tools/eslint-logo-color.svg",
+		"alt": "ESLint Logo"
+	},
+	{
+		"name": "Node.js",
+		"url": "https://nodejs.org/",
+		"imagePath": "/images/logos/tools/nodejs-logo.svg",
+		"alt": "Node.js Logo"
+	}
+]
