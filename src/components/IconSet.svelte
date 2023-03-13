@@ -9,13 +9,11 @@
 			name: 'LinkedIn',
 			url: 'https://www.linkedin.com/in/viktor-va-andersson/',
 			icon: faLinkedin,
-			color: 'linkedin-blue'
 		},
 		{
 			name: 'GitHub',
 			url: 'https://github.com/viktorvav99',
 			icon: faSquareGithub,
-			color: 'white'
 		}
 	];
 </script>
@@ -29,7 +27,7 @@
 <div class="flex flex-row justify-center items-center">
 	{#each icons as icon}
 		<a href={icon.url} class="m-3" title={icon.name}>
-			<Icon data={icon.icon} {scale} class="text-dark-gray [&>path]:hover:fill-{icon.color}" />
+			<Icon data={icon.icon} {scale} class="text-tertiary-500" />
 		</a>
 	{/each}
 </div>
