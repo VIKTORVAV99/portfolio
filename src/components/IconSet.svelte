@@ -8,12 +8,12 @@
 		{
 			name: 'LinkedIn',
 			url: 'https://www.linkedin.com/in/viktor-va-andersson/',
-			icon: faLinkedin,
+			icon: faLinkedin
 		},
 		{
 			name: 'GitHub',
 			url: 'https://github.com/viktorvav99',
-			icon: faSquareGithub,
+			icon: faSquareGithub
 		}
 	];
 </script>
