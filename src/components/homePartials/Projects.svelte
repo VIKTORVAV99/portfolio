@@ -2,9 +2,9 @@
 </script>
 
 <!-- Personal projects -->
-<section class="w-3/4 flex flex-col">
+<section class="w-screen max-w-[1150px] flex flex-col">
 	<h2 class="self-center mt-5 font-bold">Personal Projects</h2>
-	<section class="flex flex-col card m-10 variant-glass-tertiary">
+	<section class="flex flex-col card m-[1vw] variant-glass-tertiary">
 		<h3 class="card-header font-semibold mb-8 mx-4">Portfolio</h3>
 		<main class="flex px-4">
 			<p class="mx-4">
