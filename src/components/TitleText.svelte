@@ -9,7 +9,7 @@ TitleText component that auto scales the text size based on the screen size.
 	class="
     text-4xl
     lg:text-5xl
-    xl:text-6xl font-inter"
+    xl:text-6xl font-inter font-extrabold"
 >
 	<slot />
 </h1>
