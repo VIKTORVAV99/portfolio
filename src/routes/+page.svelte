@@ -2,7 +2,6 @@
 	import TitleText from '$components/TitleText.svelte';
 	import IconSet from '$components/IconSet.svelte';
 	import { Avatar } from '@skeletonlabs/skeleton';
-	import BackgroundText from '$components/homePartials/backgroundText.svelte';
 	import Projects from '$components/homePartials/Projects.svelte';
 </script>
 
@@ -28,13 +27,15 @@
 			<IconSet scale={3} />
 		</div>
 		<h2>About me</h2>
-		<p>Open Source Community Engineer and Digital Design and Innovation Student</p>
+		<p class="max-w-[70ch] text-center">
+			I'm an Open Source Community Engineer and Digital Design and Innovation Student working on making the
+			world a better place though code and technology. On my free time I like to learn about new things, watch
+			Sci-Fi and enjoy nature by walking, taking a bike ride or skiing down a mountain.
+		</p>
 	</section>
 
 	<Projects />
 </div>
-
-<BackgroundText />
 
 <style lang="postcss">
 </style>

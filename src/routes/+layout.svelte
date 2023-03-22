@@ -9,6 +9,7 @@
 	import { AppShell } from '@skeletonlabs/skeleton';
 	import Footer from '$components/Footer.svelte';
 	import UnderConstruction from '$components/banners/UnderConstruction.svelte';
+	import BackgroundText from '$components/homePartials/backgroundText.svelte';
 </script>
 
 <AppShell class="min-h-screen">
@@ -20,3 +21,4 @@
 		<Footer />
 	</svelte:fragment>
 </AppShell>
+<BackgroundText />
