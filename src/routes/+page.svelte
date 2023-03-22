@@ -19,7 +19,7 @@
 		<Avatar
 			width="w-64"
 			class="m-3 mt-[4rem]"
-			src="images/Viktor Andersson.jpg"
+			src="images/Viktor Andersson.webp"
 			border="border-surface-300-600-token border-4"
 		/>
 		<TitleText>Viktor Andersson</TitleText>
