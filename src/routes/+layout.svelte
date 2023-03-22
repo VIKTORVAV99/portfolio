@@ -9,7 +9,7 @@
 	import { AppShell } from '@skeletonlabs/skeleton';
 	import Footer from '$components/Footer.svelte';
 	import UnderConstruction from '$components/banners/UnderConstruction.svelte';
-	import BackgroundText from '$components/homePartials/backgroundText.svelte';
+	import BackgroundText from '$components/BackgroundText.svelte';
 </script>
 
 <AppShell class="min-h-screen">
