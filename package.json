@@ -20,7 +20,7 @@
 	"devDependencies": {
 		"@fortawesome/free-brands-svg-icons": "^6.3.0",
 		"@fortawesome/free-solid-svg-icons": "^6.3.0",
-		"@skeletonlabs/skeleton": "^1.0.0",
+		"@skeletonlabs/skeleton": "^1.1.0",
 		"@sveltejs/adapter-static": "^2.0.1",
 		"@sveltejs/kit": "^1.14.0",
 		"@typescript-eslint/eslint-plugin": "^5.56.0",
