@@ -22,7 +22,7 @@
 		"@fortawesome/free-solid-svg-icons": "^6.4.0",
 		"@skeletonlabs/skeleton": "^1.1.0",
 		"@sveltejs/adapter-static": "^2.0.1",
-		"@sveltejs/kit": "^1.14.0",
+		"@sveltejs/kit": "^1.15.0",
 		"@typescript-eslint/eslint-plugin": "^5.56.0",
 		"@typescript-eslint/parser": "^5.57.0",
 		"autoprefixer": "^10.4.14",
