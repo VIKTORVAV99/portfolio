@@ -11,7 +11,7 @@
 </svelte:head>
 
 <div class="flex justify-center">
-	<section class="card p-4 mb-16 mt-24 variant-glass-tertiary max-w-[1000px] flex flex-col">
+	<section class="card p-4 my-16 variant-glass-tertiary max-w-[1000px] flex flex-col">
 		<h1 class="py-4">Angular Demo</h1>
 		<p>Project to showcase the use of Angular and Firebase to build a progressive single page app.</p>
 		<hr class="my-4" />
