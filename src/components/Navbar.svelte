@@ -27,7 +27,4 @@
 </header>
 
 <style>
-	.active {
-		font-weight: bold;
-	}
 </style>
