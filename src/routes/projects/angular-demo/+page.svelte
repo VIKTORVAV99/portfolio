@@ -32,7 +32,10 @@
 				<li>
 					<section>
 						<h3>Angular CLI</h3>
-						<p>CLI utility for creating components, modules and services. It also has features that enabling rapid prototyping with a built in dev server as well as creating full production builds. </p>
+						<p>
+							CLI utility for creating components, modules and services. It also has features that enabling
+							rapid prototyping with a built in dev server as well as creating full production builds.
+						</p>
 					</section>
 				</li>
 				<li>
@@ -45,11 +48,12 @@
 					<section>
 						<h3>Angular Fire</h3>
 						<p>
-							Angular Specific API implementation for Firebase to alow for easy integration with Angular features.
+							Angular Specific API implementation for Firebase to alow for easy integration with Angular
+							features.
 						</p>
 					</section>
 				</li>
-        <li>
+				<li>
 					<section>
 						<h3>Firebase</h3>
 						<p>

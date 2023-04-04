@@ -17,7 +17,7 @@
 		<Navbar />
 	</svelte:fragment>
 	<main class="mt-16">
-	<slot />
+		<slot />
 	</main>
 	<svelte:fragment slot="footer">
 		<Footer />
