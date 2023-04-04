@@ -14,7 +14,7 @@
 
 <AppShell class="min-h-screen">
 	<svelte:fragment slot="header">
-		<Navbar />
+	<!--	<Navbar /> -->
 	</svelte:fragment>
 	<main class="mt-16">
 		<slot />
