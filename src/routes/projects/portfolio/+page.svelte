@@ -11,7 +11,7 @@
 </svelte:head>
 
 <div class="flex justify-center">
-	<section class="card p-4 my-16 variant-glass max-w-[1000px] flex flex-col">
+	<section class="card p-4 my-16 variant-glass-tertiary max-w-[1000px] flex flex-col">
 		<h1 class="py-4">Portfolio</h1>
 		<p>
 			My online portfolio to showcase some of the projects I've worked on and the frameworks and tools I used

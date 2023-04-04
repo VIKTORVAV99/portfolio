@@ -18,7 +18,7 @@
 	<section class="flex flex-col items-center p-8 w-full min-h-screen">
 		<Avatar
 			width="w-64"
-			class="m-3 mt-[4rem]"
+			class="m-3"
 			src="images/Viktor Andersson.webp"
 			border="border-surface-300-600-token border-4"
 		/>
