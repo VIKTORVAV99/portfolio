@@ -1,0 +1,60 @@
+{
+	"title": "Portfolio",
+	"showcase": true,
+	"type": "personal",
+	"links": [
+		{
+			"title": "GitHub Repository",
+			"url": "https://github.com/viktorvav99/portfolio"
+		}
+	],
+	"keywords": [
+		"Portfolio",
+		"Svelte",
+		"SvelteKit",
+		"Tailwind CSS",
+		"TypeScript",
+		"GitHub Actions",
+		"GitHub Pages"
+	],
+	"technologies": [
+		{
+			"name": "Svelte",
+			"url": "https://svelte.dev/",
+      "preview": true
+		},
+		{
+			"name": "SvelteKit",
+			"url": "https://kit.svelte.dev/"
+		},
+		{
+			"name": "Tailwind CSS",
+			"url": "https://tailwindcss.com/"
+		},
+		{
+			"name": "Skeleton",
+			"url": "https://skeleton.dev/"
+		},
+		{
+			"name": "TypeScript",
+			"url": "https://www.typescriptlang.org/"
+		},
+		{
+			"name": "GitHub Actions",
+			"url": "https://github.com/features/actions"
+		},
+		{
+			"name": "GitHub Pages",
+			"url": "https://pages.github.com/"
+		}
+	],
+	"preview": {
+		"description": "Online portfolio to showcase the projects I've worked on and the frameworks and tools I used on these projects. The portfolio is built with Svelte, SvelteKit, TailwindCSS, Skeleton and TypeScript.",
+		"image": null
+	},
+	"details": {
+		"tagline": "My online portfolio to showcase some of the projects I've worked on and the frameworks and tools I used to build them.",
+		"description": "The portfolio was built with Svelte, SvelteKit, TailwindCSS, Skeleton and TypeScript. And is deployed and hosted on GitHub Pages using an automated CI/CD pipeline with GitHub Actions to automatically publish the latest changes.",
+		"images": []
+	}
+}
