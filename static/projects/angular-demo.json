@@ -1,0 +1,69 @@
+{
+	"title": "Angular Demo",
+	"showcase": true,
+	"type": "personal",
+	"links": [
+		{
+			"title": "GitHub Repository",
+			"url": null
+		}
+	],
+	"keywords": [
+		"SPA",
+		"PWA",
+		"Angular",
+		"Angular CLI",
+		"Angular Material",
+		"Angular Fire",
+		"Firebase",
+		"GitHub Actions",
+		"Firebase Hosting",
+		"TypeScript"
+	],
+	"technologies": [
+		{
+			"name": "Angular",
+			"description": "Underlying framework and the core of the project.",
+			"url": "https://angular.io/",
+			"preview": true
+		},
+		{
+			"name": "Angular CLI",
+			"description": "CLI utility for creating components, modules and services. It also has features that enabling rapid prototyping with a built in dev server as well as creating full production builds.",
+			"url": "https://cli.angular.io/"
+		},
+		{
+			"name": "Angular Material",
+			"description": "Angular specific implementation of the Material Design Framework.",
+			"url": null
+		},
+		{
+			"name": "Angular Fire",
+			"description": "Angular specific implementation of the Firebase SDK. It provides a set of Angular services that can be used to interact with Firebase.",
+			"url": null
+		},
+		{
+			"name": "Firebase",
+			"description": "Backend as a service (BaaS) that provides a set of tools and services to build and run web and mobile applications. It provides a real-time database, authentication, storage, hosting, analytics, machine learning and more.",
+			"url": "https://firebase.google.com/"
+		},
+		{
+			"name": "TypeScript",
+			"description": "Superset of JavaScript that adds static typing and other features to the language. It is used to write the code for the project.",
+			"url": "https://www.typescriptlang.org/"
+		},
+		{
+			"name": "GitHub Actions",
+			"description": "CI/CD service that can be used to automate the build, test and deployment of software. It is used to automatically publish the latest changes to the project.",
+			"url": null
+		}
+	],
+	"preview": {
+		"description": "A simple Angular demo project to showcase the Angular framework and the Angular CLI.",
+		"image": null
+	},
+	"details": {
+		"tagline": "Project to showcase the use of Angular and Firebase to build a progressive single page app.",
+		"description": "The project was built with the use of Angular, Angular CLI, Angular Material, Angular Fire and Firebase. It is hosted and deployed on Firebase Hosting using a automated CI/CD pipeline with GitHub Actions to automatically publish the latest changes."
+	}
+}

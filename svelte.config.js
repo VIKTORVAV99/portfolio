@@ -1,5 +1,11 @@
 import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/kit/vite';
+import fs from 'fs';
+
+const entries = fs
+	.readdirSync('./static/projects')
+	.filter((file) => file.endsWith('.json'))
+	.map((file) => `/projects/${file.replace('.json', '')}`);
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -14,6 +20,9 @@ const config = {
 		adapter: adapter({ fallback: '404.html' }),
 		alias: {
 			$components: './src/components'
+		},
+		prerender: {
+			entries: ['*', ...entries]
 		}
 	}
 };
