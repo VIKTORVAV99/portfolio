@@ -21,30 +21,37 @@
 		{
 			"name": "Svelte",
 			"url": "https://svelte.dev/",
-      "preview": true
+			"description": "Underlying framework and the core of the project.",
+			"preview": true
 		},
 		{
 			"name": "SvelteKit",
-			"url": "https://kit.svelte.dev/"
+			"url": "https://kit.svelte.dev/",
+			"description": "Meta framework for Svelte with built in static site generator and routing."
 		},
 		{
 			"name": "Tailwind CSS",
+			"description": "Utility-first CSS framework used to style the project.",
 			"url": "https://tailwindcss.com/"
 		},
 		{
 			"name": "Skeleton",
+			"description": "UI toolkit based on TailwindCSS and SvelteKit that provides built in components and a theming system.",
 			"url": "https://skeleton.dev/"
 		},
 		{
 			"name": "TypeScript",
+			"description": "Superset of JavaScript with strong typing support used to ensure the type safety of the project.",
 			"url": "https://www.typescriptlang.org/"
 		},
 		{
 			"name": "GitHub Actions",
+			"description": "CI/CD pipeline used to automatically test and build the project on GitHub Pages when changes are pushed. It employs caching and parallelization to speed up the test and build process.",
 			"url": "https://github.com/features/actions"
 		},
 		{
 			"name": "GitHub Pages",
+			"description": "Static site hosting service used to host the project. The project is deployed on GitHub Pages using the CI/CD pipeline when there are changes to the main branch.",
 			"url": "https://pages.github.com/"
 		}
 	],

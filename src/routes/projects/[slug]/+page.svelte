@@ -8,7 +8,7 @@
 <svelte:head>
 	<title>Viktor Andersson | {data.project.title}</title>
 	<meta name="description" content={data.project.preview.description} />
-	<meta name="keywords" content={data.project.keywords} />
+	<meta name="keywords" content={data.project.keywords.join(', ')} />
 </svelte:head>
 
 <div class="flex justify-center">

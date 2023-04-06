@@ -9,9 +9,6 @@ module.exports = {
 	],
 	theme: {
 		extend: {
-			colors: {
-				'linkedin-blue': '#0077B5'
-			},
 			fontFamily: {
 				sans: ['Inter', ...defaultConfig.theme.fontFamily.sans]
 			}
