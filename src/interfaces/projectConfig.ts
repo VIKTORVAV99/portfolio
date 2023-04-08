@@ -1,21 +1,24 @@
-import type { Url } from 'url';
+interface Image {
+	src: string;
+	alt: string;
+	aspectRatio: string;
+}
 
 export interface ProjectConfig {
 	title: string;
-	dateStarted: string;
-	dateCompleted: string | 'ongoing';
+	id: string;
 	showcase: boolean;
-	type: 'personal' | 'professional' | 'education';
-	links: Array<{ title: string; url: Url }>;
+	type: 'personal' | 'professional';
+	links: Array<{ title: string; url: string }>;
 	keywords: Array<string>;
-	technologies: Array<{ name: string; url: Url; description: string; preview: boolean }>;
+	technologies: Array<{ name: string; url?: string; description?: string; preview?: boolean }>;
 	preview: {
 		description: string;
-		image?: string;
+		image?: Image;
 	};
 	details: {
 		tagline: string;
 		description: string;
-		images?: Array<string>;
+		images?: Array<Image>;
 	};
 }

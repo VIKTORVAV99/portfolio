@@ -1,14 +1,15 @@
 import type { ProjectConfig } from '../../../interfaces/projectConfig';
 import type { PageLoad } from './$types';
 import { error } from '@sveltejs/kit';
+import projects from '$data/projects.json';
 
-export const load = (async ({ params, fetch }) => {
-	const json: ProjectConfig = await fetch(`/projects/${params.slug}.json`)
-		.then((res) => res.json())
-		.catch((err) => {
-			throw error(err.status, { message: err.message });
-		});
-	return {
-		project: json
-	};
+export const load = (async ({ params }) => {
+	const json = projects.filter((entry) => entry.id === params.slug).at(0) as ProjectConfig;
+	if (json) {
+		return {
+			project: json
+		};
+	} else {
+		throw error(404, 'Project not found!');
+	}
 }) satisfies PageLoad;
