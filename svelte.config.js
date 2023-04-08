@@ -1,8 +1,8 @@
 import adapter from '@sveltejs/adapter-static';
 import { vitePreprocess } from '@sveltejs/kit/vite';
-import fs from "node:fs"
+import fs from 'node:fs';
 
-const projects = JSON.parse(fs.readFileSync("./src/data/projects.json", "utf-8"));
+const projects = JSON.parse(fs.readFileSync('./src/data/projects.json', 'utf-8'));
 
 const entries = projects.map((project) => `/projects/${project.id}`);
 
