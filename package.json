@@ -22,7 +22,7 @@
 		"@fortawesome/free-solid-svg-icons": "^6.4.0",
 		"@skeletonlabs/skeleton": "^1.2.0",
 		"@sveltejs/adapter-static": "^2.0.2",
-		"@sveltejs/kit": "^1.15.2",
+		"@sveltejs/kit": "^1.15.4",
 		"@types/node": "^18.15.11",
 		"@typescript-eslint/eslint-plugin": "^5.57.1",
 		"@typescript-eslint/parser": "^5.57.1",
