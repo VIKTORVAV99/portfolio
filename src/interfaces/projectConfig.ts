@@ -1,7 +1,19 @@
-interface Image {
+export interface Image {
 	src: string;
 	alt: string;
 	aspectRatio: string;
+}
+
+export interface Link {
+	title: string;
+	url: string;
+}
+
+interface Technology {
+	name: string;
+	url?: string;
+	description?: string;
+	preview?: boolean;
 }
 
 export interface ProjectConfig {
@@ -9,9 +21,9 @@ export interface ProjectConfig {
 	id: string;
 	showcase: boolean;
 	type: 'personal' | 'professional';
-	links: Array<{ title: string; url: string }>;
+	links: Array<Link>;
 	keywords: Array<string>;
-	technologies: Array<{ name: string; url?: string; description?: string; preview?: boolean }>;
+	technologies: Array<Technology>;
 	preview: {
 		description: string;
 		image?: Image;

@@ -1,7 +1,7 @@
-export const groupBy = <T, K extends keyof any>(list: T[], getKey: (item: T) => K) =>
+export const groupBy = <Entry, Key extends keyof any>(list: Entry[], getKey: (item: Entry) => Key) =>
 	list.reduce((previous, currentItem) => {
 		const group = getKey(currentItem);
 		if (!previous[group]) previous[group] = [];
 		previous[group].push(currentItem);
 		return previous;
-	}, {} as Record<K, T[]>);
+	}, {} as Record<Key, Entry[]>);

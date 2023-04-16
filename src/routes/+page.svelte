@@ -18,7 +18,7 @@
 </svelte:head>
 
 <div class="flex flex-col justify-start items-center">
-	<section class="flex flex-col items-center p-8 w-full mb-[30%]">
+	<section class="flex flex-col items-center p-8 w-full mb-32">
 		<Avatar
 			width="w-64"
 			class="m-3"
@@ -36,8 +36,8 @@
 			Sci-Fi and enjoy nature by walking, taking a bike ride or skiing down a mountain.
 		</p>
 	</section>
-
-	<Projects projects={data.projects} />
+	<h1 class="font-extrabold mb-16">Showcase</h1>
+	<Projects projects={data.projects} showAllButton={true} />
 </div>
 
 <style lang="postcss">

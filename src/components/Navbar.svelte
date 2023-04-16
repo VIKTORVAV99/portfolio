@@ -14,15 +14,14 @@
 </script>
 
 <header class="fixed">
-	<nav class="variant-glass-surface h-12 flex items-center w-full shadow-xl">
-		<ul class="inline-flex text-2xl">
+	<nav class="variant-glass-surface h-12 flex items-center w-full shadow-xl justify-center">
+		<div class="w-full max-w-[100ch]">
 			{#each links as link}
-				<li class="mx-4">
-					<a href={link.href} class="btn">{link.name}</a>
-				</li>
+				<a href={link.href} class="btn">{link.name}</a>
 			{/each}
-		</ul>
+		</div>
 	</nav>
+
 	<UnderConstruction />
 </header>
 
