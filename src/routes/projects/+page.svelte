@@ -11,6 +11,7 @@
 	<meta name="keywords" content="" />
 </svelte:head>
 
-<h1>Projects</h1>
-
-<Projects projects={data.projects} />
+<div class="flex flex-col items-center">
+	<h1 class="my-16 font-extrabold">All Projects</h1>
+	<Projects projects={data.projects} />
+</div>
