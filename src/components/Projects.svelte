@@ -3,7 +3,7 @@
 	import { groupBy } from '../helpers/groupBy';
 	import type { ProjectConfig } from '$interfaces/projectConfig';
 	export let projects: ProjectConfig[];
-	export let showAllButton: boolean = false;
+	export let showAllButton = false;
 
 	// Group projects by type
 	const projectsByType = groupBy(projects, (project) => project.type);
