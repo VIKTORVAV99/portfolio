@@ -204,7 +204,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_DEPLOYMENT_KEY }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          projectName: test
+          projectName: portfolio
           directory: .svelte-kit/cloudflare
           # Optional: Enable this if you want to have GitHub Deployments triggered
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
