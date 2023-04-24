@@ -206,4 +206,4 @@ jobs:
           projectName: portfolio
           directory: .svelte-kit/cloudflare
           # Optional: Enable this if you want to have GitHub Deployments triggered
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          # gitHubToken: ${{ secrets.GITHUB_TOKEN }}
