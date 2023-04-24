@@ -203,8 +203,8 @@ jobs:
         uses: cloudflare/pages-action@v1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_DEPLOYMENT_KEY }}
-          accountId: f104ad001c8f807b026772d74109954a
-          projectName: portfolio
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          projectName: test
           directory: .svelte-kit/cloudflare
           # Optional: Enable this if you want to have GitHub Deployments triggered
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
