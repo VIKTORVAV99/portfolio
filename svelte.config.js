@@ -1,10 +1,6 @@
 import adapter from '@sveltejs/adapter-cloudflare';
 import { vitePreprocess } from '@sveltejs/kit/vite';
-import fs from 'node:fs';
 
-const projects = JSON.parse(fs.readFileSync('./src/data/projects.json', 'utf-8'));
-
-const entries = projects.map((project) => `/projects/${project.id}`);
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -16,14 +12,11 @@ const config = {
 		// adapter-auto only supports some environments, see https://kit.svelte.dev/docs/adapter-auto for a list.
 		// If your environment is not supported or you settled on a specific environment, switch out the adapter.
 		// See https://kit.svelte.dev/docs/adapters for more information about adapters.
-		adapter: adapter({ fallback: '404.html' }),
+		adapter: adapter(),
 		alias: {
 			$components: './src/components',
 			$data: './src/data',
 			$interfaces: './src/interfaces'
-		},
-		prerender: {
-			entries: ['*', ...entries]
 		}
 	}
 };

@@ -25,7 +25,7 @@
 			src="images/Viktor Andersson.webp"
 			border="border-surface-300-600-token border-4"
 		/>
-		<TitleText>Viktor Andersson</TitleText>
+		<h1>Viktor Andersson</h1>
 		<div class="flex justify-center">
 			<IconSet scale={3} />
 		</div>
@@ -36,7 +36,7 @@
 			Sci-Fi and enjoy nature by walking, taking a bike ride or skiing down a mountain.
 		</p>
 	</section>
-	<h1 class="font-extrabold mb-16">Showcase</h1>
+	<h2 class="font-extrabold mb-16">Showcase</h2>
 	<Projects projects={data.projects} showAllButton={true} />
 </div>
 
