@@ -1,5 +1,4 @@
 <script lang="ts">
-	import TitleText from '$components/TitleText.svelte';
 	import IconSet from '$components/IconSet.svelte';
 	import Projects from '$components/Projects.svelte';
 	import type { PageData } from './$types';
