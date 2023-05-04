@@ -23,7 +23,7 @@
 			<source srcset="images/Viktor_Andersson.webp" type="image/webp" />
 			<img
 				src="images/Viktor_Andersson.jpg"
-				alt="Black and white portrait image of Viktor Andersson"
+				alt="Black and white portrait of Viktor Andersson"
 				class="rounded-full"
 			/>
 		</picture>
