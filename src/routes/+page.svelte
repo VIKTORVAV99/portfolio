@@ -1,7 +1,6 @@
 <script lang="ts">
 	import TitleText from '$components/TitleText.svelte';
 	import IconSet from '$components/IconSet.svelte';
-	import { Avatar } from '@skeletonlabs/skeleton';
 	import Projects from '$components/Projects.svelte';
 	import type { PageData } from './$types';
 
@@ -19,12 +18,15 @@
 
 <div class="flex flex-col justify-start items-center">
 	<section class="flex flex-col items-center p-8 w-full mb-32">
-		<Avatar
-			width="w-64"
-			class="m-3"
-			src="images/Viktor Andersson.webp"
-			border="border-surface-300-600-token border-4"
-		/>
+		<picture>
+			<source srcset="images/Viktor_Andersson.avif" type="image/avif" />
+			<source srcset="images/Viktor_Andersson.webp" type="image/webp" />
+			<img
+				src="images/Viktor_Andersson.jpg"
+				alt="Black and white portrait image of Viktor Andersson"
+				class="rounded-full"
+			/>
+		</picture>
 		<h1>Viktor Andersson</h1>
 		<div class="flex justify-center">
 			<IconSet scale={3} />
