@@ -1,5 +1,66 @@
 [
 	{
+		"title": "Electricity Maps",
+		"id": "electricity-maps",
+		"showcase": true,
+		"type": "professional",
+		"links": [
+			{
+				"title": "GitHub Repository",
+				"url": "https://github.com/electricitymaps/electricitymaps-contrib"
+			},
+			{
+				"title": "Live App",
+				"url": "https://app.electricitymaps.com/"
+			},
+			{
+				"title": "Company Website",
+				"url": "https://electricitymaps.com/"
+			}
+		],
+		"keywords": ["SPA", "React", "Python", "Electricity", "CO2", "Emissions", "Tailwind CSS"],
+		"technologies": [
+			{
+				"name": "React",
+				"description": "Underlying framework and the core of the project.",
+				"url": "https://reactjs.org/",
+				"preview": true
+			},
+			{
+				"name": "Tailwind CSS",
+				"description": "Utility-first CSS framework used to style the project.",
+				"url": "https://tailwindcss.com/",
+				"preview": true
+			},
+			{
+				"name": "TypeScript",
+				"description": "Superset of JavaScript with strong typing support used to ensure the type safety of the project.",
+				"url": "https://www.typescriptlang.org/",
+				"preview": true
+			},
+			{
+				"name": "Python",
+				"description": "Used to build the data gathering parts of the open source project.",
+				"url": "https://www.python.org/",
+				"preview": true
+			}
+		],
+		"preview": {
+			"description": "Electricity Maps provides actionable electricity data for more than 160 regions around the globe. The company mission is to help businesses and organizations more effectively reduce their carbon emissions, and enable products and services that empower end-users to be more carbon conscious.",
+			"image": {
+				"src": "images/projects/Electricity_Maps.png",
+				"alt": "Electricity Maps Hero Image",
+				"aspectRatio": "716/454",
+				"otherFormats": ["webp", "avif"]
+			}
+		},
+		"details": {
+			"tagline": "The leading resource for 24/7 electricity CO₂ data",
+			"description": "I work as a Open Source Community Engineer at Electricity Maps. The Electricity Maps code base can be divided into 3 parts, our app, data gathering and backend. The app and data gathering together make up the open source project which I am responsible for maintaining. Since my primary duties are focused on maintaining the open source parts of our code I primarily work on reviewing Pull Requests from community members as well as others on the team and doing triage on issues. I also work on code directly such as creating and ensuring our CI pipeline is up to date and maintained not to mention the creation of new parsers so we can add new regions to our app and API. I also help out with shaping and implementing new features that span across the entire code base.",
+			"images": []
+		}
+	},
+	{
 		"title": "Portfolio",
 		"id": "portfolio",
 		"showcase": true,

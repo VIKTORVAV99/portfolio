@@ -2,6 +2,7 @@ export interface Image {
 	src: string;
 	alt: string;
 	aspectRatio: string;
+	otherFormats?: Array<'jpg' | 'avif' | 'webp'>;
 }
 
 export interface Link {
