@@ -27,12 +27,27 @@
 			<LinkBar links={project.links} />
 		</main>
 		{#if project.preview.image}
-			<img
-				style="aspect-ratio:{project.preview.image.aspectRatio}"
-				class="order-1 md:order-2 rounded-lg m-4 md:max-w-[50%] lg:max-w-[40%] ] md:w-full h-full"
-				src={project.preview.image.src}
-				alt={project.preview.image.alt}
-			/>
+			{#if project.preview.image.otherFormats}
+				<picture
+					style="aspect-ratio:{project.preview.image.aspectRatio}"
+					class="order-1 md:order-2 rounded-lg m-4 md:max-w-[50%] lg:max-w-[40%] ] md:w-full h-full"
+				>
+					{#each project.preview.image.otherFormats as format}
+						<source
+							srcset={`${project.preview.image.src.split('.').at(0)}.${format}`}
+							type={`image/${format}`}
+						/>
+					{/each}
+					<img src={project.preview.image.src} alt={project.preview.image.alt} />
+				</picture>
+			{:else}
+				<img
+					style="aspect-ratio:{project.preview.image.aspectRatio}"
+					class="order-1 md:order-2 rounded-lg m-4 md:max-w-[50%] lg:max-w-[40%] ] md:w-full h-full"
+					src={project.preview.image.src}
+					alt={project.preview.image.alt}
+				/>
+			{/if}
 		{/if}
 	</div>
 	<footer class="card-footer flex flex-col">
