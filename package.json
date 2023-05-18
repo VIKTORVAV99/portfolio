@@ -6,7 +6,7 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"build:ci": "vite build --mode production",
-		"postbuild:ci": "svelte-sitemap --domain https://viktor.andersson.tech --ignore 404.html",
+		"postbuild:ci": "svelte-sitemap --domain https://viktor.andersson.tech --ignore 404.html --out-dir .svelte-kit/cloudflare",
 		"preview": "vite preview",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:ci": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --output machine --fail-on-warnings",

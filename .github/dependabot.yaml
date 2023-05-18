@@ -13,8 +13,7 @@ updates:
       day: 'saturday'
       time: '09:00'
       timezone: CET
-    commit-message:
-      prefix: '[No Deploy]: '
+    open-pull-requests-limit: 10
 
   # Maintain dependencies for npm
   - package-ecosystem: 'npm'
@@ -24,5 +23,4 @@ updates:
       day: 'saturday'
       time: '09:00'
       timezone: CET
-    commit-message:
-      prefix: '[No Deploy]: '
+    open-pull-requests-limit: 10
