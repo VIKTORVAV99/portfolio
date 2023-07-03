@@ -24,3 +24,6 @@ updates:
       time: '09:00'
       timezone: CET
     open-pull-requests-limit: 10
+    groups:
+      typescript-eslint:
+        - '@typescript-eslint/*'
