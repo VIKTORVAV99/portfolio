@@ -12,16 +12,16 @@ module.exports = {
 	ignorePatterns: ['*.cjs'],
 	overrides: [
 		{
-			files: ["*.svelte"],
-			parser: "svelte-eslint-parser",
-			parserOptions:{
-				parser: "@typescript-eslint/parser"
+			files: ['*.svelte'],
+			parser: 'svelte-eslint-parser',
+			parserOptions: {
+				parser: '@typescript-eslint/parser'
 			}
 		}
 	],
 	parserOptions: {
 		sourceType: 'module',
-		ecmaVersion: 2020,
+		ecmaVersion: 2020
 	},
 	env: {
 		browser: true,
