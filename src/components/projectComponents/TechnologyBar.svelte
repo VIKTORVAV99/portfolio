@@ -3,7 +3,7 @@
 	export let technologies: ProjectConfig['technologies'];
 </script>
 
-<ul class="flex w-full flex-wrap mt-4 text-tertiary-600 hover:[&>li]:text-tertiary-300">
+<ul class="flex w-full flex-wrap mt-4">
 	{#each technologies as technology}
 		{#if technology.preview}
 			<li class="inline-flex">
@@ -13,9 +13,10 @@
 	{/each}
 </ul>
 
-<style>
+<style lang="postcss">
 	a {
-		color: var(--color-tertiary) !important;
-		text-decoration: none !important;
+		@apply no-underline !important;
+		@apply text-tertiary-800 !important;
+		@apply dark:text-tertiary-700 !important;
 	}
 </style>

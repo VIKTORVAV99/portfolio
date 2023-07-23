@@ -28,3 +28,7 @@ updates:
       typescript-eslint:
         patterns:
           - '@typescript-eslint/*'
+      prettier:
+        patterns:
+          - 'prettier'
+          - 'prettier-plugin-*'

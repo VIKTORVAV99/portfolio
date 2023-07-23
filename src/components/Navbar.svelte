@@ -1,6 +1,6 @@
 <script lang="ts">
 	import UnderConstruction from './banners/UnderConstruction.svelte';
-
+import { LightSwitch } from '@skeletonlabs/skeleton';
 	const links = [
 		{
 			name: 'Home',
@@ -20,6 +20,7 @@
 				<a href={link.href} class="btn">{link.name}</a>
 			{/each}
 		</div>
+		<LightSwitch />
 	</nav>
 
 	<UnderConstruction />

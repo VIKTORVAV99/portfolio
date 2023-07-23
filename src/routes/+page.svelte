@@ -23,7 +23,7 @@
 			<img
 				src="images/Viktor_Andersson.jpg"
 				alt="Black and white portrait of Viktor Andersson"
-				class="rounded-full"
+				class="rounded-full border-token border-surface-100-800-token"
 			/>
 		</picture>
 		<h1>Viktor Andersson</h1>

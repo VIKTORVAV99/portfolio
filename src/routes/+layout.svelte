@@ -10,7 +10,10 @@
 	import Footer from '$components/Footer.svelte';
 	import BackgroundText from '$components/BackgroundText.svelte';
 	import Navbar from '$components/Navbar.svelte';
+	import { autoModeWatcher } from '@skeletonlabs/skeleton';
 </script>
+
+<svelte:head>{@html `<script>${autoModeWatcher.toString()} autoModeWatcher();</script>`}</svelte:head>
 
 <AppShell class="min-h-screen">
 	<svelte:fragment slot="header">

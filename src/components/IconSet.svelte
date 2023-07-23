@@ -27,7 +27,7 @@
 <div class="flex flex-row justify-center items-center">
 	{#each icons as icon}
 		<a href={icon.url} class="m-3" title={icon.name}>
-			<Icon data={icon.icon} {scale} class="text-tertiary-500" />
+			<Icon data={icon.icon} {scale} class="text-token" />
 		</a>
 	{/each}
 </div>
