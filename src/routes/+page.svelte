@@ -26,18 +26,18 @@
 				class="rounded-full border-token border-surface-100-800-token"
 			/>
 		</picture>
-		<h1>Viktor Andersson</h1>
+		<h1 class="h1">Viktor Andersson</h1>
 		<div class="flex justify-center">
 			<IconSet scale={3} />
 		</div>
-		<h2>About me</h2>
+		<h2 class="h2">About me</h2>
 		<p class="max-w-[70ch] text-center">
 			I'm an Open Source Community Engineer and Digital Design and Innovation Student working on making the
 			world a better place though code and technology. On my free time I like to learn about new things, watch
 			Sci-Fi and enjoy nature by walking, taking a bike ride or skiing down a mountain.
 		</p>
 	</section>
-	<h2 class="font-extrabold mb-16">Showcase</h2>
+	<h2 class="h2 font-extrabold mb-16">Showcase</h2>
 	<Projects projects={data.projects} showAllButton={true} />
 </div>
 

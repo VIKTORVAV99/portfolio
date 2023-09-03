@@ -12,6 +12,6 @@
 </svelte:head>
 
 <div class="flex flex-col items-center">
-	<h1 class="my-16 font-extrabold">All Projects</h1>
+	<h1 class="h1 my-16 font-extrabold">All Projects</h1>
 	<Projects projects={data.projects} />
 </div>

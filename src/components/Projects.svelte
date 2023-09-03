@@ -11,7 +11,7 @@
 
 {#each Object.entries(projectsByType) as [type, value]}
 	<section id={type} class="flex flex-col items-center mb-16">
-		<h2 class="capitalize font-bold">{type} Projects</h2>
+		<h2 class="h2 capitalize font-bold">{type} Projects</h2>
 		<section>
 			{#each value as project}
 				<ProjectPreview {project} />
