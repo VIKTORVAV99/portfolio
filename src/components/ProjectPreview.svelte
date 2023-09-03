@@ -13,12 +13,12 @@
 	{/if}
 </svelte:head>
 
-<section id={project.id} class="flex flex-col card m-[1vw] variant-glass-tertiary max-w-[100ch] p-4">
+<section id={project.id} class="flex flex-col card m-[1vw] variant-glass-primary max-w-[100ch] p-4">
 	<div class="flex flex-col md:flex-row">
 		<main class="flex flex-col px-4 order-2 md:order-1">
 			<h3 class="h3 mt-4 font-bold mb-8">
 				{project.title}
-				{#if project.id == 'portfolio'}<span class="text-tertiary-800">(this website)</span>{/if}
+				{#if project.id == 'portfolio'}<span class="text-primary-800">(this website)</span>{/if}
 			</h3>
 			<p>
 				{project.preview.description}

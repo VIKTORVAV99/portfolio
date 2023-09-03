@@ -13,7 +13,7 @@
 </svelte:head>
 
 <div class="flex justify-center">
-	<section class="card p-8 my-16 variant-glass-tertiary max-w-[100ch] flex flex-col">
+	<section class="card p-8 my-16 variant-glass-primary max-w-[100ch] flex flex-col">
 		<h1 class="h1 font-semibold mb-1">{data.project.title}</h1>
 		<Breadcrumb />
 		<hr class="my-4" />

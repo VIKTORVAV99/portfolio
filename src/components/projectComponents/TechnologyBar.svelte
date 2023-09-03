@@ -16,7 +16,7 @@
 <style lang="postcss">
 	a {
 		@apply no-underline !important;
-		@apply text-tertiary-800 !important;
-		@apply dark:text-tertiary-700 !important;
+		@apply text-primary-800 !important;
+		@apply dark:text-primary-700 !important;
 	}
 </style>
