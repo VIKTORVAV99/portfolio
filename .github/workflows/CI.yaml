@@ -19,7 +19,7 @@ jobs:
       - name: Setup PNPM
         uses: pnpm/action-setup@v2
         with:
-            version: 8
+          version: 8
       - name: Setup Node lts/*
         uses: actions/setup-node@v3
         with:
@@ -41,7 +41,7 @@ jobs:
       - name: Setup PNPM
         uses: pnpm/action-setup@v2
         with:
-            version: 8
+          version: 8
       - name: Setup Node lts/*
         uses: actions/setup-node@v3
         with:
@@ -63,7 +63,7 @@ jobs:
       - name: Setup PNPM
         uses: pnpm/action-setup@v2
         with:
-            version: 8
+          version: 8
       - name: Setup Node lts/*
         uses: actions/setup-node@v3
         with:
@@ -86,7 +86,7 @@ jobs:
       - name: Setup PNPM
         uses: pnpm/action-setup@v2
         with:
-            version: 8
+          version: 8
       - name: Setup Node lts/*
         uses: actions/setup-node@v3
         with:
