@@ -1,7 +1,7 @@
 import { join } from 'path';
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
-import { skeleton } from '@skeletonlabs/tw-plugin'
+import { skeleton } from '@skeletonlabs/tw-plugin';
 
 const config = {
 	darkMode: 'class',
@@ -9,17 +9,14 @@ const config = {
 		'./src/**/*.{html,js,svelte,ts}',
 		join(require.resolve('@skeletonlabs/skeleton'), '../**/*.{html,js,svelte,ts}')
 	],
-	theme: {
-		extend: {
-			fontFamily: {
+	theme: {},
+	plugins: [
+		skeleton({
+			themes: {
+				preset: ['wintry']
 			}
-		}
-	},
-	plugins: [skeleton({
-		themes: {
-			preset: ['wintry']
-		}
-	})]
+		})
+	]
 } satisfies Config;
 
 export default config;
