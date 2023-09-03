@@ -1,9 +1,5 @@
 <script lang="ts">
-	// theme:
-	//import '@skeletonlabs/skeleton/themes/theme-skeleton.css';
-	import '../theme.postcss';
 	// styles:
-	import '@skeletonlabs/skeleton/styles/all.css';
 	import '../app.postcss';
 	// components:
 	import { AppShell } from '@skeletonlabs/skeleton';
