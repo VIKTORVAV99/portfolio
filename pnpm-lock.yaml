@@ -21,13 +21,13 @@ devDependencies:
     version: 6.4.2
   '@sveltejs/adapter-cloudflare':
     specifier: ^2.3.3
-    version: 2.3.3(@sveltejs/kit@1.27.0)
+    version: 2.3.3(@sveltejs/kit@1.27.3)
   '@sveltejs/adapter-static':
     specifier: ^2.0.3
-    version: 2.0.3(@sveltejs/kit@1.27.0)
+    version: 2.0.3(@sveltejs/kit@1.27.3)
   '@sveltejs/kit':
-    specifier: ^1.27.0
-    version: 1.27.0(svelte@4.2.2)(vite@4.4.9)
+    specifier: ^1.27.3
+    version: 1.27.3(svelte@4.2.2)(vite@4.4.9)
   '@types/node':
     specifier: ^20.5.8
     version: 20.5.8
@@ -471,27 +471,27 @@ packages:
       tailwindcss: 3.3.3
     dev: false
 
-  /@sveltejs/adapter-cloudflare@2.3.3(@sveltejs/kit@1.27.0):
+  /@sveltejs/adapter-cloudflare@2.3.3(@sveltejs/kit@1.27.3):
     resolution: {integrity: sha512-bbcm6kq4dEluFtFJZed3KSRG4f5GUElYkVfOmnPruTqZ29nTElPJTomAu5QCp7GLkwA26O3h1Dk7+d9yLTQEXg==}
     peerDependencies:
       '@sveltejs/kit': ^1.0.0
     dependencies:
       '@cloudflare/workers-types': 4.20230821.0
-      '@sveltejs/kit': 1.27.0(svelte@4.2.2)(vite@4.4.9)
+      '@sveltejs/kit': 1.27.3(svelte@4.2.2)(vite@4.4.9)
       esbuild: 0.18.20
       worktop: 0.8.0-next.15
     dev: true
 
-  /@sveltejs/adapter-static@2.0.3(@sveltejs/kit@1.27.0):
+  /@sveltejs/adapter-static@2.0.3(@sveltejs/kit@1.27.3):
     resolution: {integrity: sha512-VUqTfXsxYGugCpMqQv1U0LIdbR3S5nBkMMDmpjGVJyM6Q2jHVMFtdWJCkeHMySc6mZxJ+0eZK3T7IgmUCDrcUQ==}
     peerDependencies:
       '@sveltejs/kit': ^1.5.0
     dependencies:
-      '@sveltejs/kit': 1.27.0(svelte@4.2.2)(vite@4.4.9)
+      '@sveltejs/kit': 1.27.3(svelte@4.2.2)(vite@4.4.9)
     dev: true
 
-  /@sveltejs/kit@1.27.0(svelte@4.2.2)(vite@4.4.9):
-    resolution: {integrity: sha512-a1wPIq2uO3RsTmV+KbA4venOgCJDbfHTXFe+g7eJR3N8l46DSuulUONJ1qnk2EnZWYC1Uj3Wbp3US0WFocIzXg==}
+  /@sveltejs/kit@1.27.3(svelte@4.2.2)(vite@4.4.9):
+    resolution: {integrity: sha512-pd7qwX6ww5noA0/FLk45B0aKUeOXWR+pfZsGTrv3dRmj3lTmnki9UTmTdWzHJGrje+BBkGUZHfgGrsSOQQBQpQ==}
     engines: {node: ^16.14 || >=18}
     hasBin: true
     requiresBuild: true
