@@ -10,7 +10,7 @@ dependencies:
     version: 2.5.0(svelte@4.2.2)
   '@skeletonlabs/tw-plugin':
     specifier: ^0.2.4
-    version: 0.2.4(tailwindcss@3.3.3)
+    version: 0.2.4(tailwindcss@3.3.5)
 
 devDependencies:
   '@fortawesome/free-brands-svg-icons':
@@ -74,8 +74,8 @@ devDependencies:
     specifier: ^0.33.0
     version: 0.33.0(svelte@4.2.2)
   tailwindcss:
-    specifier: ^3.3.3
-    version: 3.3.3
+    specifier: ^3.3.5
+    version: 3.3.5
   tslib:
     specifier: ^2.6.2
     version: 2.6.2
@@ -463,12 +463,12 @@ packages:
       svelte: 4.2.2
     dev: false
 
-  /@skeletonlabs/tw-plugin@0.2.4(tailwindcss@3.3.3):
+  /@skeletonlabs/tw-plugin@0.2.4(tailwindcss@3.3.5):
     resolution: {integrity: sha512-DmOFMV6jhhvnub/TANB62nJJqxfMBby5Kxwe/Mn3DTxHuJLZj8B47Ta2K5sl/or2B8MaMfny8ocvPAzd6lrMtQ==}
     peerDependencies:
       tailwindcss: '>=3.0.0'
     dependencies:
-      tailwindcss: 3.3.3
+      tailwindcss: 3.3.5
     dev: false
 
   /@sveltejs/adapter-cloudflare@2.3.3(@sveltejs/kit@1.27.4):
@@ -2776,8 +2776,8 @@ packages:
       picocolors: 1.0.0
     dev: true
 
-  /tailwindcss@3.3.3:
-    resolution: {integrity: sha512-A0KgSkef7eE4Mf+nKJ83i75TMyq8HqY3qmFIJSWy8bNt0v1lG7jUcpGpoTFxAwYcWOphcTBLPPJg+bDfhDf52w==}
+  /tailwindcss@3.3.5:
+    resolution: {integrity: sha512-5SEZU4J7pxZgSkv7FP1zY8i2TIAOooNZ1e/OGtxIEv6GltpoiXUqWvLy89+a10qYTB1N5Ifkuw9lqQkN9sscvA==}
     engines: {node: '>=14.0.0'}
     hasBin: true
     dependencies:
