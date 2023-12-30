@@ -10,6 +10,6 @@ export const load = (async ({ params }) => {
 			project: json
 		};
 	} else {
-		throw error(404, 'Project not found!');
+		error(404, 'Project not found!');
 	}
 }) satisfies PageLoad;
