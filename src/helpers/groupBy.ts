@@ -1,4 +1,4 @@
-export const groupBy = <Entry, Key extends keyof any>(list: Entry[], getKey: (item: Entry) => Key) =>
+export const groupBy = <Entry, Key extends keyof never>(list: Entry[], getKey: (item: Entry) => Key) =>
 	list.reduce(
 		(previous, currentItem) => {
 			const group = getKey(currentItem);
