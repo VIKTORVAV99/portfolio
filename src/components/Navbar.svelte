@@ -1,6 +1,6 @@
 <script lang="ts">
 	import UnderConstruction from './banners/UnderConstruction.svelte';
-import { LightSwitch } from '@skeletonlabs/skeleton';
+	import { LightSwitch } from '@skeletonlabs/skeleton';
 	const links = [
 		{
 			name: 'Home',
