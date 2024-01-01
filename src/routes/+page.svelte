@@ -17,15 +17,11 @@
 
 <div class="flex flex-col justify-start items-center">
 	<section class="flex flex-col items-center p-8 w-full mb-32">
-		<picture>
-			<source srcset="images/Viktor_Andersson.avif" type="image/avif" />
-			<source srcset="images/Viktor_Andersson.webp" type="image/webp" />
-			<img
-				src="images/Viktor_Andersson.jpg"
-				alt="Black and white portrait of Viktor Andersson"
-				class="rounded-full border-token border-surface-100-800-token"
-			/>
-		</picture>
+		<enhanced:img
+			src="/static/images/Viktor_Andersson.jpg"
+			alt="Black and white portrait of Viktor Andersson"
+			class="rounded-full border-token border-surface-100-800-token"
+		/>
 		<h1 class="h1">Viktor Andersson</h1>
 		<div class="flex justify-center">
 			<IconSet scale={3} />
