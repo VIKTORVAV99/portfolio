@@ -35,8 +35,8 @@ devDependencies:
     specifier: ^3.0.1
     version: 3.0.1(svelte@4.2.8)(vite@5.0.11)
   '@types/node':
-    specifier: ^20.10.6
-    version: 20.10.6
+    specifier: ^20.11.3
+    version: 20.11.3
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.19.0
     version: 6.19.0(@typescript-eslint/parser@6.19.0)(eslint@8.56.0)(typescript@5.3.3)
@@ -90,13 +90,13 @@ devDependencies:
     version: 5.3.3
   vite:
     specifier: ^5.0.11
-    version: 5.0.11(@types/node@20.10.6)
+    version: 5.0.11(@types/node@20.11.3)
   vite-plugin-tailwind-purgecss:
     specifier: ^0.2.0
     version: 0.2.0(vite@5.0.11)
   vitest:
     specifier: ^1.2.0
-    version: 1.2.0(@types/node@20.10.6)
+    version: 1.2.0(@types/node@20.11.3)
 
 packages:
 
@@ -865,7 +865,7 @@ packages:
       sirv: 2.0.4
       svelte: 4.2.8
       tiny-glob: 0.2.9
-      vite: 5.0.11(@types/node@20.10.6)
+      vite: 5.0.11(@types/node@20.11.3)
     dev: true
 
   /@sveltejs/vite-plugin-svelte-inspector@2.0.0(@sveltejs/vite-plugin-svelte@3.0.1)(svelte@4.2.8)(vite@5.0.11):
@@ -879,7 +879,7 @@ packages:
       '@sveltejs/vite-plugin-svelte': 3.0.1(svelte@4.2.8)(vite@5.0.11)
       debug: 4.3.4
       svelte: 4.2.8
-      vite: 5.0.11(@types/node@20.10.6)
+      vite: 5.0.11(@types/node@20.11.3)
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -898,7 +898,7 @@ packages:
       magic-string: 0.30.5
       svelte: 4.2.8
       svelte-hmr: 0.15.3(svelte@4.2.8)
-      vite: 5.0.11(@types/node@20.10.6)
+      vite: 5.0.11(@types/node@20.11.3)
       vitefu: 0.2.5(vite@5.0.11)
     transitivePeerDependencies:
       - supports-color
@@ -920,8 +920,8 @@ packages:
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
     dev: true
 
-  /@types/node@20.10.6:
-    resolution: {integrity: sha512-Vac8H+NlRNNlAmDfGUP7b5h/KA+AtWIzuXy0E6OyP8f1tCLYAtPvKRRDJjAPqhpCb0t6U2j7/xqAuLEebW2kiw==}
+  /@types/node@20.11.3:
+    resolution: {integrity: sha512-nrlmbvGPNGaj84IJZXMPhQuCMEVTT/hXZMJJG/aIqVL9fKxqk814sGGtJA4GI6hpJSLQjpi6cn0Qx9eOf9SDVg==}
     dependencies:
       undici-types: 5.26.5
     dev: true
@@ -3504,7 +3504,7 @@ packages:
       - rollup
     dev: true
 
-  /vite-node@1.2.0(@types/node@20.10.6):
+  /vite-node@1.2.0(@types/node@20.11.3):
     resolution: {integrity: sha512-ETnQTHeAbbOxl7/pyBck9oAPZZZo+kYnFt1uQDD+hPReOc+wCjXw4r4jHriBRuVDB5isHmPXxrfc1yJnfBERqg==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -3513,7 +3513,7 @@ packages:
       debug: 4.3.4
       pathe: 1.1.1
       picocolors: 1.0.0
-      vite: 5.0.11(@types/node@20.10.6)
+      vite: 5.0.11(@types/node@20.11.3)
     transitivePeerDependencies:
       - '@types/node'
       - less
@@ -3532,10 +3532,10 @@ packages:
     dependencies:
       estree-walker: 3.0.3
       purgecss: 6.0.0-alpha.0
-      vite: 5.0.11(@types/node@20.10.6)
+      vite: 5.0.11(@types/node@20.11.3)
     dev: true
 
-  /vite@5.0.11(@types/node@20.10.6):
+  /vite@5.0.11(@types/node@20.11.3):
     resolution: {integrity: sha512-XBMnDjZcNAw/G1gEiskiM1v6yzM4GE5aMGvhWTlHAYYhxb7S3/V1s3m2LDHa8Vh6yIWYYB0iJwsEaS523c4oYA==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -3563,7 +3563,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 20.10.6
+      '@types/node': 20.11.3
       esbuild: 0.19.11
       postcss: 8.4.33
       rollup: 4.9.2
@@ -3579,10 +3579,10 @@ packages:
       vite:
         optional: true
     dependencies:
-      vite: 5.0.11(@types/node@20.10.6)
+      vite: 5.0.11(@types/node@20.11.3)
     dev: true
 
-  /vitest@1.2.0(@types/node@20.10.6):
+  /vitest@1.2.0(@types/node@20.11.3):
     resolution: {integrity: sha512-Ixs5m7BjqvLHXcibkzKRQUvD/XLw0E3rvqaCMlrm/0LMsA0309ZqYvTlPzkhh81VlEyVZXFlwWnkhb6/UMtcaQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -3607,7 +3607,7 @@ packages:
       jsdom:
         optional: true
     dependencies:
-      '@types/node': 20.10.6
+      '@types/node': 20.11.3
       '@vitest/expect': 1.2.0
       '@vitest/runner': 1.2.0
       '@vitest/snapshot': 1.2.0
@@ -3626,8 +3626,8 @@ packages:
       strip-literal: 1.3.0
       tinybench: 2.5.1
       tinypool: 0.8.1
-      vite: 5.0.11(@types/node@20.10.6)
-      vite-node: 1.2.0(@types/node@20.10.6)
+      vite: 5.0.11(@types/node@20.11.3)
+      vite-node: 1.2.0(@types/node@20.11.3)
       why-is-node-running: 2.2.2
     transitivePeerDependencies:
       - less
