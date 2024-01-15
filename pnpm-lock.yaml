@@ -9,8 +9,8 @@ dependencies:
     specifier: ^2.7.0
     version: 2.7.0(svelte@4.2.8)
   '@skeletonlabs/tw-plugin':
-    specifier: ^0.3.0
-    version: 0.3.0(tailwindcss@3.4.1)
+    specifier: ^0.3.1
+    version: 0.3.1(tailwindcss@3.4.1)
 
 devDependencies:
   '@fortawesome/free-brands-svg-icons':
@@ -804,8 +804,8 @@ packages:
       svelte: 4.2.8
     dev: false
 
-  /@skeletonlabs/tw-plugin@0.3.0(tailwindcss@3.4.1):
-    resolution: {integrity: sha512-0tBlZSHk791jvDTC41FlIafa8ZmaODjvOwmghcbla96Fbv9dI1u9+OJ2ScSxzy7xI6qjuQ80Uhw9kn53MMYi4Q==}
+  /@skeletonlabs/tw-plugin@0.3.1(tailwindcss@3.4.1):
+    resolution: {integrity: sha512-DjjeOHN3HhFQf6gYPT2MUZMkIdw1jeB9mbuKC8etQxUlOR4XitfC7hssRWFJ8RJsvrrN0myCBbdWkVG1JVA96g==}
     peerDependencies:
       tailwindcss: '>=3.0.0'
     dependencies:
