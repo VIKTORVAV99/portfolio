@@ -71,8 +71,8 @@ devDependencies:
     specifier: ^4.2.8
     version: 4.2.8
   svelte-awesome:
-    specifier: ^3.3.0
-    version: 3.3.0(svelte@4.2.8)
+    specifier: ^3.3.1
+    version: 3.3.1(svelte@4.2.8)
   svelte-check:
     specifier: ^3.6.2
     version: 3.6.2(postcss@8.4.33)(svelte@4.2.8)
@@ -3206,8 +3206,8 @@ packages:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
 
-  /svelte-awesome@3.3.0(svelte@4.2.8):
-    resolution: {integrity: sha512-5adEs7YyxuevKNTasKTpLjmp/HUTMjQkUzAB0At69shhMSEFvF20xfUi4g9SCTWJUc+gbTw/cqgZIDNTZVzNLg==}
+  /svelte-awesome@3.3.1(svelte@4.2.8):
+    resolution: {integrity: sha512-nC2KXPs/MQF79vnQEj7RZFkWKdocNfN64Zh/kAWTDS4gFNdCrp7q8dwN3PIxe/mqiaDIUc7x4iv2CtOnVPItcQ==}
     peerDependencies:
       svelte: ^3.43.1 || ^4.0.0
     dependencies:
