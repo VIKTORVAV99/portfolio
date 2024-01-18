@@ -20,8 +20,8 @@ devDependencies:
     specifier: ^6.5.1
     version: 6.5.1
   '@sveltejs/adapter-cloudflare':
-    specifier: ^3.0.2
-    version: 3.0.2(@sveltejs/kit@2.3.5)
+    specifier: ^4.0.2
+    version: 4.0.2(@sveltejs/kit@2.3.5)
   '@sveltejs/adapter-static':
     specifier: ^3.0.1
     version: 3.0.1(@sveltejs/kit@2.3.5)
@@ -815,15 +815,15 @@ packages:
       tailwindcss: 3.4.1
     dev: false
 
-  /@sveltejs/adapter-cloudflare@3.0.2(@sveltejs/kit@2.3.5):
-    resolution: {integrity: sha512-sRjzVWjTCKG6Omd9rhtUGSlt22MsI/w5b0QKEP6BaNat2tVug+Z3sx4Xd32FWOXCCqs7xgwPQu0peE2bUKEQRg==}
+  /@sveltejs/adapter-cloudflare@4.0.2(@sveltejs/kit@2.3.5):
+    resolution: {integrity: sha512-zfTDBLxGVy+sFKze1sPpHmOoXAjlhGllZthTgKePj3uB6lKM9Kk1y+oXXym1u1Qe+uVeHF5799M1h/0u1Ll5Rg==}
     peerDependencies:
       '@sveltejs/kit': ^2.0.0
     dependencies:
       '@cloudflare/workers-types': 4.20231218.0
       '@sveltejs/kit': 2.3.5(@sveltejs/vite-plugin-svelte@3.0.1)(svelte@4.2.8)(vite@5.0.11)
       esbuild: 0.19.11
-      worktop: 0.8.0-next.16
+      worktop: 0.8.0-next.18
     dev: true
 
   /@sveltejs/adapter-static@3.0.1(@sveltejs/kit@2.3.5):
@@ -2947,8 +2947,8 @@ packages:
     dependencies:
       picomatch: 2.3.1
 
-  /regexparam@2.0.2:
-    resolution: {integrity: sha512-A1PeDEYMrkLrfyOwv2jwihXbo9qxdGD3atBYQA9JJgreAx8/7rC6IUkWOw2NQlOxLp2wL0ifQbh1HuidDfYA6w==}
+  /regexparam@3.0.0:
+    resolution: {integrity: sha512-RSYAtP31mvYLkAHrOlh25pCNQ5hWnT106VukGaaFfuJrZFkGRX5GhUAdPqpSDXxOhA2c4akmRuplv1mRqnBn6Q==}
     engines: {node: '>=8'}
     dev: true
 
@@ -3667,12 +3667,12 @@ packages:
       stackback: 0.0.2
     dev: true
 
-  /worktop@0.8.0-next.16:
-    resolution: {integrity: sha512-T/2AQoOONDNvGQUX+gwvFPhpej3BAVy3tA35oS0KfYWMiyvReOLh3WN0Iq67Y0rszuC96KVis9SD1S0H0t4hrw==}
+  /worktop@0.8.0-next.18:
+    resolution: {integrity: sha512-+TvsA6VAVoMC3XDKR5MoC/qlLqDixEfOBysDEKnPIPou/NvoPWCAuXHXMsswwlvmEuvX56lQjvELLyLuzTKvRw==}
     engines: {node: '>=12'}
     dependencies:
       mrmime: 2.0.0
-      regexparam: 2.0.2
+      regexparam: 3.0.0
     dev: true
 
   /wrap-ansi@7.0.0:
