@@ -5,6 +5,7 @@
 		"checkJs": true,
 		"esModuleInterop": true,
 		"forceConsistentCasingInFileNames": true,
+		"lib": ["ESNext", "DOM", "WebWorker"],
 		"resolveJsonModule": true,
 		"skipLibCheck": true,
 		"sourceMap": true,

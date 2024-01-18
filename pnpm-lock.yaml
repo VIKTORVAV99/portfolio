@@ -37,6 +37,9 @@ devDependencies:
   '@types/node':
     specifier: ^20.11.3
     version: 20.11.3
+  '@types/serviceworker':
+    specifier: ^0.0.82
+    version: 0.0.82
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.19.0
     version: 6.19.0(@typescript-eslint/parser@6.19.0)(eslint@8.56.0)(typescript@5.3.3)
@@ -932,6 +935,10 @@ packages:
 
   /@types/semver@7.5.6:
     resolution: {integrity: sha512-dn1l8LaMea/IjDoHNd9J52uBbInB796CDffS6VdIxvqYCPSG0V0DzHp76GpaWnlhg88uYyPbXCDIowa86ybd5A==}
+    dev: true
+
+  /@types/serviceworker@0.0.82:
+    resolution: {integrity: sha512-JkHWXMbqUd8sAA8yUxEjabRqgm6yn/rjOY2VZeifryu72e/hbQW2MLsvpZvu8vwhkls8AGczw3U2MVKdnayqng==}
     dev: true
 
   /@typescript-eslint/eslint-plugin@6.19.0(@typescript-eslint/parser@6.19.0)(eslint@8.56.0)(typescript@5.3.3):
