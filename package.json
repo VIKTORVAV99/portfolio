@@ -22,7 +22,7 @@
 		"@sveltejs/adapter-cloudflare": "^4.0.2",
 		"@sveltejs/adapter-static": "^3.0.1",
 		"@sveltejs/enhanced-img": "^0.1.8",
-		"@sveltejs/kit": "^2.3.5",
+		"@sveltejs/kit": "^2.4.1",
 		"@sveltejs/vite-plugin-svelte": "^3.0.1",
 		"@types/node": "^20.11.5",
 		"@types/serviceworker": "^0.0.82",
