@@ -20,8 +20,8 @@ devDependencies:
     specifier: ^6.5.1
     version: 6.5.1
   '@sveltejs/adapter-cloudflare':
-    specifier: ^4.0.2
-    version: 4.0.2(@sveltejs/kit@2.3.5)
+    specifier: ^4.1.0
+    version: 4.1.0(@sveltejs/kit@2.3.5)
   '@sveltejs/adapter-static':
     specifier: ^3.0.1
     version: 3.0.1(@sveltejs/kit@2.3.5)
@@ -815,8 +815,8 @@ packages:
       tailwindcss: 3.4.1
     dev: false
 
-  /@sveltejs/adapter-cloudflare@4.0.2(@sveltejs/kit@2.3.5):
-    resolution: {integrity: sha512-zfTDBLxGVy+sFKze1sPpHmOoXAjlhGllZthTgKePj3uB6lKM9Kk1y+oXXym1u1Qe+uVeHF5799M1h/0u1Ll5Rg==}
+  /@sveltejs/adapter-cloudflare@4.1.0(@sveltejs/kit@2.3.5):
+    resolution: {integrity: sha512-AQQdZAZpcFDcBiMEmxbMYhn4yKZYoPZrKUrYpVejjbO+9obIGIuj/jWjVzAEkHqZMZuoRRqPbq+Zq+AWRm4x1Q==}
     peerDependencies:
       '@sveltejs/kit': ^2.0.0
     dependencies:
