@@ -16,17 +16,10 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-      - name: Setup Node lts/*
-        uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-          cache: 'pnpm'
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
       - name: Install dependencies
-        run: pnpm install
+        run: bun install
       - name: Prettier
         run: npm run format:check
   eslint:
@@ -38,19 +31,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-      - name: Setup Node lts/*
-        uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-          cache: 'pnpm'
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
       - name: Install dependencies
-        run: pnpm install
+        run: bun install
       - name: ESLint
-        run: npm run lint:eslint
+        run: bun --bun run lint:eslint
   svelte-check:
     name: Svelte Check
     runs-on: ubuntu-latest
@@ -60,19 +46,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-      - name: Setup Node lts/*
-        uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-          cache: 'pnpm'
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
       - name: Install dependencies
-        run: pnpm install
+        run: bun install
       - name: Svelte Check
-        run: npm run check:ci
+        run: bun --bun run check:ci
   build:
     name: Build
     runs-on: ubuntu-latest
@@ -83,19 +62,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Setup PNPM
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8
-      - name: Setup Node lts/*
-        uses: actions/setup-node@v4
-        with:
-          node-version: lts/*
-          cache: 'pnpm'
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
       - name: Install dependencies
-        run: pnpm install
+        run: bun install
       - name: Build
-        run: npm run build:ci
+        run: bun --bun run build:ci
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
