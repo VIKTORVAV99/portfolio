@@ -2,6 +2,9 @@
 	"name": "personal-website",
 	"version": "0.0.1",
 	"private": true,
+	"engines": {
+		"bun": "^1.0.0"
+	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
@@ -10,10 +13,10 @@
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:ci": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --output machine --fail-on-warnings",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"test:unit": "vitest",
+		"test:unit": "bun test",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
 		"lint:eslint": "eslint .",
-		"format": "prettier . --write . --cache",
+		"format": "prettier --write . --cache",
 		"format:check": "prettier --plugin-search-dir . --check ."
 	},
 	"devDependencies": {
@@ -24,7 +27,7 @@
 		"@sveltejs/enhanced-img": "^0.1.8",
 		"@sveltejs/kit": "^2.3.5",
 		"@sveltejs/vite-plugin-svelte": "^3.0.1",
-		"@types/node": "^20.11.5",
+		"@types/bun": "^1.0.4",
 		"@types/serviceworker": "^0.0.82",
 		"@typescript-eslint/eslint-plugin": "^6.19.0",
 		"@typescript-eslint/parser": "^6.19.0",
@@ -44,12 +47,12 @@
 		"tslib": "^2.6.2",
 		"typescript": "^5.3.3",
 		"vite": "^5.0.11",
-		"vite-plugin-tailwind-purgecss": "^0.2.0",
-		"vitest": "^1.2.1"
+		"vite-plugin-tailwind-purgecss": "0.2.0"
 	},
 	"type": "module",
 	"dependencies": {
 		"@skeletonlabs/skeleton": "^2.7.1",
 		"@skeletonlabs/tw-plugin": "^0.3.1"
-	}
+	},
+	"module": "index.ts"
 }
