@@ -21,7 +21,7 @@ jobs:
       - name: Install dependencies
         run: bun install
       - name: Prettier
-        run: npm run format:check
+        run: bun --bun run format:check
   eslint:
     name: ESLint
     runs-on: ubuntu-latest
