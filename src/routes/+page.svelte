@@ -34,8 +34,7 @@
 		</p>
 	</section>
 	<h2 class="h2 font-extrabold mb-16">Showcase</h2>
-	<Projects projects={data.projects} showAllButton={true} />
 </div>
-
+{data.personalData}
 <style lang="postcss">
 </style>
