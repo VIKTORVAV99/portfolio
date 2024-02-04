@@ -1,6 +1,7 @@
 import { GET } from './+server';
 
-import { describe, it, expect, test } from 'bun:test';
+import { describe, it, expect } from 'bun:test';
+import projects from '$data/projects.json';
 
 describe('sitemap.xml', () => {
 	it('should return content type application/xml', async () => {
@@ -25,8 +26,13 @@ describe('sitemap.xml', () => {
 		expect(await response.text()).toContain('https://viktor.andersson.tech/projects');
 	});
 
-	// it should include all the project urls
-	test.todo('should include all project urls');
+	for (const project of projects) {
+		// it should include all project urls
+		it(`should include project url ${project.id}`, async () => {
+			const response = await GET();
+			expect(await response.text()).toContain(`https://viktor.andersson.tech/projects/${project.id}`);
+		});
+	}
 
 	it('should match snapshot', async () => {
 		const response = await GET();
