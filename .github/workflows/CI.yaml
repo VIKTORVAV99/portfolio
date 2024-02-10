@@ -127,7 +127,7 @@ jobs:
       url: ${{ steps.deployment.outputs.url}}
     steps:
       - name: Download build artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: build
           path: .svelte-kit/cloudflare
