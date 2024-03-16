@@ -28,7 +28,7 @@
 		"@sveltejs/kit": "^2.3.5",
 		"@sveltejs/vite-plugin-svelte": "^3.0.1",
 		"@types/bun": "^1.0.4",
-		"@types/serviceworker": "^0.0.82",
+		"@types/serviceworker": "^0.0.84",
 		"@typescript-eslint/eslint-plugin": "^6.19.0",
 		"@typescript-eslint/parser": "^6.19.0",
 		"autoprefixer": "^10.4.17",
