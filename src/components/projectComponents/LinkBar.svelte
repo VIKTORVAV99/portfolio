@@ -4,7 +4,7 @@
 	export let links: Link[];
 </script>
 
-<ul class="flex w-full flex-wrap my-3">
+<ul class="flex w-full flex-wrap">
 	{#each links as link}
 		<li class="inline-flex">
 			<a class="text-sm mr-4 py-1" href={link.url}>{link.title}</a>

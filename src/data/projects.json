@@ -135,7 +135,7 @@
 		"title": "Angular Demo",
 		"id": "angular-demo",
 		"showcase": true,
-		"type": "personal",
+		"type": "educational",
 		"links": [
 			{
 				"title": "GitHub Repository",
@@ -194,11 +194,60 @@
 			}
 		],
 		"preview": {
-			"description": "A simple Angular demo project to showcase the Angular framework and the Angular CLI."
+			"description": "A simple Angular demo project for a school project to showcase the Angular framework and the Angular CLI. "
 		},
 		"details": {
 			"tagline": "Project to showcase the use of Angular and Firebase to build a progressive single page app.",
 			"description": "The project was built with the use of Angular, Angular CLI, Angular Material, Angular Fire and Firebase. It is hosted and deployed on Firebase Hosting using a automated CI/CD pipeline with GitHub Actions to automatically publish the latest changes."
+		}
+	},
+	{
+		"title": "Upland pathfinding bot for Discord",
+		"id": "upland-pathfinding-bot",
+		"showcase": false,
+		"type": "personal",
+		"links": [
+			{
+				"title": "GitHub Repository",
+				"url": "https://github.com/viktorvav99/Upland-Travel-Bot"
+			}
+		],
+		"keywords": ["Upland-Travel-Bot", "Upland", "Bot", "Discord", "TypeScript"],
+		"technologies": [
+			{
+				"name": "Discord.js",
+				"description": "Discord API wrapper used to interact with the Discord API.",
+				"url": "https://discord.js.org/",
+				"preview": true
+			},
+			{
+				"name": "TypeScript",
+				"description": "Superset of JavaScript with strong typing support used to ensure the type safety of the project.",
+				"url": "https://www.typescriptlang.org/",
+				"preview": true
+			},
+			{
+				"name": "Node.js",
+				"description": "JavaScript runtime used to run the bot.",
+				"url": "https://nodejs.org/"
+			},
+			{
+				"name": "Google Cloud",
+				"description": "Cloud service used to host the bot.",
+				"url": "https://cloud.google.com/"
+			},
+			{
+				"name": "GitHub Actions",
+				"description": "CI/CD pipeline used to automatically test and build the project on GitHub Pages when changes are pushed. It employs caching and parallelization to speed up the test and build process.",
+				"url": "https://github.com/features/actions"
+			}
+		],
+		"preview": {
+			"description": "A Discord bot that helps players of the game Upland to find the shortest path between two properties."
+		},
+		"details": {
+			"tagline": "Discord bot that helps players of the game Upland to find the shortest path between two properties.",
+			"description": "The bot was built with the use of Discord.js and TypeScript. It is hosted on Google Cloud and uses a CI pipeline with GitHub Actions to automatically test the latest changes."
 		}
 	}
 ]

@@ -10,9 +10,9 @@
 </script>
 
 {#each Object.entries(projectsByType) as [type, value]}
-	<section id={type} class="flex flex-col items-center mb-16">
+	<section id={type} class="flex flex-col w-full items-center justify-center mb-16">
 		<h2 class="h2 capitalize font-bold">{type} Projects</h2>
-		<section>
+		<section class="w-full flex flex-col justify-center items-center">
 			{#each value as project}
 				<ProjectPreview {project} />
 			{/each}

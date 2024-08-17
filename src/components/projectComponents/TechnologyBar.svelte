@@ -3,7 +3,7 @@
 	export let technologies: ProjectConfig['technologies'];
 </script>
 
-<ul class="flex w-full flex-wrap mt-4">
+<ul class="flex w-full flex-wrap">
 	{#each technologies as technology}
 		{#if technology.preview}
 			<li class="inline-flex">
