@@ -21,13 +21,17 @@
 <!--
   @component
   IconSet that contains the social media icons and links them.
-  This component uses flex and flex row to align the icons horizontally.
+  This component uses flex to align the icons horizontally.
   -->
 
-<div class="flex flex-row justify-center items-center">
+<div class="flex justify-center items-center">
 	{#each icons as icon}
 		<a href={icon.url} class="m-3" title={icon.name}>
-			<Icon data={icon.icon} {scale} class="text-token" />
+			<Icon
+				data={icon.icon}
+				{scale}
+				class="text-surface-900-50-token hover:dark:brightness-[1.15] hover:brightness-75"
+			/>
 		</a>
 	{/each}
 </div>
