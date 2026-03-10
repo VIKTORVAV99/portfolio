@@ -65,10 +65,8 @@
 			groupEntries.sort((a, b) => (a.startYear ?? ORIGIN_YEAR) - (b.startYear ?? ORIGIN_YEAR));
 		}
 
-		// Step 3: Assign branches to lanes
+		// Step 3: Assign branches to lanes (reuse lanes when branches don't overlap in time)
 		const branches: Branch[] = [];
-		let nextLeftLane = -1;
-		let nextRightLane = 1;
 
 		const sortedGroups = [...groupMap.entries()].sort((a, b) => {
 			const aStart = Math.min(...a[1].map((e) => e.startYear ?? ORIGIN_YEAR));
@@ -76,16 +74,41 @@
 			return aStart - bStart;
 		});
 
+		// Track which time ranges occupy each lane: Map<lane, {start, end}[]>
+		const laneOccupancy = new Map<number, Array<{ start: number; end: number }>>();
+		let nextLeftLane = -1;
+		let nextRightLane = 1;
+
+		function findReusableLane(side: 'left' | 'right', start: number, end: number): number | null {
+			for (const [lane, ranges] of laneOccupancy) {
+				// Only consider lanes on the correct side
+				if (side === 'left' && lane >= 0) continue;
+				if (side === 'right' && lane <= 0) continue;
+				// Check if any range overlaps
+				const overlaps = ranges.some(r => start <= r.end && end >= r.start);
+				if (!overlaps) return lane;
+			}
+			return null;
+		}
+
 		let branchColorIdx = 0;
 		for (const [id, groupEntries] of sortedGroups) {
 			const type = groupEntries[0].type;
 			const side: 'left' | 'right' = compact ? 'left' : (type === 'education' ? 'left' : 'right');
-			const lane = compact ? nextLeftLane-- : (side === 'left' ? nextLeftLane-- : nextRightLane++);
 
 			const earliestStart = Math.min(...groupEntries.map((e) => e.startYear ?? ORIGIN_YEAR));
 			const latestEnd = groupEntries.some((e) => e.endYear === null)
 				? CURRENT_YEAR
 				: Math.max(...groupEntries.map((e) => e.endYear ?? e.startYear ?? ORIGIN_YEAR));
+
+			// Try to reuse a lane, otherwise allocate a new one
+			let lane = findReusableLane(side, earliestStart, latestEnd);
+			if (lane === null) {
+				lane = compact ? nextLeftLane-- : (side === 'left' ? nextLeftLane-- : nextRightLane++);
+			}
+
+			if (!laneOccupancy.has(lane)) laneOccupancy.set(lane, []);
+			laneOccupancy.get(lane)!.push({ start: earliestStart, end: latestEnd });
 
 			branches.push({
 				id,
@@ -118,7 +141,7 @@
 				const start = entry.startYear ?? ORIGIN_YEAR;
 				const row = yearToRow(start);
 				const rowEnd = row + MIN_SPAN;
-				nodes.push({ lane: 0, row, rowEnd, gridRow: row, gridRowEnd: rowEnd, color: COLOR_LIFE, entry, side: 'right' as const });
+				nodes.push({ lane: 0, branchId: '__life', row, rowEnd, gridRow: row, gridRowEnd: rowEnd, color: COLOR_LIFE, entry, side: 'right' as const });
 			}
 		}
 
@@ -129,7 +152,7 @@
 				const row = yearToRow(end);
 				let rowEnd = yearToRow(start) + 1;
 				if (rowEnd - row < MIN_SPAN) rowEnd = row + MIN_SPAN;
-				nodes.push({ lane: branch.lane, row, rowEnd, gridRow: row, gridRowEnd: rowEnd, color: branch.color, entry, side: branch.side });
+				nodes.push({ lane: branch.lane, branchId: branch.id, row, rowEnd, gridRow: row, gridRowEnd: rowEnd, color: branch.color, entry, side: branch.side });
 			}
 		}
 
@@ -137,24 +160,24 @@
 		let totalGridRows = TOTAL_YEARS;
 		const branchGroups: BranchGroup[] = [];
 		if (compact) {
-			// Build groups by lane (all nodes on the same lane → one group)
-			const laneMap = new Map<number, typeof nodes>();
+			// Build groups by branch (not lane — shared lanes should stay separate groups)
+			const branchMap = new Map<string, typeof nodes>();
 			for (const node of nodes) {
-				if (!laneMap.has(node.lane)) laneMap.set(node.lane, []);
-				laneMap.get(node.lane)!.push(node);
+				if (!branchMap.has(node.branchId)) branchMap.set(node.branchId, []);
+				branchMap.get(node.branchId)!.push(node);
 			}
-			// Sort nodes within each lane by gridRow
-			for (const laneNodes of laneMap.values()) {
-				laneNodes.sort((a, b) => a.gridRow - b.gridRow);
+			// Sort nodes within each branch by gridRow
+			for (const branchNodes of branchMap.values()) {
+				branchNodes.sort((a, b) => a.gridRow - b.gridRow);
 			}
 
 			// Sort groups by earliest gridRow of their first node
-			const groups = [...laneMap.entries()]
-				.map(([lane, laneNodes]) => ({
-					lane,
-					nodes: laneNodes,
-					color: laneNodes[0].color,
-					side: laneNodes[0].side
+			const groups = [...branchMap.entries()]
+				.map(([bid, branchNodes]) => ({
+					branchId: bid,
+					nodes: branchNodes,
+					color: branchNodes[0].color,
+					side: branchNodes[0].side
 				}))
 				.sort((a, b) => a.nodes[0].gridRow - b.nodes[0].gridRow);
 
@@ -183,7 +206,7 @@
 
 			// Update branch extents to match shifted node positions
 			for (const branch of branches) {
-				const branchNodes = nodes.filter(n => n.lane === branch.lane);
+				const branchNodes = nodes.filter(n => n.branchId === branch.id);
 				if (branchNodes.length > 0) {
 					branch.endRow = Math.min(...branchNodes.map(n => n.gridRow));
 					branch.forkRow = Math.max(...branchNodes.map(n => n.gridRowEnd));
