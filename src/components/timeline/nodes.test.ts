@@ -1,8 +1,8 @@
-import { describe, it, expect } from "bun:test"
-import type { TimelineEntry } from "$interfaces/timelineEntry"
-import { buildLifeNodes, buildBranchNodes } from "./nodes"
-import { COLOR_LIFE, MIN_SPAN } from "./constants"
-import type { Branch } from "./types"
+import { describe, it, expect } from "bun:test";
+import type { TimelineEntry } from "$interfaces/timelineEntry";
+import { buildLifeNodes, buildBranchNodes } from "./nodes";
+import { COLOR_LIFE, MIN_SPAN } from "./constants";
+import type { Branch } from "./types";
 
 describe("buildLifeNodes", () => {
   it("creates nodes only for life entries", () => {
@@ -22,11 +22,11 @@ describe("buildLifeNodes", () => {
         startYear: 2020,
         showDates: true,
       },
-    ]
-    const nodes = buildLifeNodes(entries)
-    expect(nodes).toHaveLength(1)
-    expect(nodes[0].entry.type).toBe("life")
-  })
+    ];
+    const nodes = buildLifeNodes(entries);
+    expect(nodes).toHaveLength(1);
+    expect(nodes[0].entry.type).toBe("life");
+  });
 
   it("assigns lane 0 and right side", () => {
     const entries: TimelineEntry[] = [
@@ -37,11 +37,11 @@ describe("buildLifeNodes", () => {
         startYear: 1999,
         showDates: false,
       },
-    ]
-    const nodes = buildLifeNodes(entries)
-    expect(nodes[0].lane).toBe(0)
-    expect(nodes[0].side).toBe("right")
-  })
+    ];
+    const nodes = buildLifeNodes(entries);
+    expect(nodes[0].lane).toBe(0);
+    expect(nodes[0].side).toBe("right");
+  });
 
   it("uses COLOR_LIFE and branchId __life", () => {
     const entries: TimelineEntry[] = [
@@ -52,11 +52,11 @@ describe("buildLifeNodes", () => {
         startYear: 1999,
         showDates: false,
       },
-    ]
-    const nodes = buildLifeNodes(entries)
-    expect(nodes[0].color).toBe(COLOR_LIFE)
-    expect(nodes[0].branchId).toBe("__life")
-  })
+    ];
+    const nodes = buildLifeNodes(entries);
+    expect(nodes[0].color).toBe(COLOR_LIFE);
+    expect(nodes[0].branchId).toBe("__life");
+  });
 
   it("sets gridRowEnd = row + MIN_SPAN", () => {
     const entries: TimelineEntry[] = [
@@ -67,10 +67,10 @@ describe("buildLifeNodes", () => {
         startYear: 1999,
         showDates: false,
       },
-    ]
-    const nodes = buildLifeNodes(entries)
-    expect(nodes[0].gridRowEnd).toBe(nodes[0].row + MIN_SPAN)
-  })
+    ];
+    const nodes = buildLifeNodes(entries);
+    expect(nodes[0].gridRowEnd).toBe(nodes[0].row + MIN_SPAN);
+  });
 
   it("returns empty array when no life entries", () => {
     const entries: TimelineEntry[] = [
@@ -81,10 +81,10 @@ describe("buildLifeNodes", () => {
         startYear: 2020,
         showDates: true,
       },
-    ]
-    expect(buildLifeNodes(entries)).toHaveLength(0)
-  })
-})
+    ];
+    expect(buildLifeNodes(entries)).toHaveLength(0);
+  });
+});
 
 describe("buildBranchNodes", () => {
   it("creates one node per branch entry", () => {
@@ -119,10 +119,10 @@ describe("buildBranchNodes", () => {
         endRow: 5,
         color: "#3b82f6",
       },
-    ]
-    const nodes = buildBranchNodes(branches)
-    expect(nodes).toHaveLength(2)
-  })
+    ];
+    const nodes = buildBranchNodes(branches);
+    expect(nodes).toHaveLength(2);
+  });
 
   it("inherits lane, branchId, color, and side from branch", () => {
     const branches: Branch[] = [
@@ -147,13 +147,13 @@ describe("buildBranchNodes", () => {
         endRow: 5,
         color: "#22c55e",
       },
-    ]
-    const nodes = buildBranchNodes(branches)
-    expect(nodes[0].lane).toBe(-1)
-    expect(nodes[0].branchId).toBe("my-branch")
-    expect(nodes[0].color).toBe("#22c55e")
-    expect(nodes[0].side).toBe("left")
-  })
+    ];
+    const nodes = buildBranchNodes(branches);
+    expect(nodes[0].lane).toBe(-1);
+    expect(nodes[0].branchId).toBe("my-branch");
+    expect(nodes[0].color).toBe("#22c55e");
+    expect(nodes[0].side).toBe("left");
+  });
 
   it("ensures gridRowEnd - gridRow >= MIN_SPAN", () => {
     const branches: Branch[] = [
@@ -178,14 +178,12 @@ describe("buildBranchNodes", () => {
         endRow: 5,
         color: "#3b82f6",
       },
-    ]
-    const nodes = buildBranchNodes(branches)
-    expect(nodes[0].gridRowEnd - nodes[0].gridRow).toBeGreaterThanOrEqual(
-      MIN_SPAN,
-    )
-  })
+    ];
+    const nodes = buildBranchNodes(branches);
+    expect(nodes[0].gridRowEnd - nodes[0].gridRow).toBeGreaterThanOrEqual(MIN_SPAN);
+  });
 
   it("returns empty array for empty branches", () => {
-    expect(buildBranchNodes([])).toHaveLength(0)
-  })
-})
+    expect(buildBranchNodes([])).toHaveLength(0);
+  });
+});

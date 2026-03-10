@@ -7,13 +7,13 @@ declare global {
     // interface PageData {}
     interface Platform {
       env?: {
-        [key: string]: unknown
-      }
+        [key: string]: unknown;
+      };
       context?: {
-        waitUntil(promise: Promise<unknown>): void
-      }
+        waitUntil(promise: Promise<unknown>): void;
+      };
     }
   }
 }
 
-export {}
+export {};

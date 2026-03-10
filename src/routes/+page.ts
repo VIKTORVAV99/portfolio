@@ -1,10 +1,10 @@
-import type { PageLoad } from "./$types"
-import projects from "$data/projects.json"
-import type { ProjectConfig } from "$interfaces/projectConfig"
+import type { PageLoad } from "./$types";
+import projects from "$data/projects.json";
+import type { ProjectConfig } from "$interfaces/projectConfig";
 
 export const load = (() => {
-  const json = projects.filter((entry) => entry.showcase) as ProjectConfig[]
+  const json = projects.filter((entry) => entry.showcase) as ProjectConfig[];
   return {
     projects: json,
-  }
-}) satisfies PageLoad
+  };
+}) satisfies PageLoad;

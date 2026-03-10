@@ -1,4 +1,4 @@
-import type { TimelineEntry } from "$interfaces/timelineEntry"
+import type { TimelineEntry } from "$interfaces/timelineEntry";
 
 export const timelineEntries: TimelineEntry[] = [
   {
@@ -33,8 +33,7 @@ export const timelineEntries: TimelineEntry[] = [
     endYear: 2025,
     endMonth: 6,
     showDates: true,
-    description:
-      "Bachelor of Science with a major in Informatics, Digital Design and Innovation",
+    description: "Bachelor of Science with a major in Informatics, Digital Design and Innovation",
     location: "Halmstad, Sweden",
   },
   {
@@ -91,4 +90,4 @@ export const timelineEntries: TimelineEntry[] = [
     location: "Hybrid, Denmark",
     group: "electricity-maps",
   },
-]
+];

@@ -1,6 +1,6 @@
-import projects from "$data/projects.json"
+import projects from "$data/projects.json";
 
-const DOMAIN = "https://viktor.andersson.tech/"
+const DOMAIN = "https://viktor.andersson.tech/";
 
 export async function GET() {
   return new Response(
@@ -24,5 +24,5 @@ export async function GET() {
         "Content-Type": "application/xml",
       },
     },
-  )
+  );
 }

@@ -1,12 +1,12 @@
-import { FORK_CURVE_MONTHS } from "./constants"
-import { nodeY, type Branch, type ForkPath } from "./types"
+import { FORK_CURVE_MONTHS } from "./constants";
+import { nodeY, type Branch, type ForkPath } from "./types";
 
 export function buildForkPaths(
   branches: Branch[],
   laneX: (lane: number) => number,
   pxPerMonth: number,
 ): ForkPath[] {
-  const forks: ForkPath[] = []
+  const forks: ForkPath[] = [];
 
   for (const branch of branches) {
     forks.push({
@@ -16,9 +16,9 @@ export function buildForkPaths(
       curveHeight: pxPerMonth * FORK_CURVE_MONTHS,
       color: branch.color,
       direction: "down",
-    })
+    });
 
-    const isOngoing = branch.entries.some((e) => e.endYear === null)
+    const isOngoing = branch.entries.some((e) => e.endYear === null);
     if (!isOngoing) {
       forks.push({
         fromX: laneX(branch.lane),
@@ -27,9 +27,9 @@ export function buildForkPaths(
         curveHeight: pxPerMonth * FORK_CURVE_MONTHS,
         color: branch.color,
         direction: "up",
-      })
+      });
     }
   }
 
-  return forks
+  return forks;
 }

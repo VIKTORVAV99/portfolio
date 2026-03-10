@@ -1,24 +1,24 @@
 {
-	"name": "portfolio",
-	"main": ".svelte-kit/cloudflare/_worker.js",
-	"compatibility_flags": ["nodejs_als"],
-	"compatibility_date": "2026-03-10",
-	"routes": [
-		{ "pattern": "viktor.andersson.tech", "custom_domain": true },
-		{ "pattern": "www.andersson.tech", "custom_domain": true }
-	],
-	"assets": {
-		"binding": "ASSETS",
-		"directory": ".svelte-kit/cloudflare"
-	},
-	"observability": {
-		"logs": {
-			"enabled": true,
-			"invocation_logs": true
-		}
-	},
-	"placement": {
-		"mode": "smart"
-	},
-	"preview_urls": true
+  "name": "portfolio",
+  "main": ".svelte-kit/cloudflare/_worker.js",
+  "compatibility_flags": ["nodejs_als"],
+  "compatibility_date": "2026-03-10",
+  "routes": [
+    { "pattern": "viktor.andersson.tech", "custom_domain": true },
+    { "pattern": "www.andersson.tech", "custom_domain": true },
+  ],
+  "assets": {
+    "binding": "ASSETS",
+    "directory": ".svelte-kit/cloudflare",
+  },
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true,
+    },
+  },
+  "placement": {
+    "mode": "smart",
+  },
+  "preview_urls": true,
 }
