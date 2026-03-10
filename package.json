@@ -16,9 +16,9 @@
 		"check:ci": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --output machine --fail-on-warnings",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"test:unit": "bun test",
-		"lint": "oxlint src && prettier --check .",
-		"format": "prettier --write . --cache",
-		"format:check": "prettier --check ."
+		"lint": "oxlint src",
+		"format": "oxfmt",
+		"format:check": "oxfmt --check"
 	},
 	"devDependencies": {
 		"@fortawesome/free-brands-svg-icons": "^6.6.0",
@@ -30,9 +30,8 @@
 		"@tailwindcss/vite": "^4.2.1",
 		"@types/bun": "^1.3.10",
 		"@types/serviceworker": "^0.0.82",
+		"oxfmt": "^0.2.0",
 		"oxlint": "^1.52.0",
-		"prettier": "^3.8.1",
-		"prettier-plugin-svelte": "^3.5.1",
 		"svelte": "^5.53.9",
 		"svelte-check": "^4.4.5",
 		"svelte-fa": "^4.0.4",
