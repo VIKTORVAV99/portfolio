@@ -2,9 +2,12 @@
 export const ORIGIN_YEAR = 1999;
 export const CURRENT_YEAR = new Date().getFullYear();
 export const PX_PER_YEAR = 100;
+export const PX_PER_YEAR_MOBILE = 60;
 export const TOTAL_YEARS = CURRENT_YEAR - ORIGIN_YEAR + 1;
 export const TOTAL_HEIGHT = TOTAL_YEARS * PX_PER_YEAR;
 export const MIN_SPAN = 2;
+export const COMPACT_CARD_SPAN = 4;
+export const LANE_SPACING_MOBILE = 14;
 
 // Graph constants
 export const LANE_SPACING = 40;

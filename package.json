@@ -40,5 +40,8 @@
 		"typescript": "^5.9.3",
 		"vite": "^6.4.1",
 		"wrangler": "^4.0.0"
+	},
+	"dependencies": {
+		"bits-ui": "^2.16.3"
 	}
 }

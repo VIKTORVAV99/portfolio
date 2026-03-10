@@ -16,6 +16,8 @@ export interface CommitNode {
 	lane: number;
 	row: number;
 	rowEnd: number;
+	gridRow: number;
+	gridRowEnd: number;
 	color: string;
 	entry: TimelineEntry;
 	side: 'left' | 'right';
@@ -35,14 +37,24 @@ export interface GraphData {
 	forks: ForkPath[];
 	graphWidth: number;
 	laneX: (lane: number) => number;
+	totalGridRows: number;
+	branchGroups: BranchGroup[];
+}
+
+export interface BranchGroup {
+	nodes: CommitNode[];
+	gridRow: number;
+	gridRowEnd: number;
+	color: string;
+	side: 'left' | 'right';
 }
 
 export function yearToRow(year: number): number {
 	return TOTAL_YEARS - (year - ORIGIN_YEAR);
 }
 
-export function nodeY(row: number): number {
-	return (row - 1) * PX_PER_YEAR + PX_PER_YEAR * 0.5;
+export function nodeY(row: number, pxPerYear: number = PX_PER_YEAR): number {
+	return (row - 1) * pxPerYear + pxPerYear * 0.5;
 }
 
 export function formatDate(entry: TimelineEntry): string {
