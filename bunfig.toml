@@ -1,0 +1,6 @@
+[test]
+
+[test.moduleResolution]
+"$data" = "./src/data"
+"$components" = "./src/components"
+"$interfaces" = "./src/interfaces"
