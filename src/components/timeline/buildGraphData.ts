@@ -2,6 +2,7 @@ import type { TimelineEntry } from '$interfaces/timelineEntry';
 import {
 	TOTAL_MONTHS,
 	MIN_SPAN,
+	CARD_GAP,
 	COMPACT_CARD_SPAN,
 	COLOR_LIFE,
 	BRANCH_COLORS,
@@ -17,6 +18,28 @@ import {
 	type GraphData,
 	type BranchGroup
 } from './types';
+
+// Estimate minimum grid rows needed to render a card without overflow.
+// Card max-width ~352px, each row = PX_PER_MONTH = 8px, line height ~20px.
+function estimateCardRows(entry: TimelineEntry, pxPerMonth: number): number {
+	const CARD_WIDTH = 352;
+	const LINE_H = 20;
+	const PADDING_PX = 4; // py-4 top + bottom
+	const wrapLines = (text: string, charsPerLine: number) =>
+		Math.max(1, Math.ceil(text.length / charsPerLine));
+	const charsPerLine = Math.floor(CARD_WIDTH / 8); // ~8px per char at sm size
+
+	let px = PADDING_PX;
+	if (entry.showDates) px += LINE_H; // date row
+	if (entry.degree) px += LINE_H;
+	px += LINE_H * wrapLines(entry.title, charsPerLine);
+	px += LINE_H; // organization
+	if (entry.employmentType) px += LINE_H;
+	if (entry.location) px += LINE_H;
+	if (entry.description) px += LINE_H * wrapLines(entry.description, charsPerLine) + 8; // mt-2
+
+	return Math.ceil(px / pxPerMonth) + 1;
+}
 
 export function buildGraphData(entries: TimelineEntry[], compact: boolean, pxPerMonth: number): GraphData {
 	// Step 1: Group entries into branches
@@ -196,6 +219,13 @@ export function buildGraphData(entries: TimelineEntry[], compact: boolean, pxPer
 		// Resolve card overlap per side-column on desktop
 		for (const side of ['left', 'right'] as const) {
 			const sideNodes = nodes.filter((n) => n.side === side).sort((a, b) => a.gridRow - b.gridRow);
+			// Enforce per-card minimum height before resolving overlaps
+			for (const node of sideNodes) {
+				const minSpan = estimateCardRows(node.entry, pxPerMonth);
+				if (node.gridRowEnd - node.gridRow < minSpan) {
+					node.gridRowEnd = node.gridRow + minSpan;
+				}
+			}
 			let nextRow = -Infinity;
 			for (const node of sideNodes) {
 				if (node.gridRow < nextRow) {
@@ -203,7 +233,7 @@ export function buildGraphData(entries: TimelineEntry[], compact: boolean, pxPer
 					node.gridRow += shift;
 					node.gridRowEnd += shift;
 				}
-				nextRow = node.gridRowEnd;
+				nextRow = node.gridRowEnd + CARD_GAP;
 			}
 		}
 		totalGridRows = Math.max(TOTAL_MONTHS, ...nodes.map((n) => n.gridRowEnd));

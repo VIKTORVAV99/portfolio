@@ -70,18 +70,33 @@
 			{#each graphData.nodes as node}
 				{#if !(node.entry.type === 'life' && !node.entry.showDates)}
 					{@const nx = graphData.laneX(node.lane)}
-					{@const ny = nodeY(node.row, pxPerMonth)}
+					{@const dotY = nodeY(node.row, pxPerMonth)}
+					{@const cardY = nodeY(node.gridRow, pxPerMonth)}
 					{@const targetX = node.side === 'left' ? 0 : graphData.graphWidth}
-					<line
-						x1={nx + (node.side === 'left' ? -NODE_RADIUS - 2 : NODE_RADIUS + 2)}
-						y1={ny}
-						x2={targetX}
-						y2={ny}
-						stroke={node.color}
-						stroke-width={1}
-						stroke-dasharray="4 3"
-						opacity="0.35"
-					/>
+					{@const dotEdgeX = nx + (node.side === 'left' ? -NODE_RADIUS - 2 : NODE_RADIUS + 2)}
+					{#if Math.abs(dotY - cardY) < 1}
+						<!-- dot and card are at the same row: simple horizontal line -->
+						<line
+							x1={dotEdgeX}
+							y1={dotY}
+							x2={targetX}
+							y2={dotY}
+							stroke={node.color}
+							stroke-width={1}
+							stroke-dasharray="4 3"
+							opacity="0.35"
+						/>
+					{:else}
+						<!-- dot and card are offset: L-shaped path from dot to card edge -->
+						<polyline
+							points="{dotEdgeX},{dotY} {targetX},{dotY} {targetX},{cardY}"
+							fill="none"
+							stroke={node.color}
+							stroke-width={1}
+							stroke-dasharray="4 3"
+							opacity="0.35"
+						/>
+					{/if}
 				{/if}
 			{/each}
 		{/if}

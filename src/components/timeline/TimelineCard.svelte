@@ -11,11 +11,17 @@
 		>{formatDate(entry)}</span
 	>
 {/if}
+{#if entry.degree}
+	<p class="text-xs text-surface-400 dark:text-surface-500 mb-0.5">{entry.degree}</p>
+{/if}
 <h3 class="text-base font-bold leading-[1.4]">{entry.title}</h3>
 <p class="text-sm text-surface-500 dark:text-surface-400">{entry.organization}</p>
+{#if entry.employmentType}
+	<p class="text-xs text-surface-400 dark:text-surface-500">{entry.employmentType}</p>
+{/if}
 {#if entry.location}
 	<p class="text-[0.8rem] text-surface-400 dark:text-surface-500">{entry.location}</p>
 {/if}
 {#if entry.description}
-	<p class="text-sm mt-2 leading-[1.5] text-surface-400 dark:text-surface-500">{entry.description}</p>
+	<p class="text-sm mt-2 leading-normal text-surface-400 dark:text-surface-500">{entry.description}</p>
 {/if}

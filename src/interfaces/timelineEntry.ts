@@ -2,6 +2,8 @@ export interface TimelineEntry {
 	title: string;
 	organization: string;
 	type: 'work' | 'education' | 'life';
+	degree?: string; // e.g. 'High School Diploma', 'Bachelor of Science'
+	employmentType?: string; // e.g. 'Full-time', 'Part-time'
 	startYear: number;
 	startMonth?: number; // 1–12; absent = defaults to 1 (January)
 	endYear?: number | null; // null = ongoing (e.g. "Present"), undefined = single point / no range
