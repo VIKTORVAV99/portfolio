@@ -4,7 +4,7 @@
 
 	import type { ProjectConfig } from '$interfaces/projectConfig';
 
-	export let project: ProjectConfig;
+	let { project }: { project: ProjectConfig } = $props();
 </script>
 
 <svelte:head>
@@ -13,7 +13,7 @@
 	{/if}
 </svelte:head>
 
-<section id={project.id} class="flex flex-col w-full card m-[1vw] variant-glass-primary max-w-[100ch] p-4">
+<section id={project.id} class="flex flex-col w-full card m-[1vw] preset-tonal-primary max-w-[100ch] p-4">
 	<div class="flex flex-col md:flex-row">
 		<main class="flex flex-col p-4 order-2 md:order-1 gap-4">
 			<h3 class="h3 font-bold">
@@ -50,7 +50,7 @@
 			{/if}
 		{/if}
 	</div>
-	<footer class="card-footer flex flex-col">
-		<a class="btn variant-filled w-fit self-center" href="/projects/{project.id}">Details</a>
+	<footer class="flex flex-col">
+		<a class="btn preset-filled w-fit self-center" href="/projects/{project.id}">Details</a>
 	</footer>
 </section>

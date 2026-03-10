@@ -1,27 +1,34 @@
 <script lang="ts">
-	export let duration = 150;
-	export let direction: 'normal' | 'reverse' = 'normal';
-	export let hover: 'paused' | 'running' = 'running';
+	import type { Snippet } from 'svelte';
+
+	let {
+		duration = 150,
+		direction = 'normal',
+		hover = 'running',
+		class: className = '',
+		children
+	}: {
+		duration?: number;
+		direction?: 'normal' | 'reverse';
+		hover?: 'paused' | 'running';
+		class?: string;
+		children: Snippet;
+	} = $props();
 </script>
 
-<!--
-	@component
-	Marquee component.
--->
-
 <div
-	class="flex w-full flex-row overflow-x-hidden {$$props.class}"
+	class="flex w-full flex-row overflow-x-hidden {className}"
 	style="--marquee-duration: {duration}s;--marquee-direction:{direction};--marquee-hover:{hover}"
 >
 	<div class="animate-marquee flex-none min-w-full flex-row items-center">
-		<slot />
+		{@render children()}
 	</div>
 	<div class="animate-marquee flex-none min-w-full flex-row items-center">
-		<slot />
+		{@render children()}
 	</div>
 </div>
 
-<style lang="postcss">
+<style>
 	@keyframes marquee {
 		0% {
 			transform: translateX(0);

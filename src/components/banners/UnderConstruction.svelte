@@ -1,13 +1,9 @@
 <script lang="ts">
 	import Marquee from '../Marquee.svelte';
+	let { class: className = '' }: { class?: string } = $props();
 </script>
 
-<!--
-	@component
-	Animated Under Construction banner.
--->
-
-<Marquee class="bg-warning-400 shadow text-black {$$props.class ?? ''}">
+<Marquee class="bg-warning-400 shadow text-black {className}">
 	<ul>
 		<li class="relative inline-block">&nbsp/// Under Construction</li>
 		<li class="relative inline-block">&nbsp/// Under Construction</li>

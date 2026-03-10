@@ -2,7 +2,7 @@
 	import type { PageData } from './$types';
 	import Projects from '$components/Projects.svelte';
 
-	export let data: PageData;
+	let { data }: { data: PageData } = $props();
 </script>
 
 <svelte:head>

@@ -11,7 +11,7 @@
 	<div class="flex flex-col items-center">
 		<TitleText>{$page.status}</TitleText>
 		<p>{$page.error?.message}</p>
-		<a class="btn variant-filled-primary w-fit self-center mt-4" href="/projects">Go to projects</a>
-		<a class="btn variant-filled-primary w-fit self-center mt-4" href="/">Home</a>
+		<a class="btn preset-filled-primary-500 w-fit self-center mt-4" href="/projects">Go to projects</a>
+		<a class="btn preset-filled-primary-500 w-fit self-center mt-4" href="/">Home</a>
 	</div>
 </div>

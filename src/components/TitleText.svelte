@@ -1,9 +1,8 @@
 <script lang="ts">
-</script>
+	import type { Snippet } from 'svelte';
 
-<!-- @component
-TitleText component that auto scales the text size based on the screen size.
--->
+	let { children }: { children: Snippet } = $props();
+</script>
 
 <h1
 	class="
@@ -12,5 +11,5 @@ TitleText component that auto scales the text size based on the screen size.
     lg:text-5xl
     xl:text-6xl font-inter font-extrabold"
 >
-	<slot />
+	{@render children()}
 </h1>

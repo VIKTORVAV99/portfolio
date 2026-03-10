@@ -2,11 +2,10 @@
 	import ProjectPreview from '$components/ProjectPreview.svelte';
 	import { groupBy } from '../helpers/groupBy';
 	import type { ProjectConfig } from '$interfaces/projectConfig';
-	export let projects: ProjectConfig[];
-	export let showAllButton = false;
+	let { projects, showAllButton = false }: { projects: ProjectConfig[]; showAllButton?: boolean } = $props();
 
 	// Group projects by type
-	const projectsByType = groupBy(projects, (project) => project.type);
+	const projectsByType = $derived(groupBy(projects, (project) => project.type));
 </script>
 
 {#each Object.entries(projectsByType) as [type, value]}
@@ -18,7 +17,7 @@
 			{/each}
 		</section>
 		{#if showAllButton}
-			<a class="btn variant-filled" href="/projects#{type}">Show all {type} projects</a>
+			<a class="btn preset-filled" href="/projects#{type}">Show all {type} projects</a>
 		{/if}
 	</section>
 {/each}

@@ -3,7 +3,7 @@
 	import Breadcrumb from '$components/Breadcrumb.svelte';
 	import LinkBar from '$components/projectComponents/LinkBar.svelte';
 
-	export let data: PageData;
+	let { data }: { data: PageData } = $props();
 </script>
 
 <svelte:head>
@@ -13,7 +13,7 @@
 </svelte:head>
 
 <div class="flex justify-center">
-	<section class="card p-8 my-16 variant-glass-primary max-w-[100ch] flex flex-col gap-4">
+	<section class="card p-8 my-16 preset-tonal-primary max-w-[100ch] flex flex-col gap-4">
 		<h1 class="h1 font-semibold mb-1">{data.project.title}</h1>
 		<Breadcrumb />
 		<hr />
@@ -31,7 +31,7 @@
 		</section>
 		<section class="flex flex-col gap-1">
 			<h3 class="h3">Technologies used in the project</h3>
-			<ul class="list flex flex-col gap-2">
+			<ul class="flex flex-col gap-2">
 				{#each data.project.technologies as technology}
 					<li>
 						<section class="ml-4">

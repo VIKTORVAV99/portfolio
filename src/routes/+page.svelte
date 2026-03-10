@@ -3,7 +3,7 @@
 	import Projects from '$components/Projects.svelte';
 	import type { PageData } from './$types';
 
-	export let data: PageData;
+	let { data }: { data: PageData } = $props();
 </script>
 
 <svelte:head>
@@ -20,11 +20,11 @@
 		<enhanced:img
 			src="/static/images/Viktor_Andersson.jpg"
 			alt="Black and white portrait of Viktor Andersson"
-			class="rounded-full border-token border-surface-100-800-token"
+			class="rounded-full border border-surface-100 dark:border-surface-800"
 		/>
 		<h1 class="h1">Viktor Andersson</h1>
-		<div class="flex justify-center">
-			<IconSet scale={3} />
+		<div class="flex justify-center my-4">
+			<IconSet />
 		</div>
 		<h2 class="h2">About me</h2>
 		<p class="max-w-[70ch] text-center">
@@ -37,5 +37,5 @@
 	<Projects projects={data.projects} showAllButton={true} />
 </div>
 
-<style lang="postcss">
+<style>
 </style>

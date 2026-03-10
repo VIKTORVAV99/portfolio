@@ -1,11 +1,11 @@
 <script lang="ts">
-	let scroll = 0;
+	let scroll = $state(0);
 </script>
 
 <svelte:window bind:scrollY={scroll} />
 
 <div
-	class="fixed top-0 mt-16 -z-10 text-[16.5vw] leading-tight w-full text-surface-200-700-token overflow-hidden"
+	class="fixed top-0 mt-16 -z-10 text-[16.5vw] leading-tight w-full text-surface-200 dark:text-surface-700 overflow-hidden"
 	style:transform="translateY(-{scroll * 1.1}px)"
 >
 	<span class="p-4">Programmer</span>

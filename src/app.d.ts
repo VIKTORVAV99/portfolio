@@ -5,7 +5,14 @@ declare global {
 		// interface Error {}
 		// interface Locals {}
 		// interface PageData {}
-		// interface Platform {}
+		interface Platform {
+			env?: {
+				[key: string]: unknown;
+			};
+			context?: {
+				waitUntil(promise: Promise<unknown>): void;
+			};
+		}
 	}
 }
 
