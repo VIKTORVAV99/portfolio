@@ -24,7 +24,7 @@ export const timelineEntries: TimelineEntry[] = [
     location: "Sweden",
   },
   {
-    title: "Informatics, Digital Design and Innovation",
+    title: "Digital Design and Innovation",
     degree: "Bachelor of Science",
     organization: "Halmstad University",
     type: "education",

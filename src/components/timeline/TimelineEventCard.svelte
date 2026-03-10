@@ -13,7 +13,7 @@
 </script>
 
 <div
-	class="rounded-lg px-5 py-4 bg-surface-100 dark:bg-surface-800 w-full max-w-[22rem] max-sm:max-w-none"
+	class="rounded-lg px-4 py-2 bg-surface-100 dark:bg-surface-800 w-full max-w-88 max-sm:max-w-none"
 	class:text-right={accentSide === 'right'}
 	style={accentSide === 'left' ? `border-left: 4px solid ${color}` : `border-right: 4px solid ${color}`}
 >

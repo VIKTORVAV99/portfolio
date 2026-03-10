@@ -1,27 +1,27 @@
 <script lang="ts">
-	import type { TimelineEntry } from '$interfaces/timelineEntry';
-	import { formatDate } from './types';
+  import type { TimelineEntry } from "$interfaces/timelineEntry";
 
-	let { entry }: { entry: TimelineEntry } = $props();
+  let { entry }: { entry: TimelineEntry } = $props();
 </script>
 
-{#if entry.showDates}
-	<span
-		class="block text-xs font-semibold uppercase tracking-[0.05em] text-surface-400 dark:text-surface-500 mb-1"
-		>{formatDate(entry)}</span
-	>
-{/if}
-{#if entry.degree}
-	<p class="text-xs text-surface-400 dark:text-surface-500 mb-0.5">{entry.degree}</p>
-{/if}
-<h3 class="text-base font-bold leading-[1.4]">{entry.title}</h3>
-<p class="text-sm text-surface-500 dark:text-surface-400">{entry.organization}</p>
-{#if entry.employmentType}
-	<p class="text-xs text-surface-400 dark:text-surface-500">{entry.employmentType}</p>
-{/if}
+<h3 class="h3">{entry.organization}</h3>
+
+<p class="p">{entry.title}</p>
+
 {#if entry.location}
-	<p class="text-[0.8rem] text-surface-400 dark:text-surface-500">{entry.location}</p>
+  <div class="flex text-surface-400 dark:text-surface-500">
+    <p class=" ">{entry.location}</p>
+    {#if entry.employmentType}
+      <span class="mx-1">|</span>
+      <p>{entry.employmentType}</p>
+    {:else if entry.degree}
+      <span class="mx-1">|</span>
+      <p>{entry.degree}</p>
+    {/if}
+  </div>
 {/if}
 {#if entry.description}
-	<p class="text-sm mt-2 leading-normal text-surface-400 dark:text-surface-500">{entry.description}</p>
+  <p class="text-sm mt-2 leading-normal text-surface-400 dark:text-surface-500">
+    {entry.description}
+  </p>
 {/if}

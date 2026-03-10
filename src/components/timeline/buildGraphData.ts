@@ -10,6 +10,7 @@ export function buildGraphData(
   entries: TimelineEntry[],
   compact: boolean,
   pxPerMonth: number,
+  measuredHeightsByEntry?: Map<TimelineEntry, number>,
 ): GraphData {
   const { branches, leftLaneCount, rightLaneCount } = assignLanes(entries, compact);
 
@@ -20,7 +21,7 @@ export function buildGraphData(
 
   const { totalGridRows, branchGroups } = compact
     ? resolveCompactOverlap(nodes, branches, TOTAL_MONTHS)
-    : resolveDesktopOverlap(nodes, pxPerMonth, TOTAL_MONTHS);
+    : resolveDesktopOverlap(nodes, pxPerMonth, TOTAL_MONTHS, measuredHeightsByEntry);
 
   const forks = buildForkPaths(branches, laneX, pxPerMonth);
 

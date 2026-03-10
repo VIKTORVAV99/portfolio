@@ -29,6 +29,38 @@
 
 	const pxPerMonth = $derived(compact ? PX_PER_MONTH_MOBILE : PX_PER_MONTH);
 
+	let measuredHeightsByEntry = $state(new Map<TimelineEntry, number>());
+
+	function setMeasuredHeight(entry: TimelineEntry, height: number) {
+		if (measuredHeightsByEntry.get(entry) === height) return;
+		const next = new Map(measuredHeightsByEntry);
+		next.set(entry, height);
+		measuredHeightsByEntry = next;
+	}
+
+	function observeCardHeight(element: HTMLElement, entry: TimelineEntry) {
+		if (typeof ResizeObserver === 'undefined') return;
+
+		let currentEntry = entry;
+		const measure = () => {
+			setMeasuredHeight(currentEntry, element.offsetHeight);
+		};
+
+		const observer = new ResizeObserver(measure);
+		observer.observe(element);
+		measure();
+
+		return {
+			update(nextEntry: TimelineEntry) {
+				currentEntry = nextEntry;
+				measure();
+			},
+			destroy() {
+				observer.disconnect();
+			}
+		};
+	}
+
 	const yearMarkers = $derived.by(() => {
 		const markers: number[] = [];
 		const first = Math.ceil(ORIGIN_YEAR / 5) * 5;
@@ -38,7 +70,9 @@
 		return markers;
 	});
 
-	const graphData = $derived.by(() => buildGraphData(entries, compact, pxPerMonth));
+	const graphData = $derived.by(() =>
+		buildGraphData(entries, compact, pxPerMonth, measuredHeightsByEntry)
+	);
 
 	// Track which collapsible groups are open
 	let openState = $state<Record<number, boolean>>({});
@@ -132,6 +166,7 @@
 					<div
 						class="col-start-1 max-sm:col-start-2 flex justify-end max-sm:justify-start pr-2 max-sm:pr-0 max-sm:pl-2 self-start"
 						style="grid-row: {node.gridRow} / {node.gridRowEnd};"
+						use:observeCardHeight={node.entry}
 					>
 						<TimelineEventCard color={node.color} accentSide="right">
 							<TimelineCard entry={node.entry} />
@@ -150,6 +185,7 @@
 						<div
 							class="col-start-3 max-sm:col-start-2 flex justify-start pl-2 self-start"
 							style="grid-row: {node.gridRow} / {node.gridRowEnd};"
+							use:observeCardHeight={node.entry}
 						>
 							<TimelineEventCard color={node.color}>
 								<TimelineCard entry={node.entry} />
