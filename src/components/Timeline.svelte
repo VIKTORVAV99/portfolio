@@ -41,15 +41,21 @@
 		return markers;
 	});
 
-	const COLOR_WORK = 'var(--color-secondary-500)';
-	const COLOR_EDU = 'var(--color-success-500)';
 	const COLOR_LIFE = 'var(--color-tertiary-400)';
 
-	function typeColor(type: TimelineEntry['type']): string {
-		if (type === 'work') return COLOR_WORK;
-		if (type === 'education') return COLOR_EDU;
-		return COLOR_LIFE;
-	}
+	// Vibrant branch colors — each branch gets a unique color
+	const BRANCH_COLORS = [
+		'#3b82f6', // blue
+		'#22c55e', // green
+		'#f59e0b', // amber
+		'#ef4444', // red
+		'#a855f7', // purple
+		'#06b6d4', // cyan
+		'#ec4899', // pink
+		'#14b8a6', // teal
+		'#f97316', // orange
+		'#8b5cf6' // violet
+	];
 
 	/** A branch groups one or more entries that share the same group key (or a single ungrouped entry). */
 	interface Branch {
@@ -111,6 +117,7 @@
 			return aStart - bStart;
 		});
 
+		let branchColorIdx = 0;
 		for (const [id, groupEntries] of sortedGroups) {
 			const type = groupEntries[0].type;
 			const side: 'left' | 'right' = type === 'education' ? 'left' : 'right';
@@ -132,7 +139,7 @@
 				entries: groupEntries,
 				forkRow,
 				endRow,
-				color: typeColor(type)
+				color: BRANCH_COLORS[branchColorIdx++ % BRANCH_COLORS.length]
 			});
 		}
 
@@ -229,12 +236,15 @@
 		{#each graphData.nodes as node}
 			{#if node.side === 'left'}
 				<div class="card-slot card-left" style="grid-row: {node.row} / {node.rowEnd};">
-					<div class="event-card card-{node.entry.type} sticky-card">
+					<div class="event-card sticky-card" style="border-right-color: {node.color};">
 						{#if node.entry.showDates}
 							<span class="date-label">{formatDate(node.entry)}</span>
 						{/if}
 						<h3 class="card-title">{node.entry.title}</h3>
 						<p class="card-org">{node.entry.organization}</p>
+						{#if node.entry.location}
+							<p class="card-location">{node.entry.location}</p>
+						{/if}
 						{#if node.entry.description}
 							<p class="card-desc">{node.entry.description}</p>
 						{/if}
@@ -335,12 +345,15 @@
 							<span class="font-bold">{node.entry.title}</span>
 						</div>
 					{:else}
-						<div class="event-card card-{node.entry.type} sticky-card">
+						<div class="event-card sticky-card" style="border-left-color: {node.color};">
 							{#if node.entry.showDates}
 								<span class="date-label">{formatDate(node.entry)}</span>
 							{/if}
 							<h3 class="card-title">{node.entry.title}</h3>
 							<p class="card-org">{node.entry.organization}</p>
+							{#if node.entry.location}
+								<p class="card-location">{node.entry.location}</p>
+							{/if}
 							{#if node.entry.description}
 								<p class="card-desc">{node.entry.description}</p>
 							{/if}
@@ -350,30 +363,6 @@
 			{/if}
 		{/each}
 	</div>
-</div>
-
-<!-- Legend -->
-<div class="legend">
-	<span class="legend-item">
-		<svg width="24" height="12" viewBox="0 0 24 12" class="legend-icon">
-			<line x1="0" y1="6" x2="16" y2="6" stroke={COLOR_WORK} stroke-width="2" />
-			<circle cx="20" cy="6" r="4" fill={COLOR_WORK} />
-		</svg>
-		Work
-	</span>
-	<span class="legend-item">
-		<svg width="24" height="12" viewBox="0 0 24 12" class="legend-icon">
-			<line x1="0" y1="6" x2="16" y2="6" stroke={COLOR_EDU} stroke-width="2" />
-			<circle cx="20" cy="6" r="4" fill={COLOR_EDU} />
-		</svg>
-		Education
-	</span>
-	<span class="legend-item">
-		<svg width="24" height="12" viewBox="0 0 24 12" class="legend-icon">
-			<circle cx="6" cy="6" r="4" fill={COLOR_LIFE} />
-		</svg>
-		Life
-	</span>
 </div>
 
 <style>
@@ -475,33 +464,11 @@
 		background: var(--color-surface-800);
 	}
 
-	.card-work {
-		border-left-color: var(--color-secondary-500);
-	}
-	.card-education {
-		border-left-color: var(--color-success-500);
-	}
-	.card-life {
-		border-left-color: var(--color-tertiary-500);
-	}
-
 	/* For left-side cards, use right border instead */
 	.card-left .event-card {
-		border-left: none;
+		border-left-color: transparent;
 		border-right: 4px solid transparent;
 		text-align: right;
-	}
-
-	.card-left .card-education {
-		border-right-color: var(--color-success-500);
-	}
-
-	.card-left .card-work {
-		border-right-color: var(--color-secondary-500);
-	}
-
-	.card-left .card-life {
-		border-right-color: var(--color-tertiary-500);
 	}
 
 	.date-label {
@@ -533,6 +500,15 @@
 		color: var(--color-surface-400);
 	}
 
+	.card-location {
+		font-size: 0.8rem;
+		color: var(--color-surface-400);
+	}
+
+	:global(html.dark) .card-location {
+		color: var(--color-surface-500);
+	}
+
 	.card-desc {
 		font-size: 0.875rem;
 		margin-top: 0.5rem;
@@ -557,33 +533,6 @@
 	:global(html.dark) .life-chip {
 		border-color: var(--color-surface-700);
 		background: var(--color-surface-800);
-	}
-
-	/* Legend */
-	.legend {
-		display: flex;
-		flex-wrap: wrap;
-		justify-content: center;
-		gap: 1.5rem;
-		margin-top: 1.5rem;
-		margin-bottom: 2rem;
-		font-size: 0.875rem;
-		color: var(--color-surface-600);
-	}
-
-	:global(html.dark) .legend {
-		color: var(--color-surface-300);
-	}
-
-	.legend-item {
-		display: flex;
-		align-items: center;
-		gap: 0.5rem;
-	}
-
-	.legend-icon {
-		display: inline-block;
-		vertical-align: middle;
 	}
 
 	/* Mobile: collapse to single side */
@@ -613,16 +562,6 @@
 			border-right: none;
 			border-left: 4px solid transparent;
 			text-align: left;
-		}
-
-		.card-left .card-education {
-			border-left-color: var(--color-success-500);
-			border-right-color: transparent;
-		}
-
-		.card-left .card-work {
-			border-left-color: var(--color-secondary-500);
-			border-right-color: transparent;
 		}
 
 		.event-card {

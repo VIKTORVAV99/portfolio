@@ -8,13 +8,24 @@ export const timelineEntries: TimelineEntry[] = [
 		showDates: false
 	},
 	{
+		title: 'Technology Programme',
+		organization: 'Placeholder High School',
+		type: 'education',
+		startYear: 2016,
+		endYear: 2019,
+		showDates: true,
+		description: 'High school education with a focus on technology',
+		location: 'Sweden'
+	},
+	{
 		title: 'Digital Design and Innovation',
 		organization: 'Jönköping University',
 		type: 'education',
 		startYear: 2019,
 		endYear: 2024,
 		showDates: true,
-		description: 'Bachelor and Master in Digital Design and Innovation'
+		description: 'Bachelor and Master in Digital Design and Innovation',
+		location: 'Jönköping, Sweden'
 	},
 	{
 		title: 'Open Source Community Engineer',
@@ -24,6 +35,7 @@ export const timelineEntries: TimelineEntry[] = [
 		endYear: 2024,
 		showDates: true,
 		description: 'Building and nurturing the open source community',
+		location: 'Remote, Denmark',
 		group: 'electricity-maps'
 	},
 	{
@@ -34,6 +46,7 @@ export const timelineEntries: TimelineEntry[] = [
 		endYear: null,
 		showDates: true,
 		description: 'Powering decarbonization through data',
+		location: 'Remote, Denmark',
 		group: 'electricity-maps'
 	}
 ];
