@@ -73,7 +73,7 @@ export function buildGraphData(
   })
 
   // Track which time ranges occupy each lane: Map<lane, {start, end}[]>
-  const laneOccupancy = new Map<number, Array<{ start: number end: number }>>()
+  const laneOccupancy = new Map<number, Array<{ start: number; end: number }>>()
   let nextLeftLane = -1
   let nextRightLane = 1
 
