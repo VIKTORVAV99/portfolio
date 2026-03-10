@@ -68,6 +68,7 @@
 		{#if !compact}
 			<!-- Leader lines -->
 			{#each graphData.nodes as node}
+				{#if !(node.entry.type === 'life' && !node.entry.showDates)}
 				{@const nx = graphData.laneX(node.lane)}
 				{@const ny = nodeY(node.row, pxPerMonth)}
 				{@const targetX = node.side === 'left' ? 0 : graphData.graphWidth}
@@ -81,6 +82,7 @@
 					stroke-dasharray="4 3"
 					opacity="0.35"
 				/>
+				{/if}
 			{/each}
 		{/if}
 
