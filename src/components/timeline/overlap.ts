@@ -1,26 +1,6 @@
 import type { TimelineEntry } from "$interfaces/timelineEntry";
-import { CARD_GAP, COMPACT_CARD_SPAN } from "./constants";
+import { COMPACT_CARD_SPAN } from "./constants";
 import type { CommitNode, Branch, BranchGroup } from "./types";
-
-export function estimateCardRows(entry: TimelineEntry, pxPerMonth: number): number {
-  const CARD_WIDTH = 352;
-  const LINE_H = 20;
-  const PADDING_PX = 4;
-  const wrapLines = (text: string, charsPerLine: number) =>
-    Math.max(1, Math.ceil(text.length / charsPerLine));
-  const charsPerLine = Math.floor(CARD_WIDTH / 8);
-
-  let px = PADDING_PX;
-  if (entry.showDates) px += LINE_H;
-  if (entry.degree) px += LINE_H;
-  px += LINE_H * wrapLines(entry.title, charsPerLine);
-  px += LINE_H;
-  if (entry.employmentType) px += LINE_H;
-  if (entry.location) px += LINE_H;
-  if (entry.description) px += LINE_H * wrapLines(entry.description, charsPerLine) + 8;
-
-  return Math.ceil(px / pxPerMonth) + 1;
-}
 
 export function resolveCompactOverlap(
   nodes: CommitNode[],
@@ -81,11 +61,14 @@ export function resolveDesktopOverlap(
   nodes: CommitNode[],
   pxPerMonth: number,
   baseTotalRows: number,
+  measuredHeightsByEntry?: Map<TimelineEntry, number>,
 ): { totalGridRows: number; branchGroups: BranchGroup[] } {
   for (const side of ["left", "right"] as const) {
     const sideNodes = nodes.filter((n) => n.side === side).sort((a, b) => a.gridRow - b.gridRow);
     for (const node of sideNodes) {
-      const minSpan = estimateCardRows(node.entry, pxPerMonth);
+      const measuredHeight = measuredHeightsByEntry?.get(node.entry);
+      const minSpan =
+        measuredHeight != null ? Math.max(2, Math.ceil(measuredHeight / pxPerMonth) + 1) : 2;
       if (node.gridRowEnd - node.gridRow < minSpan) {
         node.gridRowEnd = node.gridRow + minSpan;
       }
@@ -97,7 +80,7 @@ export function resolveDesktopOverlap(
         node.gridRow += shift;
         node.gridRowEnd += shift;
       }
-      nextRow = node.gridRowEnd + CARD_GAP;
+      nextRow = node.gridRowEnd;
     }
   }
 

@@ -1,8 +1,8 @@
 import { describe, it, expect } from "bun:test";
 import type { TimelineEntry } from "$interfaces/timelineEntry";
 import type { CommitNode, Branch } from "./types";
-import { estimateCardRows, resolveCompactOverlap, resolveDesktopOverlap } from "./overlap";
-import { PX_PER_MONTH, COMPACT_CARD_SPAN, CARD_GAP } from "./constants";
+import { resolveCompactOverlap, resolveDesktopOverlap } from "./overlap";
+import { PX_PER_MONTH, COMPACT_CARD_SPAN } from "./constants";
 
 function makeNode(overrides: Partial<CommitNode> = {}): CommitNode {
   return {
@@ -37,55 +37,6 @@ function makeBranch(overrides: Partial<Branch> = {}): Branch {
     ...overrides,
   };
 }
-
-describe("estimateCardRows", () => {
-  it("returns at least 2 for a minimal entry", () => {
-    const entry: TimelineEntry = {
-      title: "X",
-      organization: "Y",
-      type: "work",
-      startYear: 2020,
-      showDates: false,
-    };
-    expect(estimateCardRows(entry, PX_PER_MONTH)).toBeGreaterThanOrEqual(2);
-  });
-
-  it("returns more rows for entries with more fields", () => {
-    const minimal: TimelineEntry = {
-      title: "X",
-      organization: "Y",
-      type: "work",
-      startYear: 2020,
-      showDates: false,
-    };
-    const full: TimelineEntry = {
-      title: "A longer title that wraps",
-      organization: "A Corp",
-      type: "work",
-      startYear: 2020,
-      showDates: true,
-      degree: "BSc",
-      employmentType: "Full-time",
-      location: "City",
-      description: "A description that spans multiple lines for testing purposes",
-    };
-    expect(estimateCardRows(full, PX_PER_MONTH)).toBeGreaterThan(
-      estimateCardRows(minimal, PX_PER_MONTH),
-    );
-  });
-
-  it("returns fewer rows when pxPerMonth is larger", () => {
-    const entry: TimelineEntry = {
-      title: "Test",
-      organization: "Corp",
-      type: "work",
-      startYear: 2020,
-      showDates: true,
-      description: "Some description",
-    };
-    expect(estimateCardRows(entry, 16)).toBeLessThan(estimateCardRows(entry, 4));
-  });
-});
 
 describe("resolveCompactOverlap", () => {
   it("collapses all nodes in a branch to same gridRow", () => {
@@ -147,7 +98,7 @@ describe("resolveDesktopOverlap", () => {
     ];
     resolveDesktopOverlap(nodes, PX_PER_MONTH, 100);
     // Second node should be shifted so it doesn't overlap
-    expect(nodes[1].gridRow).toBeGreaterThanOrEqual(nodes[0].gridRowEnd + CARD_GAP);
+    expect(nodes[1].gridRow).toBeGreaterThanOrEqual(nodes[0].gridRowEnd);
   });
 
   it("does not shift nodes on opposite sides", () => {
@@ -166,7 +117,7 @@ describe("resolveDesktopOverlap", () => {
     expect(branchGroups).toHaveLength(0);
   });
 
-  it("expands small cards to estimateCardRows minimum", () => {
+  it("expands small cards to a minimal fallback before measurement", () => {
     const entry: TimelineEntry = {
       title: "A reasonably long title for a card",
       organization: "Corp",
@@ -178,6 +129,22 @@ describe("resolveDesktopOverlap", () => {
     };
     const nodes = [makeNode({ gridRow: 10, gridRowEnd: 11, side: "right", entry })];
     resolveDesktopOverlap(nodes, PX_PER_MONTH, 100);
-    expect(nodes[0].gridRowEnd - nodes[0].gridRow).toBeGreaterThan(1);
+    expect(nodes[0].gridRowEnd - nodes[0].gridRow).toBe(2);
+  });
+
+  it("uses measured card height when provided", () => {
+    const entry: TimelineEntry = {
+      title: "Measured card",
+      organization: "Corp",
+      type: "work",
+      startYear: 2020,
+      showDates: true,
+    };
+    const nodes = [makeNode({ gridRow: 10, gridRowEnd: 11, side: "right", entry })];
+    const measuredHeights = new Map<TimelineEntry, number>([[entry, PX_PER_MONTH * 7.2]]);
+
+    resolveDesktopOverlap(nodes, PX_PER_MONTH, 100, measuredHeights);
+
+    expect(nodes[0].gridRowEnd - nodes[0].gridRow).toBe(9);
   });
 });
