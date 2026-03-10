@@ -22,8 +22,10 @@ export interface Branch {
 
 export interface CommitNode {
   lane: number
+  branchId: string
+  /** Chronological position — used for SVG dot placement. */
   row: number
-  rowEnd: number
+  /** Display position after overlap resolution — used for CSS grid placement. */
   gridRow: number
   gridRowEnd: number
   color: string

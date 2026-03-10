@@ -17,6 +17,7 @@ export const MIN_SPAN = 3
 export const CARD_GAP = 3
 export const GRAPH_TOP_PADDING_PX = 12
 export const COMPACT_CARD_SPAN = 36
+export const FORK_CURVE_MONTHS = 3
 export const LANE_SPACING_MOBILE = 14
 
 // Graph constants
