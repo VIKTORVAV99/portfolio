@@ -37,8 +37,6 @@
 	</section>
 	<h2 class="h2 font-extrabold mb-4">Experience</h2>
 	<Timeline entries={timelineEntries} />
-	<h2 class="h2 font-extrabold mb-16">Showcase</h2>
-	<Projects projects={data.projects} showAllButton={true} />
 </div>
 
 <style>
