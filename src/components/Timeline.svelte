@@ -4,7 +4,13 @@
 	import TimelineGraph from './timeline/TimelineGraph.svelte';
 	import TimelineEventCard from './timeline/TimelineEventCard.svelte';
 	import TimelineGroupCard from './timeline/TimelineGroupCard.svelte';
-	import { ORIGIN_YEAR, CURRENT_YEAR, PX_PER_MONTH, PX_PER_MONTH_MOBILE } from './timeline/constants';
+	import {
+		ORIGIN_YEAR,
+		CURRENT_YEAR,
+		PX_PER_MONTH,
+		PX_PER_MONTH_MOBILE,
+		GRAPH_TOP_PADDING_PX
+	} from './timeline/constants';
 	import { buildGraphData } from './timeline/buildGraphData';
 
 	let { entries }: { entries: TimelineEntry[] } = $props();
@@ -76,7 +82,7 @@
 		return { positions, totalGridRows: Math.max(graphData.totalGridRows, lastEnd) };
 	});
 
-	const totalHeight = $derived(graphData.totalGridRows * pxPerMonth);
+	const totalHeight = $derived(graphData.totalGridRows * pxPerMonth + GRAPH_TOP_PADDING_PX);
 </script>
 
 <div class="w-full max-w-5xl mx-auto px-4">
@@ -90,7 +96,7 @@
 				{graphData}
 				{yearMarkers}
 				{compact}
-				pxPerMonth={pxPerMonth}
+				{pxPerMonth}
 				{totalHeight}
 				gridRowEnd={adjustedLayout.totalGridRows + 1}
 			/>
@@ -100,7 +106,8 @@
 				{#if !(group.nodes.length === 1 && group.nodes[0].entry.type === 'life' && !group.nodes[0].entry.showDates)}
 					<div
 						class="col-start-2 flex justify-start pl-2"
-						style="grid-row: {adjustedLayout.positions[i].gridRow} / {adjustedLayout.positions[i].gridRowEnd};"
+						style="grid-row: {adjustedLayout.positions[i].gridRow} / {adjustedLayout.positions[i]
+							.gridRowEnd};"
 					>
 						{#if group.nodes.length === 1}
 							<TimelineEventCard color={group.color}>
@@ -123,34 +130,30 @@
 			{#each graphData.nodes as node}
 				{#if node.side === 'left'}
 					<div
-						class="col-start-1 max-sm:col-start-2 flex justify-end max-sm:justify-start pr-2 max-sm:pr-0 max-sm:pl-2"
+						class="col-start-1 max-sm:col-start-2 flex justify-end max-sm:justify-start pr-2 max-sm:pr-0 max-sm:pl-2 self-start"
 						style="grid-row: {node.gridRow} / {node.gridRowEnd};"
 					>
-						<div class="sticky top-24 self-start max-sm:static">
-							<TimelineEventCard color={node.color} accentSide="right">
-								<TimelineCard entry={node.entry} />
-							</TimelineEventCard>
-						</div>
+						<TimelineEventCard color={node.color} accentSide="right">
+							<TimelineCard entry={node.entry} />
+						</TimelineEventCard>
 					</div>
 				{/if}
 			{/each}
 
 			<!-- Graph -->
-			<TimelineGraph {graphData} {yearMarkers} {compact} pxPerMonth={pxPerMonth} {totalHeight} />
+			<TimelineGraph {graphData} {yearMarkers} {compact} {pxPerMonth} {totalHeight} />
 
 			<!-- Right cards -->
 			{#each graphData.nodes as node}
 				{#if node.side === 'right'}
 					{#if !(node.entry.type === 'life' && !node.entry.showDates)}
 						<div
-							class="col-start-3 max-sm:col-start-2 flex justify-start pl-2"
+							class="col-start-3 max-sm:col-start-2 flex justify-start pl-2 self-start"
 							style="grid-row: {node.gridRow} / {node.gridRowEnd};"
 						>
-							<div class="sticky top-24 self-start max-sm:static">
-								<TimelineEventCard color={node.color}>
-									<TimelineCard entry={node.entry} />
-								</TimelineEventCard>
-							</div>
+							<TimelineEventCard color={node.color}>
+								<TimelineCard entry={node.entry} />
+							</TimelineEventCard>
 						</div>
 					{/if}
 				{/if}

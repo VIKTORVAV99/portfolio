@@ -1,6 +1,9 @@
+import { timelineEntries } from '$data/timeline';
+
 // Layout constants
-export const ORIGIN_YEAR = 1999;
-export const ORIGIN_MONTH = 1;
+const lifeEntry = timelineEntries.find((e) => e.type === 'life');
+export const ORIGIN_YEAR = lifeEntry?.startYear ?? 1999;
+export const ORIGIN_MONTH = lifeEntry?.startMonth ?? 1;
 export const CURRENT_YEAR = new Date().getFullYear();
 export const CURRENT_MONTH = new Date().getMonth() + 1;
 export const PX_PER_YEAR = 96;
@@ -11,6 +14,7 @@ export const TOTAL_YEARS = CURRENT_YEAR - ORIGIN_YEAR + 1;
 export const TOTAL_MONTHS = (CURRENT_YEAR - ORIGIN_YEAR) * 12 + CURRENT_MONTH;
 export const TOTAL_HEIGHT = TOTAL_MONTHS * PX_PER_MONTH;
 export const MIN_SPAN = 3;
+export const GRAPH_TOP_PADDING_PX = 12;
 export const COMPACT_CARD_SPAN = 36;
 export const LANE_SPACING_MOBILE = 14;
 

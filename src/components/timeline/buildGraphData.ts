@@ -91,11 +91,11 @@ export function buildGraphData(entries: TimelineEntry[], compact: boolean, pxPer
 	const spacing = compact ? LANE_SPACING_MOBILE : LANE_SPACING;
 	const leftLaneCount = Math.abs(Math.min(0, ...branches.map((b) => b.lane)));
 	const rightLaneCount = Math.max(0, ...branches.map((b) => b.lane));
-	const totalLanes = leftLaneCount + 1 + rightLaneCount;
-	const graphWidth = totalLanes * spacing + spacing;
+	const maxLaneCount = Math.max(leftLaneCount, rightLaneCount);
+	const graphWidth = (2 * maxLaneCount + 2) * spacing;
 
 	function laneX(lane: number): number {
-		return (leftLaneCount + lane) * spacing + spacing / 2 + spacing / 2;
+		return (maxLaneCount + lane) * spacing + spacing;
 	}
 
 	// Step 5: Build commit nodes
@@ -124,15 +124,17 @@ export function buildGraphData(entries: TimelineEntry[], compact: boolean, pxPer
 		for (const entry of branch.entries) {
 			const start = entryStartAbsMonth(entry);
 			const end = entryEndAbsMonth(entry);
-			const row = monthToRow(end);
+			const midRow = monthToRow(Math.round((start + end) / 2));
+			const row = midRow;
+			const gridRow = midRow;
 			let rowEnd = monthToRow(start) + 1;
-			if (rowEnd - row < MIN_SPAN) rowEnd = row + MIN_SPAN;
+			if (rowEnd - gridRow < MIN_SPAN) rowEnd = gridRow + MIN_SPAN;
 			nodes.push({
 				lane: branch.lane,
 				branchId: branch.id,
 				row,
 				rowEnd,
-				gridRow: row,
+				gridRow,
 				gridRowEnd: rowEnd,
 				color: branch.color,
 				entry,
@@ -190,6 +192,21 @@ export function buildGraphData(entries: TimelineEntry[], compact: boolean, pxPer
 				branch.forkRow = Math.max(...branchNodes.map((n) => n.gridRowEnd));
 			}
 		}
+	} else {
+		// Resolve card overlap per side-column on desktop
+		for (const side of ['left', 'right'] as const) {
+			const sideNodes = nodes.filter((n) => n.side === side).sort((a, b) => a.gridRow - b.gridRow);
+			let nextRow = -Infinity;
+			for (const node of sideNodes) {
+				if (node.gridRow < nextRow) {
+					const shift = nextRow - node.gridRow;
+					node.gridRow += shift;
+					node.gridRowEnd += shift;
+				}
+				nextRow = node.gridRowEnd;
+			}
+		}
+		totalGridRows = Math.max(TOTAL_MONTHS, ...nodes.map((n) => n.gridRowEnd));
 	}
 
 	// Step 6: Build fork/merge curves

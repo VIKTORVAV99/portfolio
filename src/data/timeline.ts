@@ -4,6 +4,8 @@ export const timelineEntries: TimelineEntry[] = [
 	{
 		title: 'Born',
 		organization: 'Sweden',
+		startYear: 1999,
+		startMonth: 2,
 		type: 'life',
 		showDates: false
 	},

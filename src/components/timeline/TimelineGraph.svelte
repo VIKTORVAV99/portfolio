@@ -69,19 +69,19 @@
 			<!-- Leader lines -->
 			{#each graphData.nodes as node}
 				{#if !(node.entry.type === 'life' && !node.entry.showDates)}
-				{@const nx = graphData.laneX(node.lane)}
-				{@const ny = nodeY(node.row, pxPerMonth)}
-				{@const targetX = node.side === 'left' ? 0 : graphData.graphWidth}
-				<line
-					x1={nx + (node.side === 'left' ? -NODE_RADIUS - 2 : NODE_RADIUS + 2)}
-					y1={ny}
-					x2={targetX}
-					y2={ny}
-					stroke={node.color}
-					stroke-width={1}
-					stroke-dasharray="4 3"
-					opacity="0.35"
-				/>
+					{@const nx = graphData.laneX(node.lane)}
+					{@const ny = nodeY(node.row, pxPerMonth)}
+					{@const targetX = node.side === 'left' ? 0 : graphData.graphWidth}
+					<line
+						x1={nx + (node.side === 'left' ? -NODE_RADIUS - 2 : NODE_RADIUS + 2)}
+						y1={ny}
+						x2={targetX}
+						y2={ny}
+						stroke={node.color}
+						stroke-width={1}
+						stroke-dasharray="4 3"
+						opacity="0.35"
+					/>
 				{/if}
 			{/each}
 		{/if}
@@ -110,13 +110,13 @@
 		<!-- Commit nodes -->
 		{#each graphData.nodes as node}
 			{#if !(compact && node.entry.type === 'life' && !node.entry.showDates)}
-				{@const ny = nodeY(node.gridRow, pxPerMonth)}
+				{@const ny = nodeY(node.row, pxPerMonth)}
 				<circle
 					cx={graphData.laneX(node.lane)}
 					cy={ny}
 					r={NODE_RADIUS}
 					fill={node.color}
-					class="stroke-surface-50 dark:stroke-surface-950 [stroke-width:3]"
+					class="stroke-surface-50 dark:stroke-surface-950 stroke-3"
 				/>
 			{/if}
 		{/each}
@@ -139,8 +139,7 @@
 					y={my + 4}
 					text-anchor="middle"
 					class="fill-surface-400 dark:fill-surface-500 font-semibold tracking-[0.05em]"
-					style="font-size: 0.5625rem;"
-					>{node.entry.title}</text
+					style="font-size: 0.5625rem;">{node.entry.title}</text
 				>
 			{/if}
 		{/each}

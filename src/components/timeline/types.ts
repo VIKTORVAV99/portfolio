@@ -5,7 +5,8 @@ import {
 	TOTAL_MONTHS,
 	PX_PER_MONTH,
 	CURRENT_YEAR,
-	CURRENT_MONTH
+	CURRENT_MONTH,
+	GRAPH_TOP_PADDING_PX
 } from './constants';
 
 export interface Branch {
@@ -80,7 +81,7 @@ export function monthToRow(absMonth: number): number {
 }
 
 export function nodeY(row: number, pxPerMonth: number = PX_PER_MONTH): number {
-	return (row - 1) * pxPerMonth + pxPerMonth * 0.5;
+	return (row - 1) * pxPerMonth + pxPerMonth * 0.5 + GRAPH_TOP_PADDING_PX;
 }
 
 export function formatDate(entry: TimelineEntry): string {
