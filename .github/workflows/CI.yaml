@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
   schedule:
-    - cron: '0 9 * * 0'
+    - cron: "0 9 * * 0"
 
 jobs:
   prettier:
@@ -99,7 +99,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ['javascript']
+        language: ["javascript"]
         # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
     steps:
       - name: Checkout repository
@@ -112,7 +112,7 @@ jobs:
       - name: Perform CodeQL Analysis
         uses: github/codeql-action/analyze@v3
   #deploy:
-  #  name: Deploy to Cloudflare Pages
+  #  name: Deploy to Cloudflare Workers
   #  runs-on: ubuntu-latest
   #  needs:
   #    - build
@@ -120,25 +120,21 @@ jobs:
   #  timeout-minutes: 5
   #  permissions:
   #    contents: read
-  #    pages: write
-  #    id-token: write
+  #    deployments: write
   #  environment:
-  #    name: Cloudflare Pages
-  #    url: ${{ steps.deployment.outputs.url}}
+  #    name: Cloudflare Workers
+  #    url: ${{ steps.deployment.outputs.deployment-url }}
   #  steps:
+  #    - name: Checkout
+  #      uses: actions/checkout@v4
   #    - name: Download build artifact
-  #      uses: actions/download-artifact@v3
+  #      uses: actions/download-artifact@v4
   #      with:
   #        name: build
   #        path: .svelte-kit/cloudflare
-  #    - name: Publish to Cloudflare Pages
+  #    - name: Deploy to Cloudflare Workers
   #      id: deployment
-  #      uses: cloudflare/pages-action@v1
+  #      uses: cloudflare/wrangler-action@v3
   #      with:
   #        apiToken: ${{ secrets.CLOUDFLARE_DEPLOYMENT_KEY }}
   #        accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-  #        projectName: portfolio
-  #        directory: .svelte-kit/cloudflare
-  #        branch: ${{ github.ref_name}}
-  #        # Optional: Enable this if you want to have GitHub Deployments triggered
-  #        gitHubToken: ${{ github.token }}
