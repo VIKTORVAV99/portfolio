@@ -23,7 +23,7 @@ export function buildLifeNodes(entries: TimelineEntry[]): CommitNode[] {
         gridRowEnd,
         color: COLOR_LIFE,
         entry,
-        side: "right" as const,
+        side: "right",
       })
     }
   }
