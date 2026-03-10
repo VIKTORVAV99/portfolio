@@ -19,5 +19,6 @@
 	},
 	"placement": {
 		"mode": "smart"
-	}
+	},
+	"preview_urls": true
 }
