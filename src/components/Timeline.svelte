@@ -2,10 +2,9 @@
 	import type { TimelineEntry } from '$interfaces/timelineEntry';
 	import TimelineCard from './timeline/TimelineCard.svelte';
 	import TimelineGraph from './timeline/TimelineGraph.svelte';
-	import TimelineLifeChip from './timeline/TimelineLifeChip.svelte';
 	import TimelineEventCard from './timeline/TimelineEventCard.svelte';
 	import TimelineGroupCard from './timeline/TimelineGroupCard.svelte';
-	import { ORIGIN_YEAR, CURRENT_YEAR, PX_PER_YEAR, PX_PER_YEAR_MOBILE } from './timeline/constants';
+	import { ORIGIN_YEAR, CURRENT_YEAR, PX_PER_MONTH, PX_PER_MONTH_MOBILE } from './timeline/constants';
 	import { buildGraphData } from './timeline/buildGraphData';
 
 	let { entries }: { entries: TimelineEntry[] } = $props();
@@ -22,7 +21,7 @@
 		return () => mql.removeEventListener('change', handler);
 	});
 
-	const pxPerYear = $derived(compact ? PX_PER_YEAR_MOBILE : PX_PER_YEAR);
+	const pxPerMonth = $derived(compact ? PX_PER_MONTH_MOBILE : PX_PER_MONTH);
 
 	const yearMarkers = $derived.by(() => {
 		const markers: number[] = [];
@@ -33,7 +32,7 @@
 		return markers;
 	});
 
-	const graphData = $derived.by(() => buildGraphData(entries, compact, pxPerYear));
+	const graphData = $derived.by(() => buildGraphData(entries, compact, pxPerMonth));
 
 	// Track which collapsible groups are open
 	let openState = $state<Record<number, boolean>>({});
@@ -77,13 +76,13 @@
 		return { positions, totalGridRows: Math.max(graphData.totalGridRows, lastEnd) };
 	});
 
-	const totalHeight = $derived(graphData.totalGridRows * pxPerYear);
+	const totalHeight = $derived(graphData.totalGridRows * pxPerMonth);
 </script>
 
 <div class="w-full max-w-5xl mx-auto px-4">
 	<div
 		class="grid grid-cols-[1fr_auto_1fr] max-sm:grid-cols-[auto_1fr] w-full"
-		style="grid-template-rows: repeat({adjustedLayout.totalGridRows}, {pxPerYear}px);"
+		style="grid-template-rows: repeat({adjustedLayout.totalGridRows}, {pxPerMonth}px);"
 	>
 		{#if compact}
 			<!-- Graph -->
@@ -91,7 +90,7 @@
 				{graphData}
 				{yearMarkers}
 				{compact}
-				{pxPerYear}
+				pxPerMonth={pxPerMonth}
 				{totalHeight}
 				gridRowEnd={adjustedLayout.totalGridRows + 1}
 			/>
@@ -137,27 +136,23 @@
 			{/each}
 
 			<!-- Graph -->
-			<TimelineGraph {graphData} {yearMarkers} {compact} {pxPerYear} {totalHeight} />
+			<TimelineGraph {graphData} {yearMarkers} {compact} pxPerMonth={pxPerMonth} {totalHeight} />
 
 			<!-- Right cards -->
 			{#each graphData.nodes as node}
 				{#if node.side === 'right'}
-					<div
-						class="col-start-3 max-sm:col-start-2 flex justify-start pl-2"
-						style="grid-row: {node.gridRow} / {node.gridRowEnd};"
-					>
-						{#if node.entry.type === 'life' && !node.entry.showDates}
-							<div class="sticky top-24 self-start max-sm:static">
-								<TimelineLifeChip title={node.entry.title} />
-							</div>
-						{:else}
+					{#if !(node.entry.type === 'life' && !node.entry.showDates)}
+						<div
+							class="col-start-3 max-sm:col-start-2 flex justify-start pl-2"
+							style="grid-row: {node.gridRow} / {node.gridRowEnd};"
+						>
 							<div class="sticky top-24 self-start max-sm:static">
 								<TimelineEventCard color={node.color}>
 									<TimelineCard entry={node.entry} />
 								</TimelineEventCard>
 							</div>
-						{/if}
-					</div>
+						</div>
+					{/if}
 				{/if}
 			{/each}
 		{/if}

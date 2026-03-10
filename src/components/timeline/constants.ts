@@ -1,19 +1,23 @@
 // Layout constants
 export const ORIGIN_YEAR = 1999;
+export const ORIGIN_MONTH = 1;
 export const CURRENT_YEAR = new Date().getFullYear();
-export const PX_PER_YEAR = 100;
+export const CURRENT_MONTH = new Date().getMonth() + 1;
+export const PX_PER_YEAR = 96;
 export const PX_PER_YEAR_MOBILE = 60;
+export const PX_PER_MONTH = PX_PER_YEAR / 12;
+export const PX_PER_MONTH_MOBILE = PX_PER_YEAR_MOBILE / 12;
 export const TOTAL_YEARS = CURRENT_YEAR - ORIGIN_YEAR + 1;
-export const TOTAL_HEIGHT = TOTAL_YEARS * PX_PER_YEAR;
-export const MIN_SPAN = 2;
-export const COMPACT_CARD_SPAN = 3;
+export const TOTAL_MONTHS = (CURRENT_YEAR - ORIGIN_YEAR) * 12 + CURRENT_MONTH;
+export const TOTAL_HEIGHT = TOTAL_MONTHS * PX_PER_MONTH;
+export const MIN_SPAN = 3;
+export const COMPACT_CARD_SPAN = 36;
 export const LANE_SPACING_MOBILE = 14;
 
 // Graph constants
 export const LANE_SPACING = 40;
 export const NODE_RADIUS = 7;
 export const LINE_WIDTH = 2;
-export const FORK_CURVE_HEIGHT = 40;
 
 // Colors
 export const COLOR_LIFE = 'var(--color-tertiary-400)';

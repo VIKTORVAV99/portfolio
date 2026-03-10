@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { Collapsible } from 'bits-ui';
 	import type { BranchGroup } from './types';
+	import { entryStartAbsMonth, entryEndAbsMonth } from './types';
 	import TimelineCard from './TimelineCard.svelte';
 	import TimelineEventCard from './TimelineEventCard.svelte';
 
@@ -14,15 +15,36 @@
 		onOpenChange: (v: boolean) => void;
 	} = $props();
 
+	function fmtYearMonth(year: number | undefined, month: number | null | undefined): string {
+		if (year == null) return '';
+		if (month != null) return `${year}/${String(month).padStart(2, '0')}`;
+		return `${year}`;
+	}
+
 	const org = $derived(group.nodes[0].entry.organization);
-	const earliest = $derived(Math.min(...group.nodes.map((n) => n.entry.startYear ?? 0)));
 	const hasOngoing = $derived(group.nodes.some((n) => n.entry.endYear === null));
-	const latest = $derived(
-		hasOngoing ? null : Math.max(...group.nodes.map((n) => n.entry.endYear ?? n.entry.startYear ?? 0))
+	const earliestNode = $derived(
+		group.nodes.reduce((a, b) =>
+			entryStartAbsMonth(a.entry) <= entryStartAbsMonth(b.entry) ? a : b
+		)
 	);
-	const dateStr = $derived(
-		hasOngoing ? `${earliest} — Present` : latest !== earliest ? `${earliest} — ${latest}` : `${earliest}`
+	const latestNode = $derived(
+		group.nodes.reduce((a, b) =>
+			entryEndAbsMonth(a.entry) >= entryEndAbsMonth(b.entry) ? a : b
+		)
 	);
+	const startStr = $derived(
+		fmtYearMonth(earliestNode.entry.startYear, earliestNode.entry.startMonth)
+	);
+	const endStr = $derived(
+		hasOngoing
+			? 'Present'
+			: fmtYearMonth(
+					latestNode.entry.endYear ?? latestNode.entry.startYear,
+					latestNode.entry.endYear != null ? latestNode.entry.endMonth : latestNode.entry.startMonth
+				)
+	);
+	const dateStr = $derived(startStr === endStr ? startStr : `${startStr} — ${endStr}`);
 </script>
 
 <Collapsible.Root class="group w-full" {open} {onOpenChange}>

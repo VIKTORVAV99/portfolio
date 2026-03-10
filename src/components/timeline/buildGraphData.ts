@@ -1,8 +1,6 @@
 import type { TimelineEntry } from '$interfaces/timelineEntry';
 import {
-	ORIGIN_YEAR,
-	CURRENT_YEAR,
-	TOTAL_YEARS,
+	TOTAL_MONTHS,
 	MIN_SPAN,
 	COMPACT_CARD_SPAN,
 	COLOR_LIFE,
@@ -10,9 +8,17 @@ import {
 	LANE_SPACING,
 	LANE_SPACING_MOBILE
 } from './constants';
-import { yearToRow, nodeY, type Branch, type GraphData, type BranchGroup } from './types';
+import {
+	monthToRow,
+	nodeY,
+	entryStartAbsMonth,
+	entryEndAbsMonth,
+	type Branch,
+	type GraphData,
+	type BranchGroup
+} from './types';
 
-export function buildGraphData(entries: TimelineEntry[], compact: boolean, pxPerYear: number): GraphData {
+export function buildGraphData(entries: TimelineEntry[], compact: boolean, pxPerMonth: number): GraphData {
 	// Step 1: Group entries into branches
 	const groupMap = new Map<string, TimelineEntry[]>();
 	let ungroupedIdx = 0;
@@ -26,15 +32,15 @@ export function buildGraphData(entries: TimelineEntry[], compact: boolean, pxPer
 
 	// Step 2: Sort each group's entries by startYear ascending
 	for (const [, groupEntries] of groupMap) {
-		groupEntries.sort((a, b) => (a.startYear ?? ORIGIN_YEAR) - (b.startYear ?? ORIGIN_YEAR));
+		groupEntries.sort((a, b) => entryStartAbsMonth(a) - entryStartAbsMonth(b));
 	}
 
 	// Step 3: Assign branches to lanes (reuse lanes when branches don't overlap in time)
 	const branches: Branch[] = [];
 
 	const sortedGroups = [...groupMap.entries()].sort((a, b) => {
-		const aStart = Math.min(...a[1].map((e) => e.startYear ?? ORIGIN_YEAR));
-		const bStart = Math.min(...b[1].map((e) => e.startYear ?? ORIGIN_YEAR));
+		const aStart = Math.min(...a[1].map((e) => entryStartAbsMonth(e)));
+		const bStart = Math.min(...b[1].map((e) => entryStartAbsMonth(e)));
 		return aStart - bStart;
 	});
 
@@ -58,10 +64,8 @@ export function buildGraphData(entries: TimelineEntry[], compact: boolean, pxPer
 		const type = groupEntries[0].type;
 		const side: 'left' | 'right' = compact ? 'left' : type === 'education' ? 'left' : 'right';
 
-		const earliestStart = Math.min(...groupEntries.map((e) => e.startYear ?? ORIGIN_YEAR));
-		const latestEnd = groupEntries.some((e) => e.endYear === null)
-			? CURRENT_YEAR
-			: Math.max(...groupEntries.map((e) => e.endYear ?? e.startYear ?? ORIGIN_YEAR));
+		const earliestStart = Math.min(...groupEntries.map((e) => entryStartAbsMonth(e)));
+		const latestEnd = Math.max(...groupEntries.map((e) => entryEndAbsMonth(e)));
 
 		let lane = findReusableLane(side, earliestStart, latestEnd);
 		if (lane === null) {
@@ -77,8 +81,8 @@ export function buildGraphData(entries: TimelineEntry[], compact: boolean, pxPer
 			side,
 			lane,
 			entries: groupEntries,
-			forkRow: yearToRow(earliestStart) + 1,
-			endRow: yearToRow(latestEnd),
+			forkRow: monthToRow(earliestStart) - 1,
+			endRow: monthToRow(latestEnd),
 			color: BRANCH_COLORS[branchColorIdx++ % BRANCH_COLORS.length]
 		});
 	}
@@ -99,8 +103,8 @@ export function buildGraphData(entries: TimelineEntry[], compact: boolean, pxPer
 
 	for (const entry of entries) {
 		if (entry.type === 'life') {
-			const start = entry.startYear ?? ORIGIN_YEAR;
-			const row = yearToRow(start);
+			const start = entryStartAbsMonth(entry);
+			const row = monthToRow(start);
 			const rowEnd = row + MIN_SPAN;
 			nodes.push({
 				lane: 0,
@@ -118,10 +122,10 @@ export function buildGraphData(entries: TimelineEntry[], compact: boolean, pxPer
 
 	for (const branch of branches) {
 		for (const entry of branch.entries) {
-			const start = entry.startYear ?? ORIGIN_YEAR;
-			const end = entry.endYear === null ? CURRENT_YEAR : (entry.endYear ?? start);
-			const row = yearToRow(end);
-			let rowEnd = yearToRow(start) + 1;
+			const start = entryStartAbsMonth(entry);
+			const end = entryEndAbsMonth(entry);
+			const row = monthToRow(end);
+			let rowEnd = monthToRow(start) + 1;
 			if (rowEnd - row < MIN_SPAN) rowEnd = row + MIN_SPAN;
 			nodes.push({
 				lane: branch.lane,
@@ -138,7 +142,7 @@ export function buildGraphData(entries: TimelineEntry[], compact: boolean, pxPer
 	}
 
 	// Resolve card overlap in compact mode & build branch groups
-	let totalGridRows = TOTAL_YEARS;
+	let totalGridRows = TOTAL_MONTHS;
 	const branchGroups: BranchGroup[] = [];
 
 	if (compact) {
@@ -177,7 +181,7 @@ export function buildGraphData(entries: TimelineEntry[], compact: boolean, pxPer
 			nextRow = endRow;
 		}
 
-		totalGridRows = Math.max(TOTAL_YEARS, nextRow);
+		totalGridRows = Math.max(TOTAL_MONTHS, nextRow);
 
 		for (const branch of branches) {
 			const branchNodes = nodes.filter((n) => n.branchId === branch.id);
@@ -194,7 +198,8 @@ export function buildGraphData(entries: TimelineEntry[], compact: boolean, pxPer
 		forks.push({
 			fromX: laneX(0),
 			toX: laneX(branch.lane),
-			y: nodeY(branch.forkRow, pxPerYear),
+			y: nodeY(branch.forkRow, pxPerMonth),
+			curveHeight: pxPerMonth * 3,
 			color: branch.color,
 			direction: 'down' as const
 		});
@@ -204,7 +209,8 @@ export function buildGraphData(entries: TimelineEntry[], compact: boolean, pxPer
 			forks.push({
 				fromX: laneX(branch.lane),
 				toX: laneX(0),
-				y: nodeY(branch.endRow, pxPerYear),
+				y: nodeY(branch.endRow, pxPerMonth),
+				curveHeight: pxPerMonth * 3,
 				color: branch.color,
 				direction: 'up' as const
 			});
