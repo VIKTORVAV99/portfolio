@@ -1,9 +1,7 @@
 <script lang="ts">
 	import IconSet from '$components/IconSet.svelte';
-	import Projects from '$components/Projects.svelte';
-	import type { PageData } from './$types';
-
-	let { data }: { data: PageData } = $props();
+	import Timeline from '$components/Timeline.svelte';
+	import { timelineEntries } from '$data/timeline';
 </script>
 
 <svelte:head>
@@ -33,8 +31,8 @@
 			Sci-Fi and enjoy nature by walking, taking a bike ride or skiing down a mountain.
 		</p>
 	</section>
-	<h2 class="h2 font-extrabold mb-16">Showcase</h2>
-	<Projects projects={data.projects} showAllButton={true} />
+	<h2 class="h2 font-extrabold mb-4">Experience</h2>
+	<Timeline entries={timelineEntries} />
 </div>
 
 <style>

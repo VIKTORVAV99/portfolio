@@ -6,29 +6,25 @@
 version: 2
 updates:
   # Maintain dependencies for GitHub Actions
-  - package-ecosystem: 'github-actions'
-    directory: '/'
+  - package-ecosystem: "github-actions"
+    directory: "/"
     schedule:
-      interval: 'weekly'
-      day: 'saturday'
-      time: '09:00'
+      interval: "weekly"
+      day: "saturday"
+      time: "09:00"
       timezone: CET
     open-pull-requests-limit: 10
 
   # Maintain dependencies for npm
-  - package-ecosystem: 'npm'
-    directory: '/'
+  - package-ecosystem: "npm"
+    directory: "/"
     schedule:
-      interval: 'weekly'
-      day: 'saturday'
-      time: '09:00'
+      interval: "weekly"
+      day: "saturday"
+      time: "09:00"
       timezone: CET
     open-pull-requests-limit: 10
     groups:
       typescript-eslint:
         patterns:
-          - '@typescript-eslint/*'
-      prettier:
-        patterns:
-          - 'prettier'
-          - 'prettier-plugin-*'
+          - "@typescript-eslint/*"
