@@ -7,10 +7,21 @@
 	const CURRENT_YEAR = new Date().getFullYear();
 	const PX_PER_YEAR = 100;
 	const TOTAL_YEARS = CURRENT_YEAR - ORIGIN_YEAR + 1;
+	const TOTAL_HEIGHT = TOTAL_YEARS * PX_PER_YEAR;
 	const MIN_SPAN = 2;
+
+	// Graph layout constants
+	const LANE_SPACING = 40;
+	const NODE_RADIUS = 7;
+	const LINE_WIDTH = 2;
+	const FORK_CURVE_HEIGHT = 40;
 
 	function yearToRow(year: number): number {
 		return TOTAL_YEARS - (year - ORIGIN_YEAR);
+	}
+
+	function nodeY(row: number): number {
+		return (row - 1) * PX_PER_YEAR + PX_PER_YEAR * 0.5;
 	}
 
 	function formatDate(entry: TimelineEntry): string {
@@ -21,7 +32,6 @@
 		return `${entry.startYear}`;
 	}
 
-	// Year markers every 5 years
 	const yearMarkers = $derived.by(() => {
 		const markers: number[] = [];
 		const first = Math.ceil(ORIGIN_YEAR / 5) * 5;
@@ -31,273 +41,420 @@
 		return markers;
 	});
 
-	interface PositionedEntry {
+	const COLOR_WORK = 'var(--color-secondary-500)';
+	const COLOR_EDU = 'var(--color-success-500)';
+	const COLOR_LIFE = 'var(--color-tertiary-400)';
+
+	function typeColor(type: TimelineEntry['type']): string {
+		if (type === 'work') return COLOR_WORK;
+		if (type === 'education') return COLOR_EDU;
+		return COLOR_LIFE;
+	}
+
+	/** A branch groups one or more entries that share the same group key (or a single ungrouped entry). */
+	interface Branch {
+		id: string;
+		type: TimelineEntry['type'];
+		side: 'left' | 'right';
+		lane: number; // lane offset from center: negative = left, positive = right
+		entries: TimelineEntry[];
+		/** Row where branch forks from main (bottom of branch, highest row number) */
+		forkRow: number;
+		/** Row where branch merges back or ends (top of branch, lowest row number). For ongoing: row 1. */
+		endRow: number;
+		color: string;
+	}
+
+	interface CommitNode {
+		lane: number;
+		row: number;
+		rowEnd: number;
+		color: string;
 		entry: TimelineEntry;
-		rowStart: number;
-		rowEnd: number;
 		side: 'left' | 'right';
 	}
 
-	// A lane is either a single entry or a merged group of entries
-	interface TimelineLane {
-		entries: PositionedEntry[];
-		rowStart: number;
-		rowEnd: number;
-		side: 'left' | 'right';
+	interface ForkPath {
+		fromX: number;
+		toX: number;
+		y: number;
+		color: string;
+		direction: 'down' | 'up'; // down = fork from main, up = merge back to main
 	}
 
-	const lanes = $derived.by(() => {
-		// Sort newest-first so the top of the timeline gets placed first
-		const sorted = [...entries].sort((a, b) => {
-			return (b.startYear ?? ORIGIN_YEAR) - (a.startYear ?? ORIGIN_YEAR);
-		});
+	const graphData = $derived.by(() => {
+		// Step 1: Group entries into branches
+		const groupMap = new Map<string, TimelineEntry[]>();
+		let ungroupedIdx = 0;
 
-		const positioned: PositionedEntry[] = [];
-		let leftEnd = 0;
-		let rightEnd = 0;
-		let prefer: 'left' | 'right' = 'left';
-		const groupSides: Record<string, 'left' | 'right'> = {};
-
-		for (const entry of sorted) {
-			const start = entry.startYear ?? ORIGIN_YEAR;
-			const end = entry.endYear === null ? CURRENT_YEAR : (entry.endYear ?? start);
-
-			const rowStart = yearToRow(end);
-			let rowEnd = yearToRow(start) + 1;
-			if (rowEnd - rowStart < MIN_SPAN) rowEnd = rowStart + MIN_SPAN;
-
-			let side: 'left' | 'right';
-
-			if (entry.group && groupSides[entry.group]) {
-				side = groupSides[entry.group];
-			} else {
-				const fitsLeft = rowStart >= leftEnd;
-				const fitsRight = rowStart >= rightEnd;
-
-				if (fitsLeft && fitsRight) {
-					side = prefer;
-					prefer = prefer === 'left' ? 'right' : 'left';
-				} else if (fitsLeft) {
-					side = 'left';
-				} else {
-					side = 'right';
-				}
-
-				if (entry.group) {
-					groupSides[entry.group] = side;
-				}
-			}
-
-			if (side === 'left') leftEnd = Math.max(leftEnd, rowEnd);
-			else rightEnd = Math.max(rightEnd, rowEnd);
-
-			positioned.push({ entry, rowStart, rowEnd, side });
+		for (const entry of entries) {
+			if (entry.type === 'life') continue; // life events go on main, not their own branch
+			const key = entry.group ?? `__ungrouped_${ungroupedIdx++}`;
+			if (!groupMap.has(key)) groupMap.set(key, []);
+			groupMap.get(key)!.push(entry);
 		}
 
-		// Merge grouped entries into single lanes
-		const groupLanes: Record<string, TimelineLane> = {};
-		const result: TimelineLane[] = [];
+		// Step 2: Sort each group's entries by startYear ascending (oldest first = bottom of branch)
+		for (const [, groupEntries] of groupMap) {
+			groupEntries.sort((a, b) => (a.startYear ?? ORIGIN_YEAR) - (b.startYear ?? ORIGIN_YEAR));
+		}
 
-		for (const pe of positioned) {
-			if (pe.entry.group) {
-				if (!groupLanes[pe.entry.group]) {
-					const lane: TimelineLane = {
-						entries: [pe],
-						rowStart: pe.rowStart,
-						rowEnd: pe.rowEnd,
-						side: pe.side
-					};
-					groupLanes[pe.entry.group] = lane;
-					result.push(lane);
-				} else {
-					const lane = groupLanes[pe.entry.group];
-					lane.entries.push(pe);
-					lane.rowStart = Math.min(lane.rowStart, pe.rowStart);
-					lane.rowEnd = Math.max(lane.rowEnd, pe.rowEnd);
-				}
-			} else {
-				result.push({
-					entries: [pe],
-					rowStart: pe.rowStart,
-					rowEnd: pe.rowEnd,
-					side: pe.side
+		// Step 3: Assign branches to lanes — education goes left, work goes right
+		const branches: Branch[] = [];
+		let nextLeftLane = -1;
+		let nextRightLane = 1;
+
+		// Sort groups by earliest startYear so branches are assigned in chronological order
+		const sortedGroups = [...groupMap.entries()].sort((a, b) => {
+			const aStart = Math.min(...a[1].map((e) => e.startYear ?? ORIGIN_YEAR));
+			const bStart = Math.min(...b[1].map((e) => e.startYear ?? ORIGIN_YEAR));
+			return aStart - bStart;
+		});
+
+		for (const [id, groupEntries] of sortedGroups) {
+			const type = groupEntries[0].type;
+			const side: 'left' | 'right' = type === 'education' ? 'left' : 'right';
+			const lane = side === 'left' ? nextLeftLane-- : nextRightLane++;
+
+			const earliestStart = Math.min(...groupEntries.map((e) => e.startYear ?? ORIGIN_YEAR));
+			const latestEnd = groupEntries.some((e) => e.endYear === null)
+				? CURRENT_YEAR
+				: Math.max(...groupEntries.map((e) => e.endYear ?? e.startYear ?? ORIGIN_YEAR));
+
+			const forkRow = yearToRow(earliestStart) + 1;
+			const endRow = yearToRow(latestEnd);
+
+			branches.push({
+				id,
+				type,
+				side,
+				lane,
+				entries: groupEntries,
+				forkRow,
+				endRow,
+				color: typeColor(type)
+			});
+		}
+
+		// Step 4: Compute lane X positions dynamically
+		const leftLaneCount = Math.abs(Math.min(0, ...branches.map((b) => b.lane)));
+		const rightLaneCount = Math.max(0, ...branches.map((b) => b.lane));
+		const totalLanes = leftLaneCount + 1 + rightLaneCount; // +1 for main
+		const graphWidth = totalLanes * LANE_SPACING + LANE_SPACING;
+
+		function laneX(lane: number): number {
+			// Center lane (0) is at the middle
+			return (leftLaneCount + lane) * LANE_SPACING + LANE_SPACING / 2 + LANE_SPACING / 2;
+		}
+
+		// Step 5: Build commit nodes
+		const nodes: CommitNode[] = [];
+
+		// Life events on main branch (lane 0)
+		for (const entry of entries) {
+			if (entry.type === 'life') {
+				const start = entry.startYear ?? ORIGIN_YEAR;
+				const row = yearToRow(start);
+				let rowEnd = row + MIN_SPAN;
+				nodes.push({ lane: 0, row, rowEnd, color: COLOR_LIFE, entry, side: 'right' });
+			}
+		}
+
+		// Branch entries
+		for (const branch of branches) {
+			for (const entry of branch.entries) {
+				const start = entry.startYear ?? ORIGIN_YEAR;
+				const end = entry.endYear === null ? CURRENT_YEAR : (entry.endYear ?? start);
+				const row = yearToRow(end);
+				let rowEnd = yearToRow(start) + 1;
+				if (rowEnd - row < MIN_SPAN) rowEnd = row + MIN_SPAN;
+				nodes.push({
+					lane: branch.lane,
+					row,
+					rowEnd,
+					color: branch.color,
+					entry,
+					side: branch.side
 				});
 			}
 		}
 
-		return result;
+		// Step 6: Build fork/merge curves
+		const forks: ForkPath[] = [];
+		for (const branch of branches) {
+			// Fork: curve from main at forkRow upward to the bottom of the branch
+			forks.push({
+				fromX: laneX(0),
+				toX: laneX(branch.lane),
+				y: nodeY(branch.forkRow),
+				color: branch.color,
+				direction: 'down'
+			});
+
+			// Merge: curve from the top of the branch back down to main at endRow
+			const isOngoing = branch.entries.some((e) => e.endYear === null);
+			if (!isOngoing) {
+				forks.push({
+					fromX: laneX(branch.lane),
+					toX: laneX(0),
+					y: nodeY(branch.endRow),
+					color: branch.color,
+					direction: 'up'
+				});
+			}
+		}
+
+		return { branches, nodes, forks, graphWidth, laneX };
 	});
 
-	// Collect all dots (one per entry)
-	const allDots = $derived(
-		lanes.flatMap((lane) => lane.entries.map((pe) => ({ rowStart: pe.rowStart, type: pe.entry.type })))
-	);
+	function forkCurvePath(fork: ForkPath): string {
+		const { fromX, toX, y, direction } = fork;
+		if (direction === 'down') {
+			// Fork: from main (below branch bottom) curving upward+outward to branch bottom
+			const y1 = y + FORK_CURVE_HEIGHT; // main contact (below)
+			const y2 = y; // branch contact (at branch bottom)
+			return `M ${fromX} ${y1} C ${fromX} ${y1 - FORK_CURVE_HEIGHT * 0.6}, ${toX} ${y2 + FORK_CURVE_HEIGHT * 0.6}, ${toX} ${y2}`;
+		} else {
+			// Merge: from branch top curving upward+inward to main (above branch top)
+			const y1 = y; // branch contact (at branch top)
+			const y2 = y - FORK_CURVE_HEIGHT; // main contact (above)
+			return `M ${fromX} ${y1} C ${fromX} ${y1 - FORK_CURVE_HEIGHT * 0.6}, ${toX} ${y2 + FORK_CURVE_HEIGHT * 0.6}, ${toX} ${y2}`;
+		}
+	}
 </script>
 
-<div class="timeline-grid" style="grid-template-rows: repeat({TOTAL_YEARS}, {PX_PER_YEAR}px);">
-	<!-- Spine -->
-	<div class="spine" style="grid-row: 1 / {TOTAL_YEARS + 1};"></div>
-
-	<!-- Year markers -->
-	{#each yearMarkers as year}
-		<div class="year-marker" style="grid-row: {yearToRow(year)};">
-			<span>{year}</span>
-		</div>
-	{/each}
-
-	<!-- Events: dots -->
-	{#each allDots as dot}
-		<div class="dot dot-{dot.type}" style="grid-row: {dot.rowStart};"></div>
-	{/each}
-
-	<!-- Events: lanes -->
-	{#each lanes as lane}
-		<div
-			class="event-lane {lane.side === 'left' ? 'lane-left' : 'lane-right'}"
-			style="grid-row: {lane.rowStart} / {lane.rowEnd};"
-		>
-			{#if lane.entries.length === 1 && lane.entries[0].entry.type === 'life' && !lane.entries[0].entry.showDates}
-				<div class="life-chip sticky-card">
-					<span class="font-bold">{lane.entries[0].entry.title}</span>
-				</div>
-			{:else if lane.entries.length === 1}
-				{@const entry = lane.entries[0].entry}
-				<div class="event-card card-{entry.type} sticky-card">
-					{#if entry.showDates}
-						<span class="date-label">{formatDate(entry)}</span>
-					{/if}
-					<h3 class="card-title">{entry.title}</h3>
-					<p class="card-org">{entry.organization}</p>
-					{#if entry.description}
-						<p class="card-desc">{entry.description}</p>
-					{/if}
-				</div>
-			{:else}
-				<!-- Grouped entries: single sticky wrapper -->
-				<div class="group-stack sticky-card">
-					{#each lane.entries as pe, i}
-						{#if i > 0}
-							<div class="group-connector group-connector-{pe.entry.type}"></div>
+<div class="timeline-wrapper">
+	<div class="timeline-grid" style="grid-template-rows: repeat({TOTAL_YEARS}, {PX_PER_YEAR}px);">
+		<!-- Left cards column -->
+		{#each graphData.nodes as node}
+			{#if node.side === 'left'}
+				<div class="card-slot card-left" style="grid-row: {node.row} / {node.rowEnd};">
+					<div class="event-card card-{node.entry.type} sticky-card">
+						{#if node.entry.showDates}
+							<span class="date-label">{formatDate(node.entry)}</span>
 						{/if}
-						<div class="event-card card-{pe.entry.type}">
-							{#if pe.entry.showDates}
-								<span class="date-label">{formatDate(pe.entry)}</span>
-							{/if}
-							<h3 class="card-title">{pe.entry.title}</h3>
-							<p class="card-org">{pe.entry.organization}</p>
-							{#if pe.entry.description}
-								<p class="card-desc">{pe.entry.description}</p>
-							{/if}
-						</div>
-					{/each}
+						<h3 class="card-title">{node.entry.title}</h3>
+						<p class="card-org">{node.entry.organization}</p>
+						{#if node.entry.description}
+							<p class="card-desc">{node.entry.description}</p>
+						{/if}
+					</div>
 				</div>
 			{/if}
+		{/each}
+
+		<!-- SVG Graph column -->
+		<div class="graph-col" style="grid-row: 1 / {TOTAL_YEARS + 1}; width: {graphData.graphWidth}px;">
+			<svg
+				width={graphData.graphWidth}
+				height={TOTAL_HEIGHT}
+				viewBox="0 0 {graphData.graphWidth} {TOTAL_HEIGHT}"
+				class="graph-svg"
+			>
+				<!-- Main branch line (always full height) -->
+				<line
+					x1={graphData.laneX(0)}
+					y1={nodeY(1)}
+					x2={graphData.laneX(0)}
+					y2={nodeY(TOTAL_YEARS)}
+					class="main-branch-line"
+					stroke-width={LINE_WIDTH}
+					stroke-linecap="round"
+				/>
+
+				<!-- Branch lines (vertical segments, full span) -->
+				{#each graphData.branches as branch}
+					{@const bx = graphData.laneX(branch.lane)}
+					<line
+						x1={bx}
+						y1={nodeY(branch.endRow)}
+						x2={bx}
+						y2={nodeY(branch.forkRow)}
+						stroke={branch.color}
+						stroke-width={LINE_WIDTH}
+						stroke-linecap="round"
+					/>
+				{/each}
+
+				<!-- Fork/merge curves -->
+				{#each graphData.forks as fork}
+					<path
+						d={forkCurvePath(fork)}
+						fill="none"
+						stroke={fork.color}
+						stroke-width={LINE_WIDTH}
+						stroke-linecap="round"
+					/>
+				{/each}
+
+				<!-- Leader lines (horizontal dashed lines from node to card edge) -->
+				{#each graphData.nodes as node}
+					{@const nx = graphData.laneX(node.lane)}
+					{@const ny = nodeY(node.row)}
+					{@const targetX = node.side === 'left' ? 0 : graphData.graphWidth}
+					<line
+						x1={nx + (node.side === 'left' ? -NODE_RADIUS - 2 : NODE_RADIUS + 2)}
+						y1={ny}
+						x2={targetX}
+						y2={ny}
+						stroke={node.color}
+						stroke-width={1}
+						stroke-dasharray="4 3"
+						opacity="0.35"
+					/>
+				{/each}
+
+				<!-- Year markers on main branch -->
+				{#each yearMarkers as year}
+					{@const mx = graphData.laneX(0)}
+					{@const my = nodeY(yearToRow(year))}
+					<rect x={mx - 16} y={my - 8} width="32" height="16" rx="3" class="year-marker-bg" />
+					<text x={mx} y={my + 4} text-anchor="middle" class="year-marker-text">{year}</text>
+				{/each}
+
+				<!-- Commit nodes -->
+				{#each graphData.nodes as node}
+					{@const ny = nodeY(node.row)}
+					<circle
+						cx={graphData.laneX(node.lane)}
+						cy={ny}
+						r={NODE_RADIUS}
+						fill={node.color}
+						class="commit-node"
+					/>
+				{/each}
+			</svg>
 		</div>
-	{/each}
+
+		<!-- Right cards column -->
+		{#each graphData.nodes as node}
+			{#if node.side === 'right'}
+				<div class="card-slot card-right" style="grid-row: {node.row} / {node.rowEnd};">
+					{#if node.entry.type === 'life' && !node.entry.showDates}
+						<div class="life-chip sticky-card">
+							<span class="font-bold">{node.entry.title}</span>
+						</div>
+					{:else}
+						<div class="event-card card-{node.entry.type} sticky-card">
+							{#if node.entry.showDates}
+								<span class="date-label">{formatDate(node.entry)}</span>
+							{/if}
+							<h3 class="card-title">{node.entry.title}</h3>
+							<p class="card-org">{node.entry.organization}</p>
+							{#if node.entry.description}
+								<p class="card-desc">{node.entry.description}</p>
+							{/if}
+						</div>
+					{/if}
+				</div>
+			{/if}
+		{/each}
+	</div>
 </div>
 
 <!-- Legend -->
 <div class="legend">
 	<span class="legend-item">
-		<span class="legend-swatch dot-work"></span> Work
+		<svg width="24" height="12" viewBox="0 0 24 12" class="legend-icon">
+			<line x1="0" y1="6" x2="16" y2="6" stroke={COLOR_WORK} stroke-width="2" />
+			<circle cx="20" cy="6" r="4" fill={COLOR_WORK} />
+		</svg>
+		Work
 	</span>
 	<span class="legend-item">
-		<span class="legend-swatch dot-education"></span> Education
+		<svg width="24" height="12" viewBox="0 0 24 12" class="legend-icon">
+			<line x1="0" y1="6" x2="16" y2="6" stroke={COLOR_EDU} stroke-width="2" />
+			<circle cx="20" cy="6" r="4" fill={COLOR_EDU} />
+		</svg>
+		Education
 	</span>
 	<span class="legend-item">
-		<span class="legend-swatch dot-life"></span> Life
+		<svg width="24" height="12" viewBox="0 0 24 12" class="legend-icon">
+			<circle cx="6" cy="6" r="4" fill={COLOR_LIFE} />
+		</svg>
+		Life
 	</span>
 </div>
 
 <style>
-	.timeline-grid {
-		display: grid;
-		grid-template-columns: 1fr 3rem 1fr;
+	.timeline-wrapper {
 		width: 100%;
-		max-width: 56rem;
+		max-width: 64rem;
 		margin: 0 auto;
 		padding: 0 1rem;
 	}
 
-	/* Spine */
-	.spine {
-		grid-column: 2;
-		justify-self: center;
-		width: 2px;
-		background: var(--color-surface-200);
+	.timeline-grid {
+		display: grid;
+		grid-template-columns: 1fr auto 1fr;
+		width: 100%;
 	}
 
-	:global(html.dark) .spine {
-		background: var(--color-surface-700);
+	/* Graph column */
+	.graph-col {
+		grid-column: 2;
+		position: relative;
 	}
 
-	/* Year markers */
-	.year-marker {
-		grid-column: 2;
-		z-index: 2;
-		justify-self: center;
-		align-self: center;
-		font-size: 0.625rem;
+	.graph-svg {
+		display: block;
+	}
+
+	/* Main branch line */
+	.main-branch-line {
+		stroke: var(--color-surface-300);
+	}
+
+	:global(html.dark) .main-branch-line {
+		stroke: var(--color-surface-600);
+	}
+
+	/* Year markers in SVG */
+	.year-marker-bg {
+		fill: var(--color-surface-50);
+	}
+
+	:global(html.dark) .year-marker-bg {
+		fill: var(--color-surface-950);
+	}
+
+	.year-marker-text {
+		font-size: 0.5625rem;
 		font-weight: 600;
-		color: var(--color-surface-400);
-		background: var(--color-surface-50);
-		padding: 0.125rem 0.375rem;
-		border-radius: 0.25rem;
+		fill: var(--color-surface-400);
 		letter-spacing: 0.05em;
 	}
 
-	:global(html.dark) .year-marker {
-		color: var(--color-surface-500);
-		background: var(--color-surface-950);
+	:global(html.dark) .year-marker-text {
+		fill: var(--color-surface-500);
 	}
 
-	/* Dots */
-	.dot {
-		grid-column: 2;
-		z-index: 3;
-		width: 14px;
-		height: 14px;
-		border-radius: 50%;
-		justify-self: center;
-		align-self: start;
-		margin-top: 3px;
-		box-shadow: 0 0 0 3px var(--color-surface-50);
+	/* Commit nodes */
+	.commit-node {
+		stroke: var(--color-surface-50);
+		stroke-width: 3;
 	}
 
-	:global(html.dark) .dot {
-		box-shadow: 0 0 0 3px var(--color-surface-950);
+	:global(html.dark) .commit-node {
+		stroke: var(--color-surface-950);
 	}
 
-	.dot-work {
-		background: var(--color-secondary-500);
-	}
-	.dot-education {
-		background: var(--color-success-500);
-	}
-	.dot-life {
-		background: var(--color-tertiary-400);
-	}
-
-	:global(html.dark) .dot-life {
-		background: var(--color-tertiary-500);
-	}
-
-	/* Event lanes */
-	.lane-left {
+	/* Card slots */
+	.card-left {
 		grid-column: 1;
 		display: flex;
 		justify-content: flex-end;
-		padding-right: 1.25rem;
+		padding-right: 0.5rem;
 	}
 
-	.lane-right {
+	.card-right {
 		grid-column: 3;
 		display: flex;
 		justify-content: flex-start;
-		padding-left: 1.25rem;
+		padding-left: 0.5rem;
 	}
 
-	/* Sticky card behavior — sticks near bottom as you scroll up through history */
+	/* Sticky card behavior */
 	.sticky-card {
 		position: sticky;
 		top: 6rem;
@@ -318,41 +475,6 @@
 		background: var(--color-surface-800);
 	}
 
-	/* Group stack: single sticky container for all cards in a group */
-	.group-stack {
-		display: flex;
-		flex-direction: column;
-		align-items: stretch;
-		max-width: 22rem;
-		width: 100%;
-	}
-
-	.group-stack .event-card {
-		max-width: none;
-	}
-
-	.group-connector {
-		width: 2px;
-		height: 1.25rem;
-		align-self: center;
-		border-radius: 1px;
-	}
-
-	.group-connector-work {
-		background: var(--color-secondary-500);
-		opacity: 0.4;
-	}
-
-	.group-connector-education {
-		background: var(--color-success-500);
-		opacity: 0.4;
-	}
-
-	.group-connector-life {
-		background: var(--color-tertiary-500);
-		opacity: 0.4;
-	}
-
 	.card-work {
 		border-left-color: var(--color-secondary-500);
 	}
@@ -361,6 +483,25 @@
 	}
 	.card-life {
 		border-left-color: var(--color-tertiary-500);
+	}
+
+	/* For left-side cards, use right border instead */
+	.card-left .event-card {
+		border-left: none;
+		border-right: 4px solid transparent;
+		text-align: right;
+	}
+
+	.card-left .card-education {
+		border-right-color: var(--color-success-500);
+	}
+
+	.card-left .card-work {
+		border-right-color: var(--color-secondary-500);
+	}
+
+	.card-left .card-life {
+		border-right-color: var(--color-tertiary-500);
 	}
 
 	.date-label {
@@ -440,25 +581,48 @@
 		gap: 0.5rem;
 	}
 
-	.legend-swatch {
+	.legend-icon {
 		display: inline-block;
-		width: 0.625rem;
-		height: 0.625rem;
-		border-radius: 50%;
+		vertical-align: middle;
 	}
 
-	/* Mobile: single column */
+	/* Mobile: collapse to single side */
 	@media (max-width: 639px) {
 		.timeline-grid {
-			grid-template-columns: 2.5rem 1fr;
+			grid-template-columns: 50px 1fr;
 		}
 
-		.lane-left,
-		.lane-right {
+		.graph-col {
+			grid-column: 1;
+			width: 50px !important;
+		}
+
+		.graph-svg {
+			width: 50px;
+		}
+
+		.card-left,
+		.card-right {
 			grid-column: 2;
 			justify-content: flex-start;
-			padding-left: 0.75rem;
+			padding-left: 0.5rem;
 			padding-right: 0;
+		}
+
+		.card-left .event-card {
+			border-right: none;
+			border-left: 4px solid transparent;
+			text-align: left;
+		}
+
+		.card-left .card-education {
+			border-left-color: var(--color-success-500);
+			border-right-color: transparent;
+		}
+
+		.card-left .card-work {
+			border-left-color: var(--color-secondary-500);
+			border-right-color: transparent;
 		}
 
 		.event-card {
