@@ -6,7 +6,7 @@ on:
       - main
   pull_request:
   schedule:
-    - cron: "0 9 * * 0"
+    - cron: '0 9 * * 0'
 
 jobs:
   prettier:
@@ -99,7 +99,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        language: ["javascript"]
+        language: ['javascript']
         # Learn more about CodeQL language support at https://aka.ms/codeql-docs/language-support
     steps:
       - name: Checkout repository

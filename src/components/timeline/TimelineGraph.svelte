@@ -1,14 +1,6 @@
 <script lang="ts">
-	import {
-		LINE_WIDTH,
-		NODE_RADIUS
-	} from './constants';
-	import {
-		type GraphData,
-		nodeY,
-		yearToRow,
-		forkCurvePath
-	} from './types';
+	import { LINE_WIDTH, NODE_RADIUS } from './constants';
+	import { type GraphData, nodeY, yearToRow, forkCurvePath } from './types';
 
 	let {
 		graphData,
@@ -27,20 +19,23 @@
 	} = $props();
 </script>
 
-<div class="graph-col" style="grid-row: 1 / {gridRowEnd ?? (graphData.totalGridRows + 1)}; width: {graphData.graphWidth}px;">
+<div
+	class="col-start-2 relative max-sm:col-start-1"
+	style="grid-row: 1 / {gridRowEnd ?? graphData.totalGridRows + 1}; width: {graphData.graphWidth}px;"
+>
 	<svg
 		width={graphData.graphWidth}
 		height={totalHeight}
 		viewBox="0 0 {graphData.graphWidth} {totalHeight}"
-		class="graph-svg"
+		class="block"
 	>
 		<!-- Main branch line -->
 		<line
 			x1={graphData.laneX(0)}
 			y1={nodeY(1, pxPerYear)}
 			x2={graphData.laneX(0)}
-			y2={nodeY(graphData.totalGridRows, pxPerYear)}
-			class="main-branch-line"
+			y2={nodeY(Math.max(...graphData.nodes.map((n) => n.gridRow)), pxPerYear)}
+			class="stroke-surface-300 dark:stroke-surface-600"
 			stroke-width={LINE_WIDTH}
 			stroke-linecap="round"
 		/>
@@ -93,73 +88,61 @@
 		{#each yearMarkers as year}
 			{@const mx = graphData.laneX(0)}
 			{@const my = nodeY(yearToRow(year), pxPerYear)}
-			<rect x={mx - 16} y={my - 8} width="32" height="16" rx="3" class="year-marker-bg" />
-			<text x={mx} y={my + 4} text-anchor="middle" class="year-marker-text">{year}</text>
+			<rect
+				x={mx - 16}
+				y={my - 8}
+				width="32"
+				height="16"
+				rx="3"
+				class="fill-surface-50 dark:fill-surface-950"
+			/>
+			<text
+				x={mx}
+				y={my + 4}
+				text-anchor="middle"
+				class="fill-surface-400 dark:fill-surface-500 font-semibold tracking-[0.05em]"
+				style="font-size: 0.5625rem;">{year}</text
+			>
 		{/each}
 
 		<!-- Commit nodes -->
 		{#each graphData.nodes as node}
-			{@const ny = nodeY(node.gridRow, pxPerYear)}
-			<circle
-				cx={graphData.laneX(node.lane)}
-				cy={ny}
-				r={NODE_RADIUS}
-				fill={node.color}
-				class="commit-node"
-			/>
+			{#if !(compact && node.entry.type === 'life' && !node.entry.showDates)}
+				{@const ny = nodeY(node.gridRow, pxPerYear)}
+				<circle
+					cx={graphData.laneX(node.lane)}
+					cy={ny}
+					r={NODE_RADIUS}
+					fill={node.color}
+					class="stroke-surface-50 dark:stroke-surface-950 [stroke-width:3]"
+				/>
+			{/if}
 		{/each}
+
+		<!-- Life labels (compact: shown as branch labels instead of cards) -->
+		{#if compact}
+			{#each graphData.nodes as node}
+				{#if node.entry.type === 'life' && !node.entry.showDates}
+					{@const mx = graphData.laneX(0)}
+					{@const my = nodeY(node.row, pxPerYear)}
+					<rect
+						x={mx - 16}
+						y={my - 8}
+						width="32"
+						height="16"
+						rx="3"
+						class="fill-surface-50 dark:fill-surface-950"
+					/>
+					<text
+						x={mx}
+						y={my + 4}
+						text-anchor="middle"
+						class="fill-surface-400 dark:fill-surface-500 font-semibold tracking-[0.05em]"
+						style="font-size: 0.5625rem;"
+						>{node.entry.title}</text
+					>
+				{/if}
+			{/each}
+		{/if}
 	</svg>
 </div>
-
-<style>
-	.graph-col {
-		grid-column: 2;
-		position: relative;
-	}
-
-	.graph-svg {
-		display: block;
-	}
-
-	.main-branch-line {
-		stroke: var(--color-surface-300);
-	}
-
-	:global(html.dark) .main-branch-line {
-		stroke: var(--color-surface-600);
-	}
-
-	.year-marker-bg {
-		fill: var(--color-surface-50);
-	}
-
-	:global(html.dark) .year-marker-bg {
-		fill: var(--color-surface-950);
-	}
-
-	.year-marker-text {
-		font-size: 0.5625rem;
-		font-weight: 600;
-		fill: var(--color-surface-400);
-		letter-spacing: 0.05em;
-	}
-
-	:global(html.dark) .year-marker-text {
-		fill: var(--color-surface-500);
-	}
-
-	.commit-node {
-		stroke: var(--color-surface-50);
-		stroke-width: 3;
-	}
-
-	:global(html.dark) .commit-node {
-		stroke: var(--color-surface-950);
-	}
-
-	@media (max-width: 639px) {
-		.graph-col {
-			grid-column: 1;
-		}
-	}
-</style>

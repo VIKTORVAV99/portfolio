@@ -2,22 +2,8 @@
 	let { title }: { title: string } = $props();
 </script>
 
-<div class="life-chip">
+<div
+	class="inline-flex py-1.5 px-5 rounded-full border border-surface-200 dark:border-surface-700 bg-surface-100 dark:bg-surface-800 text-sm"
+>
 	<span class="font-bold">{title}</span>
 </div>
-
-<style>
-	.life-chip {
-		display: inline-flex;
-		padding: 0.375rem 1.25rem;
-		border-radius: 9999px;
-		border: 1px solid var(--color-surface-200);
-		background: var(--color-surface-100);
-		font-size: 0.875rem;
-	}
-
-	:global(html.dark) .life-chip {
-		border-color: var(--color-surface-700);
-		background: var(--color-surface-800);
-	}
-</style>
