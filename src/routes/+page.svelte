@@ -1,11 +1,7 @@
 <script lang="ts">
 	import IconSet from '$components/IconSet.svelte';
-	import Projects from '$components/Projects.svelte';
 	import Timeline from '$components/Timeline.svelte';
 	import { timelineEntries } from '$data/timeline';
-	import type { PageData } from './$types';
-
-	let { data }: { data: PageData } = $props();
 </script>
 
 <svelte:head>
