@@ -7,7 +7,7 @@
     "dev": "bun --filter '*' dev",
     "dev:frontend": "bun --filter frontend dev",
     "dev:backend": "bun --filter backend dev",
-    "build": "bun --filter frontend build",
+    "build": "bun --filter '*' build",
     "build:ci": "bun --filter frontend build:ci",
     "check:ci": "bun --filter frontend check:ci",
     "test:unit": "bun --filter '*' test:unit",
