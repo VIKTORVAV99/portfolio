@@ -21,4 +21,5 @@
     "mode": "smart",
   },
   "preview_urls": true,
+  "services": [{ "binding": "BACKEND", "service": "portfolio-backend" }],
 }

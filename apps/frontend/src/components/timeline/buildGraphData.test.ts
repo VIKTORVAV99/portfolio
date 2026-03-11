@@ -6,7 +6,7 @@ import { PX_PER_MONTH, PX_PER_MONTH_MOBILE } from "./constants";
 
 /** Strip the non-serializable `laneX` function for snapshot comparison. */
 function snapshottable(data: ReturnType<typeof buildGraphData>) {
-  const { laneX, ...rest } = data;
+  const { laneX: _laneX, ...rest } = data;
   return rest;
 }
 
