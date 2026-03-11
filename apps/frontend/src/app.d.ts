@@ -7,6 +7,7 @@ declare global {
     // interface PageData {}
     interface Platform {
       env?: {
+        BACKEND: Fetcher;
         [key: string]: unknown;
       };
       context?: {
