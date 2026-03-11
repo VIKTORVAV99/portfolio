@@ -21,7 +21,7 @@
     "bits-ui": "^2.16.3"
   },
   "devDependencies": {
-    "@fortawesome/free-brands-svg-icons": "^6.6.0",
+    "@fortawesome/free-brands-svg-icons": "^7.2.0",
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@sveltejs/adapter-cloudflare": "^7.2.8",
     "@sveltejs/enhanced-img": "^0.10.3",
