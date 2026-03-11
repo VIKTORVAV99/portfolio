@@ -1,0 +1,15 @@
+{
+  "name": "portfolio-api",
+  "main": "src/index.ts",
+  "compatibility_flags": ["nodejs_als"],
+  "compatibility_date": "2026-03-10",
+  "observability": {
+    "logs": {
+      "enabled": true,
+      "invocation_logs": true
+    }
+  },
+  "placement": {
+    "mode": "smart"
+  }
+}
