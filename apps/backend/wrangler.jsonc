@@ -12,4 +12,11 @@
   "placement": {
     "mode": "smart",
   },
+  "secrets_store_secrets": [
+		{
+			"binding": "SECRETS",
+			"store_id": "01dc6229feba4f438cf2eae8f80f44ce",
+			"secret_name": "GITHUB_PORTFOLIO_TOKEN",
+		},
+	]
 }

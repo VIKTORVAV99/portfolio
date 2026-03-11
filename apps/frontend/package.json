@@ -18,7 +18,9 @@
     "format:check": "oxfmt --check"
   },
   "dependencies": {
-    "bits-ui": "^2.16.3"
+    "bits-ui": "^2.16.3",
+    "hono": "^4.7.0",
+    "portfolio-backend": "workspace:*"
   },
   "devDependencies": {
     "@fortawesome/free-brands-svg-icons": "^6.6.0",
