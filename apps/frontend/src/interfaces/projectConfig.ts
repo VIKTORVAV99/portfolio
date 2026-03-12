@@ -1,8 +1,9 @@
+import type { Picture } from "@sveltejs/enhanced-img";
+
 export interface Image {
-  src: string;
+  src: string | Picture;
   alt: string;
   aspectRatio: string;
-  otherFormats?: Array<"jpg" | "avif" | "webp">;
 }
 
 export interface Link {
@@ -21,7 +22,7 @@ export interface ProjectConfig {
   title: string;
   id: string;
   showcase: boolean;
-  type: "personal" | "professional";
+  type: "personal" | "professional" | "educational";
   links: Array<Link>;
   keywords: Array<string>;
   technologies: Array<Technology>;

@@ -1,10 +1,6 @@
 import type { PageLoad } from "./$types";
-import projects from "$data/projects.json";
-import type { ProjectConfig } from "$interfaces/projectConfig";
+import projects from "$data/projects";
 
 export const load = (() => {
-  const json = projects as ProjectConfig[];
-  return {
-    projects: json,
-  };
+  return { projects };
 }) satisfies PageLoad;

@@ -1,7 +1,7 @@
 import { GET } from "./+server";
 
 import { describe, it, expect } from "bun:test";
-import projects from "$data/projects.json";
+import projects from "$data/projects";
 
 describe("sitemap.xml", () => {
   it("should return content type application/xml", async () => {

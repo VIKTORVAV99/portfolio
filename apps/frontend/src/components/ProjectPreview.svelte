@@ -1,17 +1,12 @@
 <script lang="ts">
 	import LinkBar from './projectComponents/LinkBar.svelte';
 	import TechnologyBar from './projectComponents/TechnologyBar.svelte';
+	import { AspectRatio } from 'bits-ui';
 
 	import type { ProjectConfig } from '$interfaces/projectConfig';
 
 	let { project }: { project: ProjectConfig } = $props();
 </script>
-
-<svelte:head>
-	{#if project.preview.image?.src}
-		<link rel="prefetch" href={project.preview.image.src} as="image" />
-	{/if}
-</svelte:head>
 
 <section id={project.id} class="flex flex-col w-full card m-[1vw] preset-tonal-primary max-w-[100ch] p-4">
 	<div class="flex flex-col md:flex-row">
@@ -27,27 +22,17 @@
 			<LinkBar links={project.links} />
 		</main>
 		{#if project.preview.image}
-			{#if project.preview.image.otherFormats}
-				<picture
-					style="aspect-ratio:{project.preview.image.aspectRatio}"
-					class="order-1 md:order-2 rounded-lg m-4 md:max-w-[50%] lg:max-w-[40%] ] md:w-full h-full"
+			<div class="order-1 md:order-2 shrink-0 w-full md:w-[45%] lg:w-[40%] p-4">
+				<AspectRatio.Root
+					ratio={project.preview.image.aspectRatio.split('/').map(Number).reduce((a, b) => a / b)}
 				>
-					{#each project.preview.image.otherFormats as format}
-						<source
-							srcset={`${project.preview.image.src.split('.').at(0)}.${format}`}
-							type={`image/${format}`}
-						/>
-					{/each}
-					<img src={project.preview.image.src} alt={project.preview.image.alt} />
-				</picture>
-			{:else}
-				<img
-					style="aspect-ratio:{project.preview.image.aspectRatio}"
-					class="order-1 md:order-2 rounded-lg m-4 md:max-w-[50%] lg:max-w-[40%] ] md:w-full h-full"
-					src={project.preview.image.src}
-					alt={project.preview.image.alt}
-				/>
-			{/if}
+					<enhanced:img
+						src={project.preview.image.src}
+						alt={project.preview.image.alt}
+						class="rounded-lg w-full h-full object-cover"
+					/>
+				</AspectRatio.Root>
+			</div>
 		{/if}
 	</div>
 	<footer class="flex flex-col">

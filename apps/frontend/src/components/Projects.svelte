@@ -1,6 +1,6 @@
 <script lang="ts">
 	import ProjectPreview from '$components/ProjectPreview.svelte';
-	import { groupBy } from '../helpers/groupBy';
+	import { groupBy } from '$lib/helpers/groupBy';
 	import type { ProjectConfig } from '$interfaces/projectConfig';
 	let { projects, showAllButton = false }: { projects: ProjectConfig[]; showAllButton?: boolean } = $props();
 

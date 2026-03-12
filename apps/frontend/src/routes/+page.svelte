@@ -4,7 +4,7 @@
 	import { timelineEntries } from '$data/timeline';
 	import type { PageData } from './$types';
 	import portrait from '$lib/images/Viktor_Andersson.jpg?enhanced';
-	import { toJsonLd } from '$lib/seo';
+	import JsonLd from '$lib/seo/components/JsonLd.svelte';
 
 	let { data }: { data: PageData } = $props();
 </script>
@@ -16,8 +16,9 @@
 		content="Personal portfolio website for Viktor Andersson, Software Engineer at Electricity Maps and Digital Design and Innovation graduate"
 	/>
 	<link rel="canonical" href="https://viktor.andersson.tech" />
-	{@html `<script type="application/ld+json">${toJsonLd(data.structuredData)}</script>`}
 </svelte:head>
+
+<JsonLd data={data} />
 
 <div class="flex flex-col justify-start items-center">
 	<section class="flex flex-col items-center p-8 w-full mb-32">
@@ -41,6 +42,3 @@
 	<h2 class="h2 font-extrabold mb-4">Experience</h2>
 	<Timeline entries={timelineEntries} />
 </div>
-
-<style>
-</style>
