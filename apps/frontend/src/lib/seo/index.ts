@@ -10,7 +10,10 @@ export interface PlaceSchema {
 }
 
 export function createPlaceSchema(addressLocality: string, addressCountry: string): PlaceSchema {
-  return { "@type": "Place", address: { "@type": "PostalAddress", addressLocality, addressCountry } };
+  return {
+    "@type": "Place",
+    address: { "@type": "PostalAddress", addressLocality, addressCountry },
+  };
 }
 
 export interface OrganizationSchema {
