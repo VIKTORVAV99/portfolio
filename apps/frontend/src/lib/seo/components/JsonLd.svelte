@@ -6,7 +6,5 @@
 </script>
 
 <svelte:head>
-  {@html `<script type="application/ld+json">
-    ${toJsonLd(data.structuredData)}
-  </script>`}
+  {@html `<script type="application/ld+json">${toJsonLd(data.structuredData)}<` + `/script>`}
 </svelte:head>
