@@ -1,4 +1,4 @@
-import { timelineEntries } from "$data/timeline";
+import { timelineEntries } from "$data/metadata";
 
 // Layout constants
 const lifeEntry = timelineEntries.find((e) => e.type === "life");
