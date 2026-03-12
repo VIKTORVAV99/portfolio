@@ -1,7 +1,6 @@
 <script lang="ts">
 	import '../app.css';
 	import Footer from '$components/Footer.svelte';
-	import BackgroundText from '$components/BackgroundText.svelte';
 	import Navbar from '$components/Navbar.svelte';
 	import type { Snippet } from 'svelte';
 
@@ -15,4 +14,3 @@
 	</main>
 	<Footer />
 </div>
-<BackgroundText />
