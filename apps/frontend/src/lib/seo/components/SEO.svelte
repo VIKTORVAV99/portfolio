@@ -7,11 +7,13 @@
     description,
     canonicalURL,
     structuredData,
+    noIndex = false,
   }: {
     title: string;
     description: string;
     canonicalURL?: string;
     structuredData?: StructuredDataSchema;
+    noIndex?: boolean;
   } = $props();
 </script>
 
@@ -34,4 +36,8 @@
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
+
+  {#if noIndex}
+    <meta name="robots" content="noindex" />
+  {/if}
 </svelte:head>

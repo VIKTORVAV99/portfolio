@@ -4,7 +4,7 @@
   let { entry }: { entry: TimelineEntry } = $props();
 </script>
 
-<h3 class="h3">{entry.organization}</h3>
+<h3>{entry.organization}</h3>
 
 <p class="p">{entry.title}</p>
 
