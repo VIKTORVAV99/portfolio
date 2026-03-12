@@ -7,6 +7,7 @@ const config = {
 
   kit: {
     adapter: adapter(),
+    inlineStyleThreshold: Infinity,
     alias: {
       $components: "./src/components",
       $data: "./src/data",
