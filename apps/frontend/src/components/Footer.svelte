@@ -2,7 +2,7 @@
 	const year = $derived(new Date().getFullYear());
 </script>
 
-<div class="flex flex-col w-screen justify-center items-center preset-tonal-primary font-light">
+<footer class="flex flex-col w-screen justify-center items-center preset-tonal-primary font-light">
 	<small>{year} &copy; Viktor Andersson </small>
 	<small
 		>Source code licensed under <a
@@ -11,4 +11,4 @@
 			rel="license">MIT license</a
 		></small
 	>
-</div>
+</footer>

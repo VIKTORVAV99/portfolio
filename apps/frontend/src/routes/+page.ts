@@ -1,5 +1,4 @@
 import type { PageLoad } from "./$types";
-import projects from "$data/projects";
 import {
   createPersonSchema,
   createOrganizationSchema,
@@ -72,12 +71,15 @@ const structuredData = createPersonSchema({
       },
     },
   ],
-  sameAs: ["https://github.com/viktorvav99", "https://www.linkedin.com/in/viktor-va-andersson/"],
+  sameAs: [
+    "https://github.com/viktorvav99",
+    "https://www.linkedin.com/in/viktor-va-andersson/",
+    "https://bsky.app/profile/viktor.andersson.tech",
+  ],
 });
 
 export const load = (() => {
   return {
-    projects: projects.filter((entry) => entry.showcase),
     structuredData,
   };
 }) satisfies PageLoad;

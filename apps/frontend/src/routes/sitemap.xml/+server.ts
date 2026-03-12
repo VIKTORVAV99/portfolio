@@ -1,5 +1,3 @@
-import projects from "$data/projects";
-
 const DOMAIN = "https://viktor.andersson.tech/";
 
 export async function GET() {
@@ -10,10 +8,6 @@ export async function GET() {
           <url>
             <loc>${DOMAIN}</loc>
           </url>
-          <url>
-            <loc>${DOMAIN + "projects"}</loc>
-          </url>
-          ${projects.map((projects) => `<url><loc>${DOMAIN + "projects/" + projects.id}</loc></url>`)}
         </urlset>`
       .replaceAll(",", "")
       .replaceAll("\n", "")

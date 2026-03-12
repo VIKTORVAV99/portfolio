@@ -1,44 +1,55 @@
 <script lang="ts">
-	import IconSet from '$components/IconSet.svelte';
-	import Timeline from '$components/Timeline.svelte';
-	import { timelineEntries } from '$data/timeline';
-	import type { PageData } from './$types';
-	import portrait from '$lib/images/Viktor_Andersson.jpg?enhanced';
-	import JsonLd from '$lib/seo/components/JsonLd.svelte';
+  import IconSet from "$components/IconSet.svelte";
+  import Timeline from "$components/Timeline.svelte";
+  import { timelineEntries } from "$data/metadata";
+  import type { PageData } from "./$types";
+  import portrait from "$lib/images/Viktor_Andersson.jpg?enhanced";
+  import SEO from "$lib/seo/components/SEO.svelte";
 
-	let { data }: { data: PageData } = $props();
+  let { data }: { data: PageData } = $props();
 </script>
 
-<svelte:head>
-	<title>Viktor Andersson</title>
-	<meta
-		name="description"
-		content="Personal portfolio website for Viktor Andersson, Software Engineer at Electricity Maps and Digital Design and Innovation graduate"
-	/>
-	<link rel="canonical" href="https://viktor.andersson.tech" />
-</svelte:head>
+<SEO
+  title="Viktor Andersson"
+  description="Personal portfolio website for Viktor Andersson, Software Engineer at Electricity Maps and Digital Design and Innovation graduate"
+  canonicalURL="https://viktor.andersson.tech"
+  structuredData={data.structuredData}
+/>
 
-<JsonLd data={data} />
-
-<div class="flex flex-col justify-start items-center">
-	<section class="flex flex-col items-center p-8 w-full mb-32">
-		<enhanced:img
-			src={portrait}
-			alt="Black and white portrait of Viktor Andersson"
-			class="rounded-full border border-surface-100 dark:border-surface-800"
-		/>
-		<h1 class="h1">Viktor Andersson</h1>
-		<div class="flex justify-center my-4">
-			<IconSet />
-		</div>
-		<h2 class="h2">About me</h2>
-		<p class="max-w-[70ch] text-center">
-			I'm a Software Engineer at Electricity Maps, the world's most comprehensive electricity data platform.
-			I hold a Bachelor of Science in Digital Design and Innovation from Halmstad University. On my free time
-			I like to learn about new things, watch Sci-Fi and enjoy nature by walking, taking a bike ride or skiing
-			down a mountain.
-		</p>
-	</section>
-	<h2 class="h2 font-extrabold mb-4">Experience</h2>
-	<Timeline entries={timelineEntries} />
+<div class="flex flex-col gap-8 justify-start pt-8 items-center">
+  <section class="flex flex-col items-center gap-4 w-full">
+    <enhanced:img
+      src={portrait}
+      alt="Black and white portrait of Viktor Andersson"
+      class="rounded-full border border-surface-100 dark:border-surface-800"
+    />
+    <h1 class="h1">Viktor Andersson</h1>
+    <IconSet />
+  </section>
+  <section class="flex flex-col items-center gap-4 w-full max-w-4xl">
+    <h2 class="h2">About me</h2>
+    <div class="flex flex-col md:flex-row gap-8">
+      <section class="flex flex-col gap-4 items-center flex-1">
+        <h3 class="h3">Personal</h3>
+        <p>
+          I'm a Software Engineer at Electricity Maps, the world's most comprehensive electricity
+          data platform. I hold a Bachelor of Science in Digital Design and Innovation from Halmstad
+          University. On my free time I like to learn about new things, watch Sci-Fi and enjoy
+          nature by walking, taking a bike ride or skiing down a mountain.
+        </p>
+      </section>
+      <section class="flex flex-col gap-4 items-center flex-1">
+        <h3 class="h3">Professional</h3>
+        <p>
+          I have experience in both frontend and backend development, with a focus on TypeScript and
+          JavaScript. I enjoy working with Svelte and SvelteKit, but I also have experience with
+          React and Node.js. I'm always eager to learn new technologies and improve my skills.
+        </p>
+      </section>
+    </div>
+  </section>
+  <section class="flex flex-col items-center w-full">
+    <h2 class="h2 mb-4">Experience</h2>
+    <Timeline entries={timelineEntries} />
+  </section>
 </div>

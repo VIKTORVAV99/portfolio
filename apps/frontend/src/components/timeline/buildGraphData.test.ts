@@ -1,7 +1,7 @@
 import { describe, it, expect } from "bun:test";
 import type { TimelineEntry } from "$interfaces/timelineEntry";
 import { buildGraphData } from "./buildGraphData";
-import { timelineEntries } from "$data/timeline";
+import { timelineEntries } from "$data/metadata";
 import { PX_PER_MONTH, PX_PER_MONTH_MOBILE } from "./constants";
 
 /** Strip the non-serializable `laneX` function for snapshot comparison. */

@@ -1,46 +1,64 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
+  import type { Snippet } from 'svelte';
 
-	let {
-		duration = 150,
-		direction = 'normal',
-		hover = 'running',
-		class: className = '',
-		children
-	}: {
-		duration?: number;
-		direction?: 'normal' | 'reverse';
-		hover?: 'paused' | 'running';
-		class?: string;
-		children: Snippet;
-	} = $props();
+  let {
+    duration = 150,
+    direction = 'normal',
+    pauseOnHover = true,
+    gap = "0px",
+    class: className = '',
+    children
+  }: {
+    duration?: number;
+    direction?: 'normal' | 'reverse';
+    pauseOnHover?: boolean;
+    gap?: string;
+    class?: string;
+    children: Snippet;
+  } = $props();
 </script>
 
 <div
-	class="flex w-full flex-row overflow-x-hidden {className}"
-	style="--marquee-duration: {duration}s;--marquee-direction:{direction};--marquee-hover:{hover}"
+  class="marquee-container {className}"
+  style:--duration="{duration}s"
+  style:--direction={direction}
+  style:--pause={pauseOnHover ? 'paused' : 'running'}
+  style:--gap={gap}
 >
-	<div class="animate-marquee flex-none min-w-full flex-row items-center">
-		{@render children()}
-	</div>
-	<div class="animate-marquee flex-none min-w-full flex-row items-center">
-		{@render children()}
-	</div>
+  <div class="marquee-content">
+    {@render children()}
+  </div>
+  <div class="marquee-content" aria-hidden="true">
+    {@render children()}
+  </div>
 </div>
 
 <style>
-	@keyframes marquee {
-		0% {
-			transform: translateX(0);
-		}
-		100% {
-			transform: translateX(-100%);
-		}
-	}
-	div > div {
-		animation: marquee var(--marquee-duration) linear 0s infinite var(--marquee-direction);
-	}
-	div:hover > div {
-		animation-play-state: var(--marquee-hover);
-	}
+  .marquee-container {
+    display: flex;
+    overflow: hidden;
+    user-select: none;
+    gap: var(--gap);
+    width: 100%;
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  }
+
+  .marquee-content {
+    flex-shrink: 0;
+    display: flex;
+    justify-content: space-around;
+    gap: var(--gap);
+    min-width: 100%;
+    will-change: transform;
+    animation: scroll var(--duration) linear infinite var(--direction);
+  }
+
+  .marquee-container:hover .marquee-content {
+    animation-play-state: var(--pause);
+  }
+
+  @keyframes scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(calc(-100% - var(--gap))); }
+  }
 </style>

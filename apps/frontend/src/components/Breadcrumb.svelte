@@ -8,12 +8,12 @@
 	{#each breadcrumbs as breadcrumb, index}
 		{#if index == 0}
 			<li>
-				<a class="!no-underline" href="/">Home</a>
+				<a class="no-underline!" href="/">Home</a>
 			</li>
 			<li class="opacity-50">/</li>
 		{:else if index != breadcrumbs.length - 1}
 			<li>
-				<a class="!no-underline" href={breadcrumbs.slice(0, index + 1).join('/')}>{breadcrumb}</a>
+				<a class="no-underline!" href={breadcrumbs.slice(0, index + 1).join('/')}>{breadcrumb}</a>
 			</li>
 			<li class="opacity-50">/</li>
 		{:else}

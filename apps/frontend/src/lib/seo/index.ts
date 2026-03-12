@@ -91,6 +91,26 @@ export function createPersonSchema(
   return { "@context": "https://schema.org", "@type": "Person", ...options };
 }
 
-export function toJsonLd(schema: object): string {
-  return JSON.stringify(schema);
+export type StructuredDataSchema =
+  | PersonSchema
+  | OrganizationSchema
+  | EducationalOrganizationSchema
+  | EmployeeRoleSchema
+  | EducationalCredentialSchema;
+
+export function toJsonLd(schema: StructuredDataSchema): string {
+  try {
+    const json = JSON.stringify(schema);
+
+    // Escape characters that can break out of an HTML <script> tag
+    return json
+      .replace(/</g, "\\u003c")
+      .replace(/>/g, "\\u003e")
+      .replace(/&/g, "\\u0026")
+      .replace(/\u2028/g, "\\u2028") // Line separator
+      .replace(/\u2029/g, "\\u2029"); // Paragraph separator
+  } catch (error) {
+    console.error("Failed to stringify JSON-LD schema:", error);
+    return "{}"; // Fallback to a safe, empty JSON object
+  }
 }
