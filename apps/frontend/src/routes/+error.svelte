@@ -1,5 +1,4 @@
 <script lang="ts">
-  // 1. Import from $app/state instead of $app/stores
   import { page } from "$app/state";
   import { Fa } from "svelte-fa";
   import { faTriangleExclamation } from "@fortawesome/free-solid-svg-icons";

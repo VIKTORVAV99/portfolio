@@ -11,8 +11,8 @@ const CACHE = `static-cache-${version}`;
 const DYNAMIC_CACHE = `dynamic-cache-${version}`;
 
 const ASSETS = [
-  ...build,       // the app itself
-  ...files,       // everything in `static`
+  ...build, // the app itself
+  ...files, // everything in `static`
   ...prerendered, // prerendered pages (make sure to include an '/offline' page here!)
 ];
 
@@ -48,8 +48,8 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
 
   // Ignore POST requests, and ignore browser extension requests
-  if (event.request.method !== "GET" || url.protocol.startsWith('chrome-extension')) {
-      return;
+  if (event.request.method !== "GET" || url.protocol.startsWith("chrome-extension")) {
+    return;
   }
 
   async function respond() {
@@ -66,7 +66,7 @@ self.addEventListener("fetch", (event) => {
       const response = await fetch(event.request);
 
       // Only cache valid, same-origin responses to avoid bloating storage with opaque responses
-      if (response.status === 200 && response.type === 'basic') {
+      if (response.status === 200 && response.type === "basic") {
         const dynamicCache = await caches.open(DYNAMIC_CACHE);
         // Important: You must clone the response before putting it in the cache
         dynamicCache.put(event.request, response.clone());
@@ -76,16 +76,17 @@ self.addEventListener("fetch", (event) => {
     } catch (err) {
       // Network failed (offline). Try the dynamic cache first
       const dynamicCache = await caches.open(DYNAMIC_CACHE);
-      const cachedResponse = await dynamicCache.match(event.request) || await staticCache.match(event.request);
+      const cachedResponse =
+        (await dynamicCache.match(event.request)) || (await staticCache.match(event.request));
 
       if (cachedResponse) {
         return cachedResponse;
       }
 
       // If it's a page request and we are offline, show the offline page
-      if (event.request.mode === 'navigate') {
-          const offlinePage = await staticCache.match('/offline');
-          if (offlinePage) return offlinePage;
+      if (event.request.mode === "navigate") {
+        const offlinePage = await staticCache.match("/offline");
+        if (offlinePage) return offlinePage;
       }
 
       // If there's no cache and no offline page, fail gracefully
