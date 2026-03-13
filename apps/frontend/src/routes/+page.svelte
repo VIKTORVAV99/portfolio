@@ -3,7 +3,7 @@
   import Timeline from "$components/Timeline.svelte";
   import { timelineEntries } from "$data/metadata";
   import type { PageData } from "./$types";
-  import portrait from "$lib/images/Viktor_Andersson.jpg?enhanced";
+  import portrait from "$images/Viktor_Andersson.jpeg?enhanced";
   import SEO from "$lib/seo/components/SEO.svelte";
 
   let { data }: { data: PageData } = $props();
@@ -20,8 +20,8 @@
   <section class="flex flex-col items-center gap-4 w-full">
     <enhanced:img
       src={portrait}
-      alt="Black and white portrait of Viktor Andersson"
-      class="rounded-full border border-surface-100 dark:border-surface-800"
+      alt="Portrait of Viktor Andersson"
+      class="rounded-full w-64 h-64 border border-surface-100 dark:border-surface-800"
     />
     <h1>Viktor Andersson</h1>
     <IconSet />
