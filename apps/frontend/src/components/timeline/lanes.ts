@@ -1,6 +1,12 @@
 import type { TimelineEntry } from "$interfaces/timelineEntry";
-import { BRANCH_COLORS } from "./constants";
-import { monthToRow, entryStartAbsMonth, entryEndAbsMonth, type Branch } from "./types";
+import { BRANCH_COLORS, MAX_LEADER_CHANNELS, LEADER_CHANNEL_GAP } from "./constants";
+import {
+  monthToRow,
+  entryStartAbsMonth,
+  entryEndAbsMonth,
+  type Branch,
+  type TimelineMode,
+} from "./types";
 
 export interface AssignLanesResult {
   branches: Branch[];
@@ -13,7 +19,10 @@ export interface LaneLayout {
   laneX: (lane: number) => number;
 }
 
-export function assignLanes(entries: TimelineEntry[], compact: boolean): AssignLanesResult {
+export function assignLanes(
+  entries: TimelineEntry[],
+  mode: TimelineMode = "desktop",
+): AssignLanesResult {
   // Group entries into branches
   const groupMap = new Map<string, TimelineEntry[]>();
   let ungroupedIdx = 0;
@@ -57,14 +66,15 @@ export function assignLanes(entries: TimelineEntry[], compact: boolean): AssignL
   let branchColorIdx = 0;
   for (const [id, groupEntries] of sortedGroups) {
     const type = groupEntries[0].type;
-    const side: "left" | "right" = compact ? "left" : type === "education" ? "left" : "right";
+    const side: "left" | "right" =
+      mode === "compact" ? "left" : type === "education" ? "left" : "right";
 
     const earliestStart = Math.min(...groupEntries.map((e) => entryStartAbsMonth(e)));
     const latestEnd = Math.max(...groupEntries.map((e) => entryEndAbsMonth(e)));
 
     let lane = findReusableLane(side, earliestStart, latestEnd);
     if (lane === null) {
-      lane = compact ? nextLeftLane-- : side === "left" ? nextLeftLane-- : nextRightLane++;
+      lane = side === "left" ? nextLeftLane-- : nextRightLane++;
     }
 
     if (!laneOccupancy.has(lane)) laneOccupancy.set(lane, []);
@@ -92,7 +102,20 @@ export function buildLaneLayout(
   leftLaneCount: number,
   rightLaneCount: number,
   spacing: number,
+  mode: TimelineMode = "desktop",
 ): LaneLayout {
+  if (mode === "compact") {
+    const leaderChannelWidth = MAX_LEADER_CHANNELS * LEADER_CHANNEL_GAP;
+    const graphWidth = (leftLaneCount + 2) * spacing + leaderChannelWidth;
+
+    function laneX(lane: number): number {
+      // lane 0 (trunk) sits at the right side of the branch area
+      return (leftLaneCount + 1) * spacing + lane * spacing;
+    }
+
+    return { graphWidth, laneX };
+  }
+
   const maxLaneCount = Math.max(leftLaneCount, rightLaneCount);
   const graphWidth = (2 * maxLaneCount + 2) * spacing;
 

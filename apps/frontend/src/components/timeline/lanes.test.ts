@@ -43,7 +43,7 @@ describe("assignLanes", () => {
       },
       workEntry(),
     ];
-    const { branches } = assignLanes(entries, false);
+    const { branches } = assignLanes(entries);
     expect(branches.every((b) => b.type !== "life")).toBe(true);
     expect(branches).toHaveLength(1);
   });
@@ -63,7 +63,7 @@ describe("assignLanes", () => {
         group: "corp",
       }),
     ];
-    const { branches } = assignLanes(entries, false);
+    const { branches } = assignLanes(entries);
     expect(branches).toHaveLength(1);
     expect(branches[0].entries).toHaveLength(2);
   });
@@ -73,7 +73,7 @@ describe("assignLanes", () => {
       workEntry({ title: "Job A", startYear: 2020, endYear: 2020 }),
       workEntry({ title: "Job B", startYear: 2021, endYear: 2021 }),
     ];
-    const { branches } = assignLanes(entries, false);
+    const { branches } = assignLanes(entries);
     expect(branches).toHaveLength(2);
   });
 
@@ -82,7 +82,7 @@ describe("assignLanes", () => {
       workEntry({ startYear: 2018, endYear: 2019 }),
       workEntry({ startYear: 2021, endYear: 2022 }),
     ];
-    const { branches } = assignLanes(entries, false);
+    const { branches } = assignLanes(entries);
     expect(branches[0].lane).toBe(branches[1].lane);
   });
 
@@ -101,32 +101,22 @@ describe("assignLanes", () => {
         endMonth: 12,
       }),
     ];
-    const { branches } = assignLanes(entries, false);
+    const { branches } = assignLanes(entries);
     expect(branches[0].lane).not.toBe(branches[1].lane);
   });
 
-  it("puts education on left, work on right in desktop mode", () => {
+  it("puts education on left, work on right", () => {
     const entries: TimelineEntry[] = [
       eduEntry({ startYear: 2020, endYear: 2021 }),
       workEntry({ startYear: 2020, endYear: 2021 }),
     ];
-    const { branches } = assignLanes(entries, false);
+    const { branches } = assignLanes(entries);
     const edu = branches.find((b) => b.type === "education")!;
     const work = branches.find((b) => b.type === "work")!;
     expect(edu.side).toBe("left");
     expect(edu.lane).toBeLessThan(0);
     expect(work.side).toBe("right");
     expect(work.lane).toBeGreaterThan(0);
-  });
-
-  it("puts all branches on left side in compact mode", () => {
-    const entries: TimelineEntry[] = [
-      eduEntry({ startYear: 2020, endYear: 2021 }),
-      workEntry({ startYear: 2022, endYear: 2023 }),
-    ];
-    const { branches } = assignLanes(entries, true);
-    expect(branches.every((b) => b.side === "left")).toBe(true);
-    expect(branches.every((b) => b.lane < 0)).toBe(true);
   });
 
   it("cycles through branch colors", () => {
@@ -137,7 +127,7 @@ describe("assignLanes", () => {
         endYear: 2010 + i,
       }),
     );
-    const { branches } = assignLanes(entries, false);
+    const { branches } = assignLanes(entries);
     // 11th branch (index 10) wraps to BRANCH_COLORS[10 % length]
     expect(branches[10].color).toBe(BRANCH_COLORS[10 % BRANCH_COLORS.length]);
   });

@@ -42,6 +42,13 @@ export interface ForkPath {
   direction: "down" | "up";
 }
 
+export type TimelineMode = "desktop" | "compact";
+
+export interface LeaderLine {
+  points: Array<{ x: number; y: number }>;
+  color: string;
+}
+
 export interface GraphData {
   branches: Branch[];
   nodes: CommitNode[];
@@ -49,15 +56,8 @@ export interface GraphData {
   graphWidth: number;
   laneX: (lane: number) => number;
   totalGridRows: number;
-  branchGroups: BranchGroup[];
-}
-
-export interface BranchGroup {
-  nodes: CommitNode[];
-  gridRow: number;
-  gridRowEnd: number;
-  color: string;
-  side: "left" | "right";
+  mode: TimelineMode;
+  leaderLines: LeaderLine[];
 }
 
 export function toAbsoluteMonth(year: number, month: number = 1): number {

@@ -1,8 +1,8 @@
 import { describe, it, expect } from "bun:test";
 import type { TimelineEntry } from "$interfaces/timelineEntry";
-import type { CommitNode, Branch } from "./types";
-import { resolveCompactOverlap, resolveDesktopOverlap } from "./overlap";
-import { PX_PER_MONTH, COMPACT_CARD_SPAN } from "./constants";
+import type { CommitNode } from "./types";
+import { resolveDesktopOverlap } from "./overlap";
+import { PX_PER_MONTH } from "./constants";
 
 function makeNode(overrides: Partial<CommitNode> = {}): CommitNode {
   return {
@@ -24,72 +24,6 @@ function makeNode(overrides: Partial<CommitNode> = {}): CommitNode {
   };
 }
 
-function makeBranch(overrides: Partial<Branch> = {}): Branch {
-  return {
-    id: "test",
-    type: "work",
-    side: "right",
-    lane: 1,
-    entries: [],
-    forkRow: 5,
-    endRow: 15,
-    color: "#3b82f6",
-    ...overrides,
-  };
-}
-
-describe("resolveCompactOverlap", () => {
-  it("collapses all nodes in a branch to same gridRow", () => {
-    const nodes = [
-      makeNode({ branchId: "a", gridRow: 10, gridRowEnd: 13 }),
-      makeNode({ branchId: "a", gridRow: 20, gridRowEnd: 23 }),
-    ];
-    const branches = [makeBranch({ id: "a" })];
-    resolveCompactOverlap(nodes, branches, 100);
-    expect(nodes[0].gridRow).toBe(nodes[1].gridRow);
-    expect(nodes[0].gridRowEnd).toBe(nodes[1].gridRowEnd);
-  });
-
-  it("uses COMPACT_CARD_SPAN for group span", () => {
-    const nodes = [makeNode({ branchId: "a", gridRow: 10, gridRowEnd: 13 })];
-    const branches = [makeBranch({ id: "a" })];
-    resolveCompactOverlap(nodes, branches, 100);
-    expect(nodes[0].gridRowEnd - nodes[0].gridRow).toBe(COMPACT_CARD_SPAN);
-  });
-
-  it("returns branchGroups with correct structure", () => {
-    const nodes = [
-      makeNode({ branchId: "a", gridRow: 10, gridRowEnd: 13, color: "#aaa", side: "left" }),
-      makeNode({ branchId: "b", gridRow: 50, gridRowEnd: 53, color: "#bbb", side: "left" }),
-    ];
-    const branches = [makeBranch({ id: "a" }), makeBranch({ id: "b" })];
-    const { branchGroups } = resolveCompactOverlap(nodes, branches, 100);
-    expect(branchGroups).toHaveLength(2);
-    expect(branchGroups[0].color).toBe("#aaa");
-    expect(branchGroups[1].color).toBe("#bbb");
-  });
-
-  it("stacks groups without overlap", () => {
-    const nodes = [
-      makeNode({ branchId: "a", gridRow: 10, gridRowEnd: 13 }),
-      makeNode({ branchId: "b", gridRow: 10, gridRowEnd: 13 }),
-    ];
-    const branches = [makeBranch({ id: "a" }), makeBranch({ id: "b" })];
-    const { branchGroups } = resolveCompactOverlap(nodes, branches, 100);
-    // Second group should start at or after first group ends
-    expect(branchGroups[1].gridRow).toBeGreaterThanOrEqual(branchGroups[0].gridRowEnd);
-  });
-
-  it("updates branch forkRow and endRow", () => {
-    const nodes = [makeNode({ branchId: "a", gridRow: 10, gridRowEnd: 13 })];
-    const branches = [makeBranch({ id: "a" })];
-    resolveCompactOverlap(nodes, branches, 100);
-    // After compact overlap, branch endRow = min gridRow, forkRow = max gridRowEnd
-    expect(branches[0].endRow).toBe(nodes[0].gridRow);
-    expect(branches[0].forkRow).toBe(nodes[0].gridRowEnd);
-  });
-});
-
 describe("resolveDesktopOverlap", () => {
   it("shifts overlapping same-side nodes down", () => {
     const nodes = [
@@ -110,11 +44,6 @@ describe("resolveDesktopOverlap", () => {
     // Nodes on different sides should not affect each other
     expect(nodes[0].gridRow).toBe(10);
     expect(nodes[1].gridRow).toBe(10);
-  });
-
-  it("returns empty branchGroups", () => {
-    const { branchGroups } = resolveDesktopOverlap([], PX_PER_MONTH, 100);
-    expect(branchGroups).toHaveLength(0);
   });
 
   it("expands small cards to a minimal fallback before measurement", () => {

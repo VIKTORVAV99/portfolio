@@ -1,29 +1,42 @@
 import type { TimelineEntry } from "$interfaces/timelineEntry";
-import { TOTAL_MONTHS, LANE_SPACING, LANE_SPACING_MOBILE } from "./constants";
-import type { GraphData } from "./types";
+import { TOTAL_MONTHS, LANE_SPACING, COMPACT_LANE_SPACING } from "./constants";
+import type { GraphData, TimelineMode } from "./types";
 import { assignLanes, buildLaneLayout } from "./lanes";
 import { buildLifeNodes, buildBranchNodes } from "./nodes";
-import { resolveCompactOverlap, resolveDesktopOverlap } from "./overlap";
+import { resolveDesktopOverlap } from "./overlap";
 import { buildForkPaths } from "./forks";
+import { buildLeaderLines } from "./leaderLines";
 
 export function buildGraphData(
   entries: TimelineEntry[],
-  compact: boolean,
   pxPerMonth: number,
   measuredHeightsByEntry?: Map<TimelineEntry, number>,
+  mode: TimelineMode = "desktop",
 ): GraphData {
-  const { branches, leftLaneCount, rightLaneCount } = assignLanes(entries, compact);
+  const spacing = mode === "compact" ? COMPACT_LANE_SPACING : LANE_SPACING;
+  const { branches, leftLaneCount, rightLaneCount } = assignLanes(entries, mode);
 
-  const spacing = compact ? LANE_SPACING_MOBILE : LANE_SPACING;
-  const { graphWidth, laneX } = buildLaneLayout(leftLaneCount, rightLaneCount, spacing);
+  const { graphWidth, laneX } = buildLaneLayout(leftLaneCount, rightLaneCount, spacing, mode);
 
   const nodes = [...buildLifeNodes(entries), ...buildBranchNodes(branches)];
 
-  const { totalGridRows, branchGroups } = compact
-    ? resolveCompactOverlap(nodes, branches, TOTAL_MONTHS)
-    : resolveDesktopOverlap(nodes, pxPerMonth, TOTAL_MONTHS, measuredHeightsByEntry);
+  // In compact mode, all cards appear on the right
+  if (mode === "compact") {
+    for (const node of nodes) {
+      node.side = "right";
+    }
+  }
+
+  const { totalGridRows } = resolveDesktopOverlap(
+    nodes,
+    pxPerMonth,
+    TOTAL_MONTHS,
+    measuredHeightsByEntry,
+  );
 
   const forks = buildForkPaths(branches, laneX, pxPerMonth);
 
-  return { branches, nodes, forks, graphWidth, laneX, totalGridRows, branchGroups };
+  const leaderLines = buildLeaderLines(nodes, laneX, graphWidth, pxPerMonth, laneX(0));
+
+  return { branches, nodes, forks, graphWidth, laneX, totalGridRows, mode, leaderLines };
 }

@@ -7,20 +7,19 @@ export const ORIGIN_MONTH = lifeEntry?.startMonth ?? 1;
 export const CURRENT_YEAR = new Date().getFullYear();
 export const CURRENT_MONTH = new Date().getMonth() + 1;
 const PX_PER_YEAR = 96;
-const PX_PER_YEAR_MOBILE = 60;
 export const PX_PER_MONTH = PX_PER_YEAR / 12;
-export const PX_PER_MONTH_MOBILE = PX_PER_YEAR_MOBILE / 12;
 export const TOTAL_MONTHS = (CURRENT_YEAR - ORIGIN_YEAR) * 12 + CURRENT_MONTH;
 export const MIN_SPAN = 3;
 export const GRAPH_TOP_PADDING_PX = 12;
-export const COMPACT_CARD_SPAN = 36;
 export const FORK_CURVE_MONTHS = 3;
-export const LANE_SPACING_MOBILE = 14;
 
 // Graph constants
 export const LANE_SPACING = 40;
 export const NODE_RADIUS = 7;
 export const LINE_WIDTH = 2;
+export const COMPACT_LANE_SPACING = NODE_RADIUS * 2; // 14px
+export const LEADER_CHANNEL_GAP = 8;
+export const MAX_LEADER_CHANNELS = 5;
 
 // Colors
 export const COLOR_LIFE = "var(--color-tertiary-400)";
