@@ -17,6 +17,9 @@ export const FORK_CURVE_MONTHS = 3;
 export const LANE_SPACING = 40;
 export const NODE_RADIUS = 7;
 export const LINE_WIDTH = 2;
+export const COMPACT_LANE_SPACING = NODE_RADIUS * 2; // 14px
+export const LEADER_CHANNEL_GAP = 8;
+export const MAX_LEADER_CHANNELS = 5;
 
 // Colors
 export const COLOR_LIFE = "var(--color-tertiary-400)";

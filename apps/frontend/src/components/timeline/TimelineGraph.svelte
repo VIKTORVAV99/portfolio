@@ -45,7 +45,7 @@
 </script>
 
 <div
-  class="col-start-2 relative max-sm:col-start-1"
+  class="{graphData.mode === 'compact' ? 'col-start-1' : 'col-start-2'} relative"
   style="grid-row: 1 / {graphData.totalGridRows + 1}; width: {graphData.graphWidth}px;"
 >
   <svg
@@ -105,37 +105,15 @@
     {/each}
 
     <!-- Leader lines -->
-    {#each graphData.nodes as node}
-      {#if !(node.entry.type === "life" && !node.entry.showDates)}
-        {@const nx = graphData.laneX(node.lane)}
-        {@const dotY = nodeY(node.row, pxPerMonth)}
-        {@const cardY = nodeY(node.gridRow, pxPerMonth)}
-        {@const targetX = node.side === "left" ? 0 : graphData.graphWidth}
-        {@const dotEdgeX = nx + (node.side === "left" ? -NODE_RADIUS - 2 : NODE_RADIUS + 2)}
-        {#if Math.abs(dotY - cardY) < 1}
-          <!-- dot and card are at the same row: simple horizontal line -->
-          <line
-            x1={dotEdgeX}
-            y1={dotY}
-            x2={targetX}
-            y2={dotY}
-            stroke={node.color}
-            stroke-width={1}
-            stroke-dasharray="4 3"
-            opacity="0.35"
-          />
-        {:else}
-          <!-- dot and card are offset: L-shaped path from dot to card edge -->
-          <polyline
-            points="{dotEdgeX},{dotY} {targetX},{dotY} {targetX},{cardY}"
-            fill="none"
-            stroke={node.color}
-            stroke-width={1}
-            stroke-dasharray="4 3"
-            opacity="0.35"
-          />
-        {/if}
-      {/if}
+    {#each graphData.leaderLines as leader}
+      <polyline
+        points={leader.points.map((p) => `${p.x},${p.y}`).join(" ")}
+        fill="none"
+        stroke={leader.color}
+        stroke-width={1}
+        stroke-dasharray="4 3"
+        opacity="0.35"
+      />
     {/each}
 
     <!-- Year markers -->

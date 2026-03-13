@@ -213,6 +213,87 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
     },
   ],
   "graphWidth": 240,
+  "leaderLines": [
+    {
+      "color": "#3b82f6",
+      "points": [
+        {
+          "x": 71,
+          "y": 704,
+        },
+        {
+          "x": 0,
+          "y": 704,
+        },
+      ],
+    },
+    {
+      "color": "#22c55e",
+      "points": [
+        {
+          "x": 169,
+          "y": 656,
+        },
+        {
+          "x": 240,
+          "y": 656,
+        },
+      ],
+    },
+    {
+      "color": "#f59e0b",
+      "points": [
+        {
+          "x": 169,
+          "y": 344,
+        },
+        {
+          "x": 240,
+          "y": 344,
+        },
+      ],
+    },
+    {
+      "color": "#ef4444",
+      "points": [
+        {
+          "x": 71,
+          "y": 224,
+        },
+        {
+          "x": 0,
+          "y": 224,
+        },
+      ],
+    },
+    {
+      "color": "#a855f7",
+      "points": [
+        {
+          "x": 209,
+          "y": 208,
+        },
+        {
+          "x": 240,
+          "y": 208,
+        },
+      ],
+    },
+    {
+      "color": "#a855f7",
+      "points": [
+        {
+          "x": 209,
+          "y": 48,
+        },
+        {
+          "x": 240,
+          "y": 48,
+        },
+      ],
+    },
+  ],
+  "mode": "desktop",
   "nodes": [
     {
       "branchId": "__life",
