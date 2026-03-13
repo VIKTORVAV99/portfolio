@@ -13,7 +13,7 @@ export interface LaneLayout {
   laneX: (lane: number) => number;
 }
 
-export function assignLanes(entries: TimelineEntry[], compact: boolean): AssignLanesResult {
+export function assignLanes(entries: TimelineEntry[]): AssignLanesResult {
   // Group entries into branches
   const groupMap = new Map<string, TimelineEntry[]>();
   let ungroupedIdx = 0;
@@ -57,14 +57,14 @@ export function assignLanes(entries: TimelineEntry[], compact: boolean): AssignL
   let branchColorIdx = 0;
   for (const [id, groupEntries] of sortedGroups) {
     const type = groupEntries[0].type;
-    const side: "left" | "right" = compact ? "left" : type === "education" ? "left" : "right";
+    const side: "left" | "right" = type === "education" ? "left" : "right";
 
     const earliestStart = Math.min(...groupEntries.map((e) => entryStartAbsMonth(e)));
     const latestEnd = Math.max(...groupEntries.map((e) => entryEndAbsMonth(e)));
 
     let lane = findReusableLane(side, earliestStart, latestEnd);
     if (lane === null) {
-      lane = compact ? nextLeftLane-- : side === "left" ? nextLeftLane-- : nextRightLane++;
+      lane = side === "left" ? nextLeftLane-- : nextRightLane++;
     }
 
     if (!laneOccupancy.has(lane)) laneOccupancy.set(lane, []);

@@ -2,7 +2,7 @@ import { describe, it, expect } from "bun:test";
 import type { TimelineEntry } from "$interfaces/timelineEntry";
 import { buildGraphData } from "./buildGraphData";
 import { timelineEntries } from "$data/metadata";
-import { PX_PER_MONTH, PX_PER_MONTH_MOBILE } from "./constants";
+import { PX_PER_MONTH } from "./constants";
 
 /** Strip the non-serializable `laneX` function for snapshot comparison. */
 function snapshottable(data: ReturnType<typeof buildGraphData>) {
@@ -12,12 +12,7 @@ function snapshottable(data: ReturnType<typeof buildGraphData>) {
 
 describe("buildGraphData snapshot", () => {
   it("matches desktop snapshot", () => {
-    const result = buildGraphData(timelineEntries, false, PX_PER_MONTH);
-    expect(snapshottable(result)).toMatchSnapshot();
-  });
-
-  it("matches compact snapshot", () => {
-    const result = buildGraphData(timelineEntries, true, PX_PER_MONTH_MOBILE);
+    const result = buildGraphData(timelineEntries, PX_PER_MONTH);
     expect(snapshottable(result)).toMatchSnapshot();
   });
 });
@@ -44,7 +39,7 @@ describe("buildGraphData — life entries", () => {
         showDates: true,
       },
     ];
-    const result = buildGraphData(entries, false, PX_PER_MONTH);
+    const result = buildGraphData(entries, PX_PER_MONTH);
     expect(result.branches.every((b) => b.type !== "life")).toBe(true);
     // But life entries still produce nodes
     expect(result.nodes.some((n) => n.entry.type === "life")).toBe(true);
@@ -76,7 +71,7 @@ describe("buildGraphData — grouping", () => {
         group: "corp",
       },
     ];
-    const result = buildGraphData(entries, false, PX_PER_MONTH);
+    const result = buildGraphData(entries, PX_PER_MONTH);
     expect(result.branches).toHaveLength(1);
     expect(result.branches[0].entries).toHaveLength(2);
   });
@@ -104,7 +99,7 @@ describe("buildGraphData — grouping", () => {
         showDates: true,
       },
     ];
-    const result = buildGraphData(entries, false, PX_PER_MONTH);
+    const result = buildGraphData(entries, PX_PER_MONTH);
     expect(result.branches).toHaveLength(2);
     expect(result.branches[0].entries).toHaveLength(1);
     expect(result.branches[1].entries).toHaveLength(1);
@@ -135,37 +130,9 @@ describe("buildGraphData — lane assignment", () => {
         showDates: true,
       },
     ];
-    const result = buildGraphData(entries, false, PX_PER_MONTH);
+    const result = buildGraphData(entries, PX_PER_MONTH);
     // Both are work → right side, non-overlapping → same lane
     expect(result.branches[0].lane).toBe(result.branches[1].lane);
-  });
-
-  it("assigns all branches to left side in compact mode", () => {
-    const entries: TimelineEntry[] = [
-      {
-        title: "School",
-        organization: "Uni",
-        type: "education",
-        startYear: 2020,
-        startMonth: 1,
-        endYear: 2021,
-        endMonth: 12,
-        showDates: true,
-      },
-      {
-        title: "Job",
-        organization: "Corp",
-        type: "work",
-        startYear: 2022,
-        startMonth: 1,
-        endYear: 2023,
-        endMonth: 12,
-        showDates: true,
-      },
-    ];
-    const result = buildGraphData(entries, true, PX_PER_MONTH_MOBILE);
-    expect(result.branches.every((b) => b.side === "left")).toBe(true);
-    expect(result.branches.every((b) => b.lane < 0)).toBe(true);
   });
 });
 
@@ -182,7 +149,7 @@ describe("buildGraphData — fork/merge curves", () => {
         showDates: true,
       },
     ];
-    const result = buildGraphData(entries, false, PX_PER_MONTH);
+    const result = buildGraphData(entries, PX_PER_MONTH);
     expect(result.forks).toHaveLength(1);
     expect(result.forks[0].direction).toBe("down");
   });
@@ -200,28 +167,16 @@ describe("buildGraphData — fork/merge curves", () => {
         showDates: true,
       },
     ];
-    const result = buildGraphData(entries, false, PX_PER_MONTH);
+    const result = buildGraphData(entries, PX_PER_MONTH);
     expect(result.forks).toHaveLength(2);
     expect(result.forks[0].direction).toBe("down");
     expect(result.forks[1].direction).toBe("up");
   });
 });
 
-describe("buildGraphData — compact overlap resolution", () => {
-  it("produces branchGroups in compact mode", () => {
-    const result = buildGraphData(timelineEntries, true, PX_PER_MONTH_MOBILE);
-    expect(result.branchGroups.length).toBeGreaterThan(0);
-  });
-
-  it("produces empty branchGroups in desktop mode", () => {
-    const result = buildGraphData(timelineEntries, false, PX_PER_MONTH);
-    expect(result.branchGroups).toHaveLength(0);
-  });
-});
-
 describe("buildGraphData — laneX", () => {
   it("laneX(0) returns the center x", () => {
-    const result = buildGraphData(timelineEntries, false, PX_PER_MONTH);
+    const result = buildGraphData(timelineEntries, PX_PER_MONTH);
     const center = result.laneX(0);
     // Branches at negative and positive lanes should be symmetric about center
     for (const branch of result.branches) {

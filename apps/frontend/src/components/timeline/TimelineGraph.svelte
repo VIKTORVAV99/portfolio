@@ -12,17 +12,13 @@
   let {
     graphData,
     yearMarkers,
-    compact,
     pxPerMonth,
     totalHeight,
-    gridRowEnd,
   }: {
     graphData: GraphData;
     yearMarkers: number[];
-    compact: boolean;
     pxPerMonth: number;
     totalHeight: number;
-    gridRowEnd?: number;
   } = $props();
 
   const branchTicks = $derived.by(() => {
@@ -50,8 +46,7 @@
 
 <div
   class="col-start-2 relative max-sm:col-start-1"
-  style="grid-row: 1 / {gridRowEnd ??
-    graphData.totalGridRows + 1}; width: {graphData.graphWidth}px;"
+  style="grid-row: 1 / {graphData.totalGridRows + 1}; width: {graphData.graphWidth}px;"
 >
   <svg
     width={graphData.graphWidth}
@@ -109,41 +104,39 @@
       />
     {/each}
 
-    {#if !compact}
-      <!-- Leader lines -->
-      {#each graphData.nodes as node}
-        {#if !(node.entry.type === "life" && !node.entry.showDates)}
-          {@const nx = graphData.laneX(node.lane)}
-          {@const dotY = nodeY(node.row, pxPerMonth)}
-          {@const cardY = nodeY(node.gridRow, pxPerMonth)}
-          {@const targetX = node.side === "left" ? 0 : graphData.graphWidth}
-          {@const dotEdgeX = nx + (node.side === "left" ? -NODE_RADIUS - 2 : NODE_RADIUS + 2)}
-          {#if Math.abs(dotY - cardY) < 1}
-            <!-- dot and card are at the same row: simple horizontal line -->
-            <line
-              x1={dotEdgeX}
-              y1={dotY}
-              x2={targetX}
-              y2={dotY}
-              stroke={node.color}
-              stroke-width={1}
-              stroke-dasharray="4 3"
-              opacity="0.35"
-            />
-          {:else}
-            <!-- dot and card are offset: L-shaped path from dot to card edge -->
-            <polyline
-              points="{dotEdgeX},{dotY} {targetX},{dotY} {targetX},{cardY}"
-              fill="none"
-              stroke={node.color}
-              stroke-width={1}
-              stroke-dasharray="4 3"
-              opacity="0.35"
-            />
-          {/if}
+    <!-- Leader lines -->
+    {#each graphData.nodes as node}
+      {#if !(node.entry.type === "life" && !node.entry.showDates)}
+        {@const nx = graphData.laneX(node.lane)}
+        {@const dotY = nodeY(node.row, pxPerMonth)}
+        {@const cardY = nodeY(node.gridRow, pxPerMonth)}
+        {@const targetX = node.side === "left" ? 0 : graphData.graphWidth}
+        {@const dotEdgeX = nx + (node.side === "left" ? -NODE_RADIUS - 2 : NODE_RADIUS + 2)}
+        {#if Math.abs(dotY - cardY) < 1}
+          <!-- dot and card are at the same row: simple horizontal line -->
+          <line
+            x1={dotEdgeX}
+            y1={dotY}
+            x2={targetX}
+            y2={dotY}
+            stroke={node.color}
+            stroke-width={1}
+            stroke-dasharray="4 3"
+            opacity="0.35"
+          />
+        {:else}
+          <!-- dot and card are offset: L-shaped path from dot to card edge -->
+          <polyline
+            points="{dotEdgeX},{dotY} {targetX},{dotY} {targetX},{cardY}"
+            fill="none"
+            stroke={node.color}
+            stroke-width={1}
+            stroke-dasharray="4 3"
+            opacity="0.35"
+          />
         {/if}
-      {/each}
-    {/if}
+      {/if}
+    {/each}
 
     <!-- Year markers -->
     {#each yearMarkers as year}
@@ -168,16 +161,14 @@
 
     <!-- Commit nodes -->
     {#each graphData.nodes as node}
-      {#if !(compact && node.entry.type === "life" && !node.entry.showDates)}
-        {@const ny = nodeY(node.row, pxPerMonth)}
-        <circle
-          cx={graphData.laneX(node.lane)}
-          cy={ny}
-          r={NODE_RADIUS}
-          fill={node.color}
-          class="stroke-surface-50 dark:stroke-surface-950 stroke-3"
-        />
-      {/if}
+      {@const ny = nodeY(node.row, pxPerMonth)}
+      <circle
+        cx={graphData.laneX(node.lane)}
+        cy={ny}
+        r={NODE_RADIUS}
+        fill={node.color}
+        class="stroke-surface-50 dark:stroke-surface-950 stroke-3"
+      />
     {/each}
 
     <!-- Life labels -->
