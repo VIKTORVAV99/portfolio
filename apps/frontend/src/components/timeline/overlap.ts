@@ -11,10 +11,11 @@ export function resolveDesktopOverlap(
     const sideNodes = nodes.filter((n) => n.side === side).sort((a, b) => a.gridRow - b.gridRow);
     for (const node of sideNodes) {
       const measuredHeight = measuredHeightsByEntry?.get(node.entry);
-      const minSpan =
-        measuredHeight != null ? Math.max(2, Math.ceil(measuredHeight / pxPerMonth) + 1) : 2;
-      if (node.gridRowEnd - node.gridRow < minSpan) {
+      if (measuredHeight != null) {
+        const minSpan = Math.max(2, Math.ceil(measuredHeight / pxPerMonth) + 1);
         node.gridRowEnd = node.gridRow + minSpan;
+      } else if (node.gridRowEnd - node.gridRow < 2) {
+        node.gridRowEnd = node.gridRow + 2;
       }
     }
     let nextRow = -Infinity;
