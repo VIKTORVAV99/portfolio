@@ -20,7 +20,7 @@
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250309.0",
-    "oxfmt": "^0.37.0",
+    "oxfmt": "^0.40.0",
     "oxlint": "^1.52.0",
     "typescript": "^5.9.3",
     "wrangler": "^4.0.0"
