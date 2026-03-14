@@ -61,6 +61,22 @@ describe("resolveDesktopOverlap", () => {
     expect(nodes[0].gridRowEnd - nodes[0].gridRow).toBe(2);
   });
 
+  it("shrinks large chronological gridRowEnd to match measured height", () => {
+    const entry: TimelineEntry = {
+      title: "Long-duration entry",
+      organization: "University",
+      type: "education",
+      startYear: 2020,
+      showDates: true,
+    };
+    const nodes = [makeNode({ gridRow: 10, gridRowEnd: 28, side: "right", entry })];
+    const measuredHeights = new Map<TimelineEntry, number>([[entry, PX_PER_MONTH * 5.5]]);
+
+    resolveDesktopOverlap(nodes, PX_PER_MONTH, 100, measuredHeights);
+
+    expect(nodes[0].gridRowEnd).toBe(17);
+  });
+
   it("uses measured card height when provided", () => {
     const entry: TimelineEntry = {
       title: "Measured card",
