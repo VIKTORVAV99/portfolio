@@ -67,7 +67,6 @@ export interface EducationalCredentialSchema {
   recognizedBy?: EducationalOrganizationSchema;
 }
 
-// NEW: Helper for mainEntityOfPage
 export interface WebPageSchema {
   "@type": "WebPage";
   "@id": string;

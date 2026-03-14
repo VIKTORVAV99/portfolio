@@ -32,13 +32,13 @@ const hh = createEducationalOrganizationSchema({
 });
 
 const structuredData = createPersonSchema({
-  "@id": `${SITE_URL}/#person`,                         // <-- Deduplicated
-  mainEntityOfPage: createWebPageSchema(SITE_URL),      // <-- Deduplicated
+  "@id": `${SITE_URL}/#person`, // <-- Deduplicated
+  mainEntityOfPage: createWebPageSchema(SITE_URL), // <-- Deduplicated
   name: "Viktor Andersson",
   givenName: "Viktor",
   familyName: "Andersson",
-  url: SITE_URL,                                        // <-- Deduplicated
-  image: `${SITE_URL}${portrait}`,                      // <-- Made absolute for JSON-LD!
+  url: SITE_URL, // <-- Deduplicated
+  image: `${SITE_URL}${portrait}`, // <-- Made absolute for JSON-LD!
   homeLocation: createPlaceSchema("Malmö", "SE"),
   jobTitle: "Software Engineer",
   description:
