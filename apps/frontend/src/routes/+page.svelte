@@ -5,6 +5,7 @@
   import type { PageData } from "./$types";
   import portrait from "$images/Viktor_Andersson.jpeg?enhanced";
   import SEO from "$lib/seo/components/SEO.svelte";
+  import { inview } from "$lib/actions/inview";
 
   let { data }: { data: PageData } = $props();
 </script>
@@ -48,7 +49,7 @@
       </section>
     </div>
   </section>
-  <section class="flex flex-col gap-4 items-center w-full">
+  <section class="flex flex-col gap-4 items-center w-full" use:inview>
     <h2>Experience</h2>
     <Timeline entries={timelineEntries} />
   </section>
