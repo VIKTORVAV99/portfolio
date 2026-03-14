@@ -136,44 +136,6 @@ describe("buildGraphData — lane assignment", () => {
   });
 });
 
-describe("buildGraphData — fork/merge curves", () => {
-  it("ongoing branches have fork curve but no merge curve", () => {
-    const entries: TimelineEntry[] = [
-      {
-        title: "Job",
-        organization: "Corp",
-        type: "work",
-        startYear: 2020,
-        startMonth: 1,
-        endYear: null,
-        showDates: true,
-      },
-    ];
-    const result = buildGraphData(entries, PX_PER_MONTH);
-    expect(result.forks).toHaveLength(1);
-    expect(result.forks[0].direction).toBe("down");
-  });
-
-  it("completed branches have both fork and merge curves", () => {
-    const entries: TimelineEntry[] = [
-      {
-        title: "Job",
-        organization: "Corp",
-        type: "work",
-        startYear: 2020,
-        startMonth: 1,
-        endYear: 2021,
-        endMonth: 12,
-        showDates: true,
-      },
-    ];
-    const result = buildGraphData(entries, PX_PER_MONTH);
-    expect(result.forks).toHaveLength(2);
-    expect(result.forks[0].direction).toBe("down");
-    expect(result.forks[1].direction).toBe("up");
-  });
-});
-
 describe("buildGraphData — laneX", () => {
   it("laneX(0) returns the center x", () => {
     const result = buildGraphData(timelineEntries, PX_PER_MONTH);

@@ -4,7 +4,6 @@ import type { GraphData, TimelineMode } from "./types";
 import { assignLanes, buildLaneLayout } from "./lanes";
 import { buildLifeNodes, buildBranchNodes } from "./nodes";
 import { resolveDesktopOverlap } from "./overlap";
-import { buildForkPaths } from "./forks";
 import { buildLeaderLines } from "./leaderLines";
 
 export function buildGraphData(
@@ -34,9 +33,7 @@ export function buildGraphData(
     measuredHeightsByEntry,
   );
 
-  const forks = buildForkPaths(branches, laneX, pxPerMonth);
-
   const leaderLines = buildLeaderLines(nodes, laneX, graphWidth, pxPerMonth, laneX(0));
 
-  return { branches, nodes, forks, graphWidth, laneX, totalGridRows, mode, leaderLines };
+  return { branches, nodes, graphWidth, laneX, totalGridRows, mode, leaderLines };
 }
