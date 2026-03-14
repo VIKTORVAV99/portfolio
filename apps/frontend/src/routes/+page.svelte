@@ -5,6 +5,7 @@
   import type { PageData } from "./$types";
   import portrait from "$images/Viktor_Andersson.jpeg?enhanced";
   import SEO from "$lib/seo/components/SEO.svelte";
+  import { inview } from "$lib/actions/inview";
 
   let { data }: { data: PageData } = $props();
 </script>
@@ -16,17 +17,24 @@
   structuredData={data.structuredData}
 />
 
-<div class="flex flex-col gap-8 justify-start pt-8 items-center">
+<div class="flex flex-col gap-16 justify-start pt-8 items-center">
   <section class="flex flex-col items-center gap-4 w-full">
-    <enhanced:img
-      src={portrait}
-      alt="Portrait of Viktor Andersson"
-      class="rounded-full w-64 h-64 border border-surface-100 dark:border-surface-800"
-    />
-    <h1>Viktor Andersson</h1>
-    <IconSet />
+    <div class="animate-entrance">
+      <enhanced:img
+        src={portrait}
+        alt="Portrait of Viktor Andersson"
+        class="rounded-full w-64 h-64 border border-surface-100 dark:border-surface-800 transition-all duration-300 hover:scale-105 hover:shadow-lg"
+      />
+    </div>
+    <h1 class="animate-entrance" style="animation-delay: 150ms;">Viktor Andersson</h1>
+    <div class="animate-entrance" style="animation-delay: 300ms;">
+      <IconSet />
+    </div>
   </section>
-  <section class="flex flex-col items-center gap-4 w-full max-w-4xl">
+  <section
+    class="reveal flex flex-col items-center gap-4 w-full max-w-4xl"
+    use:inview
+  >
     <h2>About me</h2>
     <div class="flex flex-col md:flex-row gap-8">
       <section class="flex flex-col gap-4 items-center flex-1">
@@ -48,7 +56,10 @@
       </section>
     </div>
   </section>
-  <section class="flex flex-col gap-4 items-center w-full">
+  <section
+    class="reveal flex flex-col gap-4 items-center w-full"
+    use:inview
+  >
     <h2>Experience</h2>
     <Timeline entries={timelineEntries} />
   </section>

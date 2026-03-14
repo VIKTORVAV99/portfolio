@@ -44,8 +44,12 @@
 				</svg>
 			</Accordion.Trigger>
 		</Accordion.Header>
-		<Accordion.Content class="px-3 pb-2{isRight ? ' text-right' : ''}">
-			<TimelineCard {entry} />
+		<Accordion.Content forceMount class="accordion-slide{isRight ? ' text-right' : ''}">
+			<div class="overflow-hidden">
+				<div class="px-3 pb-2">
+					<TimelineCard {entry} />
+				</div>
+			</div>
 		</Accordion.Content>
 	</Accordion.Item>
 </Accordion.Root>
