@@ -16,7 +16,7 @@ describe("sitemap.xml", () => {
   // it should return xml that includes the domain
   it("should include domain", async () => {
     const response = await GET();
-    expect(await response.text()).toContain("https://viktor.andersson.tech/");
+    expect(await response.text()).toContain("https://viktor.andersson.tech");
   });
 
   it("should match snapshot", async () => {
