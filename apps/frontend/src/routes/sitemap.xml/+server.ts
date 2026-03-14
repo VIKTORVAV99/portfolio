@@ -1,6 +1,5 @@
 export const prerender = true;
-
-const DOMAIN = "https://viktor.andersson.tech";
+import { SITE_URL } from "$lib/config";
 
 export async function GET() {
   // Since prerender is true, this date is locked in exactly at build time, which is what we want for a sitemap.
@@ -15,7 +14,7 @@ export async function GET() {
     .map(
       (page) => `
   <url>
-    <loc>${DOMAIN}${page.path}</loc>
+    <loc>${SITE_URL}${page.path}</loc>
     <lastmod>${buildDate}</lastmod>
     <changefreq>${page.changefreq}</changefreq>
     <priority>${page.priority}</priority>

@@ -11,7 +11,7 @@
 </script>
 
 <SEO
-  title="Viktor Andersson"
+  title="Viktor Andersson | Software Engineer"
   description="Personal portfolio website for Viktor Andersson, Software Engineer at Electricity Maps and Digital Design and Innovation graduate"
   canonicalURL="https://viktor.andersson.tech"
   structuredData={data.structuredData}

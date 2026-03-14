@@ -67,15 +67,55 @@ export interface EducationalCredentialSchema {
   recognizedBy?: EducationalOrganizationSchema;
 }
 
+// NEW: Helper for mainEntityOfPage
+export interface WebPageSchema {
+  "@type": "WebPage";
+  "@id": string;
+}
+
+export function createWebPageSchema(id: string): WebPageSchema {
+  return { "@type": "WebPage", "@id": id };
+}
+
+export interface SoftwareSourceCodeSchema {
+  "@type": "SoftwareSourceCode";
+  name: string;
+  description?: string;
+  codeRepository?: string; // URL to the GitHub repo
+  programmingLanguage?: string | string[]; // e.g., ["TypeScript", "Svelte"]
+  author?: PersonSchema | { "@type": "Person"; name: string; url?: string };
+  license?: string; // URL to the license (e.g., MIT)
+  dateCreated?: string;
+  dateModified?: string;
+}
+
+export function createSoftwareSourceCodeSchema(
+  options: Omit<SoftwareSourceCodeSchema, "@type">,
+): SoftwareSourceCodeSchema {
+  return { "@type": "SoftwareSourceCode", ...options };
+}
+
 export interface PersonSchema {
   "@context": "https://schema.org";
   "@type": "Person";
+  /**
+   * The "@id" property is optional but can be very useful for uniquely identifying the person in structured data, especially when linking to other entities.
+   * It should be a URL that ideally points to a page about the person (e.g., their profile page).
+   * This allows search engines and other consumers of the structured data to understand that different pieces of data refer to the same individual.
+   * For example, you could set it to "https://viktor.andersson.tech/#person" to indicate that this schema describes the person associated with that URL.
+   */
+  "@id"?: string;
+  mainEntityOfPage?: WebPageSchema;
   name: string;
   givenName?: string;
   familyName?: string;
   url?: string;
+  image?: string | string[]; // Added
+  homeLocation?: string | PlaceSchema;
   jobTitle?: string;
   description?: string;
+  knowsLanguage?: string | string[];
+  knowsAbout?: string | string[];
   worksFor?:
     | Omit<OrganizationSchema, "@context">
     | EmployeeRoleSchema
@@ -91,12 +131,15 @@ export function createPersonSchema(
   return { "@context": "https://schema.org", "@type": "Person", ...options };
 }
 
+// Updated union type to include WebPageSchema
 export type StructuredDataSchema =
   | PersonSchema
   | OrganizationSchema
   | EducationalOrganizationSchema
   | EmployeeRoleSchema
-  | EducationalCredentialSchema;
+  | EducationalCredentialSchema
+  | WebPageSchema
+  | SoftwareSourceCodeSchema;
 
 export function toJsonLd(schema: StructuredDataSchema): string {
   try {
