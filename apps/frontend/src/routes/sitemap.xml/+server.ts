@@ -1,22 +1,32 @@
-const DOMAIN = "https://viktor.andersson.tech/";
+export const prerender = true;
+import { SITE_URL } from "$lib/config";
 
 export async function GET() {
-  return new Response(
-    `
-      <?xml version="1.0" encoding="UTF-8" ?>
-        <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
-          <url>
-            <loc>${DOMAIN}</loc>
-          </url>
-        </urlset>`
-      .replaceAll(",", "")
-      .replaceAll("\n", "")
-      .replaceAll("  ", "")
-      .trim(),
-    {
-      headers: {
-        "Content-Type": "application/xml",
-      },
+  // Since prerender is true, this date is locked in exactly at build time, which is what we want for a sitemap.
+  const buildDate = new Date().toISOString().split("T")[0];
+
+  // List of pages to include in the sitemap.
+  const pages = [{ path: "", priority: "1.0", changefreq: "weekly" }];
+
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
+  ${pages
+    .map(
+      (page) => `
+  <url>
+    <loc>${SITE_URL}${page.path}</loc>
+    <lastmod>${buildDate}</lastmod>
+    <changefreq>${page.changefreq}</changefreq>
+    <priority>${page.priority}</priority>
+  </url>`,
+    )
+    .join("")}
+</urlset>`.trim();
+
+  return new Response(sitemap, {
+    headers: {
+      "Content-Type": "application/xml",
+      "Cache-Control": "max-age=0, s-maxage=3600",
     },
-  );
+  });
 }

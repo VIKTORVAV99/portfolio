@@ -5,7 +5,10 @@ import {
   createEducationalOrganizationSchema,
   createEmployeeRoleSchema,
   createPlaceSchema,
+  createWebPageSchema,
 } from "$lib/seo";
+import { SITE_URL } from "$lib/config"; // <-- Import your global domain
+import portrait from "$images/Viktor_Andersson.jpeg";
 
 const electricityMaps = createOrganizationSchema({
   name: "Electricity Maps",
@@ -29,13 +32,31 @@ const hh = createEducationalOrganizationSchema({
 });
 
 const structuredData = createPersonSchema({
+  "@id": `${SITE_URL}/#person`,
+  mainEntityOfPage: createWebPageSchema(SITE_URL),
   name: "Viktor Andersson",
   givenName: "Viktor",
   familyName: "Andersson",
-  url: "https://viktor.andersson.tech",
+  url: SITE_URL,
+  image: `${SITE_URL}${portrait}`,
+  homeLocation: createPlaceSchema("Malmö", "SE"),
   jobTitle: "Software Engineer",
   description:
     "Software Engineer at Electricity Maps, the world's most comprehensive electricity data platform. BSc in Digital Design and Innovation from Halmstad University.",
+  knowsLanguage: ["English", "Swedish"],
+  knowsAbout: [
+    "Software Engineering",
+    "Web Development",
+    "SvelteKit",
+    "React",
+    "TypeScript",
+    "Python",
+    "Apache Airflow",
+    "Apache Beam",
+    "Data Visualization",
+    "Data Engineering",
+    "Open Source Software",
+  ],
   worksFor: [
     createEmployeeRoleSchema({
       roleName: "Software Engineer",
