@@ -1,4 +1,5 @@
-import type { PageLoad } from "./$types";
+import portrait from "$images/Viktor_Andersson.jpeg";
+import { SITE_URL } from "$lib/config"; // <-- Import your global domain
 import {
   createPersonSchema,
   createOrganizationSchema,
@@ -7,8 +8,8 @@ import {
   createPlaceSchema,
   createWebPageSchema,
 } from "$lib/seo";
-import { SITE_URL } from "$lib/config"; // <-- Import your global domain
-import portrait from "$images/Viktor_Andersson.jpeg";
+
+import type { PageLoad } from "./$types";
 
 const electricityMaps = createOrganizationSchema({
   name: "Electricity Maps",

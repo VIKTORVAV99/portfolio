@@ -1,4 +1,5 @@
 import type { TimelineEntry } from "$interfaces/timelineEntry";
+
 import {
   ORIGIN_YEAR,
   ORIGIN_MONTH,

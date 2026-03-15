@@ -6,7 +6,7 @@ exports[`sitemap.xml should match snapshot 1`] = `
   
   <url>
     <loc>https://viktor.andersson.tech</loc>
-    <lastmod>2026-03-14</lastmod>
+    <lastmod>YYYY-MM-DD</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>

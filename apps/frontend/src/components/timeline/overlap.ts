@@ -1,4 +1,5 @@
 import type { TimelineEntry } from "$interfaces/timelineEntry";
+
 import type { CommitNode } from "./types";
 
 export function resolveDesktopOverlap(

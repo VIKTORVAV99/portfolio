@@ -1,7 +1,9 @@
-import { describe, it, expect } from "bun:test";
 import type { TimelineEntry } from "$interfaces/timelineEntry";
-import { assignLanes, buildLaneLayout } from "./lanes";
+
+import { describe, it, expect } from "bun:test";
+
 import { BRANCH_COLORS } from "./constants";
+import { assignLanes, buildLaneLayout } from "./lanes";
 
 function workEntry(overrides: Partial<TimelineEntry> = {}): TimelineEntry {
   return {

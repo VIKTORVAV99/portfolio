@@ -1,6 +1,6 @@
-import { GET } from "./+server";
-
 import { describe, it, expect } from "bun:test";
+
+import { GET } from "./+server";
 
 describe("sitemap.xml", () => {
   it("should return content type application/xml", async () => {
@@ -21,6 +21,9 @@ describe("sitemap.xml", () => {
 
   it("should match snapshot", async () => {
     const response = await GET();
-    expect(await response.text()).toMatchSnapshot();
+    let text = await response.text();
+    // Replace date patterns with a placeholder
+    text = text.replace(/\d{4}-\d{2}-\d{2}/g, "YYYY-MM-DD");
+    expect(text).toMatchSnapshot();
   });
 });
