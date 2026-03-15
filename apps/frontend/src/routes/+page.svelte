@@ -5,12 +5,13 @@
   import type { PageData } from "./$types";
   import portrait from "$images/Viktor_Andersson.jpeg?enhanced";
   import SEO from "$lib/seo/components/SEO.svelte";
+  import { inview } from "$lib/actions/inview";
 
   let { data }: { data: PageData } = $props();
 </script>
 
 <SEO
-  title="Viktor Andersson"
+  title="Viktor Andersson | Software Engineer"
   description="Personal portfolio website for Viktor Andersson, Software Engineer at Electricity Maps and Digital Design and Innovation graduate"
   canonicalURL="https://viktor.andersson.tech"
   structuredData={data.structuredData}
@@ -48,7 +49,7 @@
       </section>
     </div>
   </section>
-  <section class="flex flex-col gap-4 items-center w-full">
+  <section class="flex flex-col gap-4 items-center w-full" use:inview>
     <h2>Experience</h2>
     <Timeline entries={timelineEntries} />
   </section>

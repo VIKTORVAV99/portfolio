@@ -8,12 +8,16 @@
     canonicalURL,
     structuredData,
     noIndex = false,
+    image,
+    type = "website",
   }: {
     title: string;
     description: string;
     canonicalURL?: string;
     structuredData?: StructuredDataSchema;
     noIndex?: boolean;
+    image?: string;
+    type?: "website" | "article" | "profile" | string;
   } = $props();
 </script>
 
@@ -30,14 +34,24 @@
     {@html `<script type="application/ld+json">${toJsonLd(structuredData)}<` + `/script>`}
   {/if}
 
-  <!-- Additional metadata tags for open graph, Twitter cards, etc. -->
+  <meta property="og:type" content={type} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
-  <meta name="twitter:card" content="summary_large_image" />
+
+  {#if image}
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={image} />
+    <meta property="og:image" content={image} />
+  {:else}
+    <meta name="twitter:card" content="summary" />
+  {/if}
+
   <meta name="twitter:title" content={title} />
   <meta name="twitter:description" content={description} />
 
   {#if noIndex}
-    <meta name="robots" content="noindex" />
+    <meta name="robots" content="noindex, nofollow" />
+  {:else}
+    <meta name="robots" content="index, follow" />
   {/if}
 </svelte:head>

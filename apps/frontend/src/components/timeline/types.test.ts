@@ -7,8 +7,6 @@ import {
   monthToRow,
   nodeY,
   formatDate,
-  forkCurvePath,
-  type ForkPath,
 } from "./types";
 import {
   ORIGIN_YEAR,
@@ -178,55 +176,5 @@ describe("formatDate", () => {
       endMonth: 6,
     } as TimelineEntry;
     expect(formatDate(entry)).toBe("2020/06");
-  });
-});
-
-describe("forkCurvePath", () => {
-  it("produces a valid SVG path for down direction", () => {
-    const fork: ForkPath = {
-      fromX: 100,
-      toX: 200,
-      y: 50,
-      curveHeight: 24,
-      color: "red",
-      direction: "down",
-    };
-    const path = forkCurvePath(fork);
-    expect(path).toStartWith("M ");
-    expect(path).toContain("C ");
-    // down: starts at y + curveHeight, ends at y
-    expect(path).toStartWith(`M 100 ${50 + 24}`);
-    expect(path).toEndWith(`200 50`);
-  });
-
-  it("produces a valid SVG path for up direction", () => {
-    const fork: ForkPath = {
-      fromX: 200,
-      toX: 100,
-      y: 50,
-      curveHeight: 24,
-      color: "red",
-      direction: "up",
-    };
-    const path = forkCurvePath(fork);
-    expect(path).toStartWith("M ");
-    expect(path).toContain("C ");
-    // up: starts at y, ends at y - curveHeight
-    expect(path).toStartWith(`M 200 50`);
-    expect(path).toEndWith(`100 ${50 - 24}`);
-  });
-
-  it("handles same fromX and toX", () => {
-    const fork: ForkPath = {
-      fromX: 100,
-      toX: 100,
-      y: 50,
-      curveHeight: 24,
-      color: "red",
-      direction: "down",
-    };
-    const path = forkCurvePath(fork);
-    expect(path).toContain("M ");
-    expect(path).toContain("C ");
   });
 });

@@ -33,15 +33,6 @@ export interface CommitNode {
   side: "left" | "right";
 }
 
-export interface ForkPath {
-  fromX: number;
-  toX: number;
-  y: number;
-  curveHeight: number;
-  color: string;
-  direction: "down" | "up";
-}
-
 export type TimelineMode = "desktop" | "compact";
 
 export interface LeaderLine {
@@ -52,7 +43,6 @@ export interface LeaderLine {
 export interface GraphData {
   branches: Branch[];
   nodes: CommitNode[];
-  forks: ForkPath[];
   graphWidth: number;
   laneX: (lane: number) => number;
   totalGridRows: number;
@@ -101,17 +91,4 @@ export function formatDate(entry: TimelineEntry): string {
     if (startStr !== endStr) return `${startStr} — ${endStr}`;
   }
   return startStr;
-}
-
-export function forkCurvePath(fork: ForkPath): string {
-  const { fromX, toX, y, curveHeight, direction } = fork;
-  if (direction === "down") {
-    const y1 = y + curveHeight;
-    const y2 = y;
-    return `M ${fromX} ${y1} C ${fromX} ${y1 - curveHeight * 0.6}, ${toX} ${y2 + curveHeight * 0.6}, ${toX} ${y2}`;
-  } else {
-    const y1 = y;
-    const y2 = y - curveHeight;
-    return `M ${fromX} ${y1} C ${fromX} ${y1 - curveHeight * 0.6}, ${toX} ${y2 + curveHeight * 0.6}, ${toX} ${y2}`;
-  }
 }
