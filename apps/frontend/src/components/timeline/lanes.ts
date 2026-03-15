@@ -1,4 +1,5 @@
 import type { TimelineEntry } from "$interfaces/timelineEntry";
+
 import { BRANCH_COLORS, MAX_LEADER_CHANNELS, LEADER_CHANNEL_GAP } from "./constants";
 import {
   monthToRow,

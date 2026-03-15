@@ -1,8 +1,11 @@
-import { describe, it, expect } from "bun:test";
 import type { TimelineEntry } from "$interfaces/timelineEntry";
-import { buildLifeNodes, buildBranchNodes } from "./nodes";
-import { COLOR_LIFE, MIN_SPAN } from "./constants";
+
+import { describe, it, expect } from "bun:test";
+
 import type { Branch } from "./types";
+
+import { COLOR_LIFE, MIN_SPAN } from "./constants";
+import { buildLifeNodes, buildBranchNodes } from "./nodes";
 
 describe("buildLifeNodes", () => {
   it("creates nodes only for life entries", () => {

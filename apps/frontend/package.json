@@ -13,7 +13,7 @@
     "check:ci": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --output machine --fail-on-warnings",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "test:unit": "bun test",
-    "lint": "oxlint -c oxlintrc.json src",
+    "lint": "oxlint -c src",
     "format": "oxfmt",
     "format:check": "oxfmt --check"
   },

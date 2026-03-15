@@ -1,10 +1,12 @@
 import type { TimelineEntry } from "$interfaces/timelineEntry";
-import { TOTAL_MONTHS, LANE_SPACING, COMPACT_LANE_SPACING } from "./constants";
+
 import type { GraphData, TimelineMode } from "./types";
+
+import { TOTAL_MONTHS, LANE_SPACING, COMPACT_LANE_SPACING } from "./constants";
 import { assignLanes, buildLaneLayout } from "./lanes";
+import { buildLeaderLines } from "./leaderLines";
 import { buildLifeNodes, buildBranchNodes } from "./nodes";
 import { resolveDesktopOverlap } from "./overlap";
-import { buildLeaderLines } from "./leaderLines";
 
 export function buildGraphData(
   entries: TimelineEntry[],

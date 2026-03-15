@@ -1,8 +1,11 @@
-import { describe, it, expect } from "bun:test";
 import type { TimelineEntry } from "$interfaces/timelineEntry";
+
+import { describe, it, expect } from "bun:test";
+
 import type { CommitNode } from "./types";
-import { resolveDesktopOverlap } from "./overlap";
+
 import { PX_PER_MONTH } from "./constants";
+import { resolveDesktopOverlap } from "./overlap";
 
 function makeNode(overrides: Partial<CommitNode> = {}): CommitNode {
   return {

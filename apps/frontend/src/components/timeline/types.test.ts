@@ -1,5 +1,14 @@
-import { describe, it, expect } from "bun:test";
 import type { TimelineEntry } from "$interfaces/timelineEntry";
+
+import { describe, it, expect } from "bun:test";
+
+import {
+  ORIGIN_YEAR,
+  ORIGIN_MONTH,
+  TOTAL_MONTHS,
+  PX_PER_MONTH,
+  GRAPH_TOP_PADDING_PX,
+} from "./constants";
 import {
   toAbsoluteMonth,
   entryStartAbsMonth,
@@ -8,13 +17,6 @@ import {
   nodeY,
   formatDate,
 } from "./types";
-import {
-  ORIGIN_YEAR,
-  ORIGIN_MONTH,
-  TOTAL_MONTHS,
-  PX_PER_MONTH,
-  GRAPH_TOP_PADDING_PX,
-} from "./constants";
 
 describe("toAbsoluteMonth", () => {
   it("returns 0 for the origin year and month", () => {

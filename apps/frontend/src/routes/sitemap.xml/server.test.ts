@@ -1,6 +1,6 @@
-import { GET } from "./+server";
-
 import { describe, it, expect } from "bun:test";
+
+import { GET } from "./+server";
 
 describe("sitemap.xml", () => {
   it("should return content type application/xml", async () => {

@@ -1,4 +1,5 @@
 import type { TimelineEntry } from "$interfaces/timelineEntry";
+
 import { MIN_SPAN, COLOR_LIFE } from "./constants";
 import {
   monthToRow,
