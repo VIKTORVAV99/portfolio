@@ -4,10 +4,8 @@
 </script>
 
 <a href={href} class="text-lg flex-1 text-center rounded-full underline-offset-4 font-medium min-w-20" aria-label={label}>
-  {#if page.url.pathname === href && href !== '/'}
+  {#if page.url.pathname === href}
     &nbsp;> <span class="text-green-500">~</span>/{name}
-  {:else if page.url.pathname === href}
-    &nbsp;> <span class="text-green-500">~/</span>
   {:else}
     cd <span class="text-green-500">~</span>/{name}
   {/if}
