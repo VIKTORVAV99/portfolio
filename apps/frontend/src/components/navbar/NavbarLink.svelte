@@ -7,7 +7,7 @@
   {#if page.url.pathname === href && href !== '/'}
     &nbsp;> <span class="text-green-500">~</span>/{name}
   {:else if page.url.pathname === href}
-    > <span class="text-green-500">~/</span>
+    &nbsp;> <span class="text-green-500">~/</span>
   {:else}
     cd <span class="text-green-500">~</span>/{name}
   {/if}
