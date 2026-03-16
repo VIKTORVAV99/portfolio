@@ -6,7 +6,6 @@
 	<small>{year} &copy; Viktor Andersson </small>
 	<small
 		>Source code licensed under <a
-			class="text-secondary-600 dark:text-secondary-300"
 			href="https://github.com/VIKTORVAV99/personal-website/blob/main/LICENSE"
 			rel="license">MIT license</a
 		></small

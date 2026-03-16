@@ -223,7 +223,7 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
   "nodes": [
     {
       "branchId": "__life",
-      "color": "var(--color-tertiary-400)",
+      "color": "var(--color-secondary-400)",
       "entry": {
         "organization": "Sweden",
         "showDates": false,

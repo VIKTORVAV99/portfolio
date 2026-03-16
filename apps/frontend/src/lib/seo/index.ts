@@ -36,7 +36,7 @@ export interface EmployeeRoleSchema {
   roleName?: string;
   startDate?: string;
   endDate?: string;
-  worksFor?: Omit<OrganizationSchema, "@context">;
+  worksFor?: OrganizationSchema;
 }
 
 export function createEmployeeRoleSchema(
@@ -95,7 +95,6 @@ export function createSoftwareSourceCodeSchema(
 }
 
 export interface PersonSchema {
-  "@context": "https://schema.org";
   "@type": "Person";
   /**
    * The "@id" property is optional but can be very useful for uniquely identifying the person in structured data, especially when linking to other entities.
@@ -116,18 +115,41 @@ export interface PersonSchema {
   knowsLanguage?: string | string[];
   knowsAbout?: string | string[];
   worksFor?:
-    | Omit<OrganizationSchema, "@context">
+    | OrganizationSchema
     | EmployeeRoleSchema
-    | Array<Omit<OrganizationSchema, "@context"> | EmployeeRoleSchema>;
+    | Array<OrganizationSchema | EmployeeRoleSchema>;
   alumniOf?: EducationalOrganizationSchema;
   hasCredential?: EducationalCredentialSchema | EducationalCredentialSchema[];
   sameAs?: string[];
 }
 
-export function createPersonSchema(
-  options: Omit<PersonSchema, "@context" | "@type">,
-): PersonSchema {
-  return { "@context": "https://schema.org", "@type": "Person", ...options };
+export function createPersonSchema(options: Omit<PersonSchema, "@type">): PersonSchema {
+  return { "@type": "Person", ...options };
+}
+
+export interface ArticleSchema {
+  "@type": "Article" | "BlogPosting" | "NewsArticle";
+  headline: string;
+  description?: string;
+  image?: string | string[];
+  datePublished: string; // ISO 8601 format (e.g., "2026-03-15T21:07:31+01:00")
+  dateModified?: string; // ISO 8601 format
+  author?: PersonSchema | OrganizationSchema | Array<PersonSchema | OrganizationSchema>;
+  publisher?: OrganizationSchema;
+  mainEntityOfPage?: WebPageSchema | string;
+  wordCount?: number;
+  keywords?: string | string[];
+  articleBody?: string;
+  url?: string;
+}
+
+export function createArticleSchema(
+  options: Omit<ArticleSchema, "@type"> & { "@type"?: "Article" | "BlogPosting" | "NewsArticle" },
+): ArticleSchema {
+  return {
+    "@type": options["@type"] || "BlogPosting",
+    ...options,
+  };
 }
 
 // Updated union type to include WebPageSchema
@@ -138,11 +160,16 @@ export type StructuredDataSchema =
   | EmployeeRoleSchema
   | EducationalCredentialSchema
   | WebPageSchema
-  | SoftwareSourceCodeSchema;
+  | SoftwareSourceCodeSchema
+  | ArticleSchema;
 
 export function toJsonLd(schema: StructuredDataSchema): string {
   try {
-    const json = JSON.stringify(schema);
+    // Inject the Schema.org context at the root level
+    const json = JSON.stringify({
+      "@context": "https://schema.org",
+      ...schema,
+    });
 
     // Escape characters that can break out of an HTML <script> tag
     return json
