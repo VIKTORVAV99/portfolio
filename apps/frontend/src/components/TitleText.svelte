@@ -1,14 +1,12 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
-
-	let { children }: { children: Snippet } = $props();
+  let { path, subtitle }: { path: string; subtitle?: string } = $props();
 </script>
 
-<h1
-	class="
-  
-    lg:text-5xl
-    xl:text-6xl font-inter font-extrabold"
->
-	{@render children()}
-</h1>
+<div class="w-full border-b border-surface-200 dark:border-surface-800 pb-6 mb-2">
+  <h1 class="text-3xl font-bold font-mono text-surface-900 dark:text-surface-100">
+    <span class="text-green-500">~</span>/{path}
+  </h1>
+  {#if subtitle}
+    <p class="text-surface-500 mt-2 text-lg">{subtitle}</p>
+  {/if}
+</div>

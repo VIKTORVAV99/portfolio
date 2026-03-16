@@ -1,44 +1,57 @@
 <script lang="ts">
   import type { PageData } from './$types';
   import SEO from "$lib/seo/components/SEO.svelte";
+  import BlogPostCard from "$components/blog/BlogPostCard.svelte";
+  import BlogPagination from "$components/blog/BlogPagination.svelte";
+  import { SITE_URL } from "$lib/config";
+  import TitleText from "$components/TitleText.svelte";
+
   let { data }: { data: PageData } = $props();
+
+  const canonicalURL = $derived(data.currentPage === 1
+    ? `${SITE_URL}/blog`
+    : `${SITE_URL}/blog?page=${data.currentPage}`);
+
+  const prevURL = $derived(data.currentPage > 1
+    ? (data.currentPage === 2 ? `${SITE_URL}/blog` : `${SITE_URL}/blog?page=${data.currentPage - 1}`)
+    : null);
+
+  const nextURL = $derived(data.currentPage < data.totalPages
+    ? `${SITE_URL}/blog?page=${data.currentPage + 1}`
+    : null);
 </script>
 
 <SEO
-  title="Blog"
-  description="The blog section of Viktor Andersson's personal portfolio website. Here you can find articles about software development, technology and other topics related to my work and interests."
-  canonicalURL="https://viktor.andersson.tech/blog"
+  title={data.currentPage === 1 ? "Viktor Andersson | Blog" : `Viktor Andersson | Blog — Page ${data.currentPage}`}
+  description="The blog section of Viktor Andersson's personal portfolio website..."
+  canonicalURL={canonicalURL}
+  prevURL={prevURL}
+  nextURL={nextURL}
 />
 
-<div class="flex flex-col gap-8 justify-start pt-8 items-center">
-  <section class="flex flex-col gap-4 w-full max-w-4xl">
-    <h1>Blog</h1>
+<div class="flex flex-col gap-8 justify-start pt-8 items-center max-w-4xl mx-auto w-full px-4">
 
-    {#if data.posts.length === 0}
-      <p class="text-surface-500">No posts yet.</p>
+  <TitleText path="blog" subtitle="Thoughts on software engineering, climate tech, and open source." />
+
+  <section class="flex flex-col w-full">
+    {#if data.pagedPosts.length === 0}
+      <p class="text-surface-500 font-mono">No posts found.</p>
     {:else}
-      <ul class="flex flex-col gap-6">
-        {#each data.posts as post}
-          <li class="flex flex-col gap-1 border-b border-surface-200 dark:border-surface-800 pb-6">
-            <a href="/blog/{post.slug}" class="text-xl font-semibold hover:underline">
-              {post.title}
-            </a>
-            <time class="text-sm text-surface-500" datetime={post.date}>
-              {new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
-            </time>
-            <p class="text-surface-700 dark:text-surface-300">{post.description}</p>
-            {#if post.tags?.length}
-              <div class="flex flex-wrap gap-2 mt-1">
-                {#each post.tags as tag}
-                  <span class="text-xs px-2 py-0.5 rounded-full bg-surface-100 dark:bg-surface-800 text-surface-600 dark:text-surface-400">
-                    {tag}
-                  </span>
-                {/each}
-              </div>
-            {/if}
-          </li>
+      <ul class="flex flex-col">
+        {#each data.pagedPosts as post}
+          <BlogPostCard
+            slug={post.slug}
+            title={post.title}
+            description={post.description}
+            date={post.date}
+            tags={post.tags}
+          />
         {/each}
       </ul>
+
+      <div class="flex justify-center mt-8">
+        <BlogPagination currentPage={data.currentPage} totalPages={data.totalPages} />
+      </div>
     {/if}
   </section>
 </div>

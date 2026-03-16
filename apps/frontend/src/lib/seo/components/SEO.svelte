@@ -6,6 +6,8 @@
     title,
     description,
     canonicalURL,
+    prevURL,
+    nextURL,
     structuredData,
     noIndex = false,
     image,
@@ -14,6 +16,8 @@
     title: string;
     description: string;
     canonicalURL?: string;
+    prevURL?: string;
+    nextURL?: string;
     structuredData?: StructuredDataSchema;
     noIndex?: boolean;
     image?: string;
@@ -29,6 +33,8 @@
     <link rel="canonical" href={canonicalURL} />
     <meta property="og:url" content={canonicalURL} />
   {/if}
+  {#if prevURL}<link rel="prev" href={prevURL} />{/if}
+  {#if nextURL}<link rel="next" href={nextURL} />{/if}
 
   {#if structuredData}
     {@html `<script type="application/ld+json">${toJsonLd(structuredData)}<` + `/script>`}

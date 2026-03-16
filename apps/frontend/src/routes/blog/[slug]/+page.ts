@@ -1,5 +1,5 @@
-import { createArticleSchema, createPersonSchema } from '$lib/seo';
-import { error } from '@sveltejs/kit';
+import { createArticleSchema, createPersonSchema } from "$lib/seo";
+import { error } from "@sveltejs/kit";
 
 export const prerender = true;
 
@@ -9,12 +9,12 @@ const BASE_BLOG_POST_AUTHOR = createPersonSchema({
   url: "https://viktor.andersson.tech",
 });
 
-
 export const load = async ({ params }) => {
-  const posts = import.meta.glob('$blogs/*.md', { eager: true });
+  const posts = import.meta.glob("$blogs/*.md", { eager: true });
 
-  const match = Object.entries(posts).find(([path]) =>
-    path.split('/').at(-1)?.replace(/\.md$/, '').toLowerCase() === params.slug.toLowerCase()
+  const match = Object.entries(posts).find(
+    ([path]) =>
+      path.split("/").at(-1)?.replace(/\.md$/, "").toLowerCase() === params.slug.toLowerCase(),
   );
 
   if (!match) throw error(404, `Post "${params.slug}" not found`);
@@ -27,7 +27,7 @@ export const load = async ({ params }) => {
     description: file.metadata.description,
     datePublished: new Date(file.metadata.date).toISOString(),
     dateModified: new Date(file.metadata.last_updated || file.metadata.date).toISOString(),
-    author: BASE_BLOG_POST_AUTHOR
+    author: BASE_BLOG_POST_AUTHOR,
   });
 
   return {
