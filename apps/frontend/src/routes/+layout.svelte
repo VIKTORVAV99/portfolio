@@ -1,4 +1,5 @@
 <script lang="ts">
+  import favicon from "$lib/assets/favicon.png";
   import "../app.css";
   import Footer from "$components/Footer.svelte";
   import Header from "$components/Header.svelte";
@@ -6,6 +7,10 @@
 
   let { children }: { children: Snippet } = $props();
 </script>
+
+<svelte:head>
+  <link rel="icon" href={favicon} />
+</svelte:head>
 
 <div class="flex flex-col min-h-screen">
   <Header />
