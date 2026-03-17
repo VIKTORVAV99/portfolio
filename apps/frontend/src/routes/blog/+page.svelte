@@ -29,7 +29,7 @@
   nextURL={nextURL}
 />
 
-<div class="flex flex-col gap-8 justify-start pt-8 items-center max-w-4xl mx-auto w-full px-4">
+<div class="flex flex-col gap-8 justify-start pt-8 items-center max-w-4xl mx-auto w-full">
 
   <TitleText path="blog" subtitle="Thoughts on software engineering, climate tech, and open source." />
 
@@ -37,7 +37,7 @@
     {#if data.pagedPosts.length === 0}
       <p class="text-surface-500 font-mono">No posts found.</p>
     {:else}
-      <ul class="flex flex-col">
+      <ul class="flex flex-col gap-16">
         {#each data.pagedPosts as post}
           <BlogPostCard
             slug={post.slug}

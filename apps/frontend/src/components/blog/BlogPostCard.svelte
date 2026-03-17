@@ -10,7 +10,7 @@
   let { slug, title, description, date, tags }: Props = $props();
 </script>
 
-<li class="flex flex-col gap-2 py-10 border-b border-white/5 last:border-none group">
+<li class="flex flex-col gap-2 border-b border-white/5 last:border-none group">
   <a href="/blog/{slug}" class="text-2xl font-bold text-surface-100 group-hover:text-green-500 transition-colors w-fit">
     {title}
   </a>

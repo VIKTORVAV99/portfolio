@@ -1,4 +1,8 @@
 <script lang="ts">
+  import type { Component } from "svelte";
+  import ChevronLeft from "lucide-svelte/icons/chevron-left";
+  import ChevronRight from "lucide-svelte/icons/chevron-right";
+
   interface Props {
     currentPage: number;
     totalPages: number;
@@ -6,51 +10,37 @@
 
   let { currentPage, totalPages }: Props = $props();
 
+  const box = "inline-flex items-center justify-center size-8";
+
   function pageHref(page: number): string {
     return page === 1 ? "/blog" : `/blog?page=${page}`;
   }
 </script>
 
+{#snippet chevron(href: string | undefined, label: string, Icon: Component<{ size: number }>)}
+  {#if href}
+    <a {href} class="{box} text-surface-500 hover:text-green-500 transition-colors" aria-label={label}>
+      <Icon size={16} />
+    </a>
+  {:else}
+    <span class="{box} text-surface-500 opacity-30 cursor-not-allowed" aria-disabled="true">
+      <Icon size={16} />
+    </span>
+  {/if}
+{/snippet}
+
 {#if totalPages > 1}
   <nav class="flex items-center gap-2 font-mono text-sm" aria-label="Pagination">
-    {#if currentPage > 1}
-      <a
-        href={pageHref(currentPage - 1)}
-        class="px-3 py-1 text-surface-500 hover:text-green-500 transition-colors"
-        aria-label="Previous page"
-      >&larr;</a>
-    {:else}
-      <span
-        class="px-3 py-1 text-surface-500 opacity-30 cursor-not-allowed"
-        aria-disabled="true"
-      >&larr;</span>
-    {/if}
+    {@render chevron(currentPage > 1 ? pageHref(currentPage - 1) : undefined, "Previous page", ChevronLeft)}
 
     {#each Array.from({ length: totalPages }, (_, i) => i + 1) as page}
       {#if page === currentPage}
-        <span
-          class="px-3 py-1 text-green-500"
-          aria-current="page"
-        >{page}</span>
+        <span class="{box} text-green-500" aria-current="page">{page}</span>
       {:else}
-        <a
-          href={pageHref(page)}
-          class="px-3 py-1 text-surface-500 hover:text-surface-300 transition-colors"
-        >{page}</a>
+        <a href={pageHref(page)} class="{box} text-surface-500 hover:text-surface-300 transition-colors">{page}</a>
       {/if}
     {/each}
 
-    {#if currentPage < totalPages}
-      <a
-        href={pageHref(currentPage + 1)}
-        class="px-3 py-1 text-surface-500 hover:text-green-500 transition-colors"
-        aria-label="Next page"
-      >&rarr;</a>
-    {:else}
-      <span
-        class="px-3 py-1 text-surface-500 opacity-30 cursor-not-allowed"
-        aria-disabled="true"
-      >&rarr;</span>
-    {/if}
+    {@render chevron(currentPage < totalPages ? pageHref(currentPage + 1) : undefined, "Next page", ChevronRight)}
   </nav>
 {/if}
