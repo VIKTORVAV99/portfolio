@@ -22,8 +22,6 @@
     "portfolio-backend": "workspace:*"
   },
   "devDependencies": {
-    "@fortawesome/free-brands-svg-icons": "^7.2.0",
-    "@fortawesome/free-solid-svg-icons": "^7.2.0",
     "@sveltejs/adapter-cloudflare": "^7.2.8",
     "@sveltejs/enhanced-img": "^0.10.4",
     "@sveltejs/kit": "^2.55.0",
@@ -31,10 +29,10 @@
     "@tailwindcss/vite": "^4.2.1",
     "@types/bun": "^1.3.10",
     "@types/serviceworker": "^0.0.193",
+    "lucide-svelte": "^0.577.0",
     "mdsvex": "^0.12.7",
     "svelte": "^5.53.12",
     "svelte-check": "^4.4.5",
-    "svelte-fa": "^4.0.4",
     "tailwindcss": "^4.2.1",
     "vite": "^8.0.0"
   }
