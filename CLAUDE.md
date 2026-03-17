@@ -5,7 +5,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Repository Overview
 
 Bun workspaces monorepo with two apps deployed to Cloudflare Workers:
-- **apps/frontend/** — SvelteKit portfolio site (Svelte 5, Tailwind CSS v4, adapter-cloudflare)
+- **apps/frontend/** — SvelteKit personal website (Svelte 5, Tailwind CSS v4, adapter-cloudflare)
 - **apps/backend/** — Hono API worker (minimal scaffold)
 
 ## Commands
@@ -44,10 +44,10 @@ SvelteKit file-based routing with Svelte 5 runes (`$props()`, `$state()`, etc.).
 - `src/components/` — Reusable Svelte components
 - `src/data/` — Static content (projects.json, timeline.ts)
 - `src/interfaces/` — TypeScript interfaces (ProjectConfig, TimelineEntry)
-- `src/portfolio-theme.css` — Tailwind v4 @theme color tokens (no tailwind.config.js)
+- `src/theme.css` — Tailwind v4 @theme color tokens (no tailwind.config.js)
 - `src/app.css` — Global styles with custom utility classes (.btn, .card, .h1-.h4, .preset-*)
 
-**Styling:** Tailwind CSS v4 using @theme syntax in portfolio-theme.css. Dark mode via `.dark` class.
+**Styling:** Tailwind CSS v4 using @theme syntax in theme.css. Dark mode via `.dark` class.
 
 **Data is static** — projects and timeline entries are defined in src/data/, no database.
 

@@ -9,7 +9,7 @@ export async function GET() {
     { path: "", priority: "1.0", changefreq: "weekly" },
     { path: "/blog", priority: "0.9", changefreq: "weekly" },
     { path: "/about", priority: "0.8", changefreq: "monthly" },
-    { path: "/journey", priority: "0.8", changefreq: "monthly" },
+    { path: "/history", priority: "0.8", changefreq: "monthly" },
   ];
 
   const posts = import.meta.glob("$blogs/*.md", { eager: true });

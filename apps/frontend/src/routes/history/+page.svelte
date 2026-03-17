@@ -4,6 +4,9 @@
   import { timelineEntries } from "$data/metadata";
   import { inview } from "$lib/actions/inview";
   import SEO from "$lib/seo/components/SEO.svelte";
+  import type { PageData } from "./$types";
+
+  let { data }: { data: PageData } = $props();
 </script>
 
 <SEO
@@ -11,6 +14,7 @@
   description="A timeline of my professional and educational history."
   canonicalURL="https://viktor.andersson.tech/history"
   type="profile"
+  structuredData={data.structuredData}
 />
 
 <div class="flex flex-col gap-8 justify-start pt-8 items-center max-w-4xl mx-auto w-full px-4">

@@ -1,3 +1,5 @@
+import { SITE_URL } from "$lib/config";
+
 export interface PostalAddressSchema {
   "@type": "PostalAddress";
   addressLocality?: string;
@@ -59,12 +61,41 @@ export function createEducationalOrganizationSchema(
   return { "@type": "EducationalOrganization", ...options };
 }
 
+export interface CollegeOrUniversitySchema {
+  "@type": "CollegeOrUniversity";
+  name: string;
+  url?: string;
+  sameAs?: string[];
+  location?: string | PlaceSchema;
+}
+
+export function createCollegeOrUniversitySchema(
+  options: Omit<CollegeOrUniversitySchema, "@type">,
+): CollegeOrUniversitySchema {
+  return { "@type": "CollegeOrUniversity", ...options };
+}
+
+export interface HighSchoolSchema {
+  "@type": "HighSchool";
+  name: string;
+  url?: string;
+  sameAs?: string[];
+  location?: string | PlaceSchema;
+}
+
+export function createHighSchoolSchema(
+  options: Omit<HighSchoolSchema, "@type">,
+): HighSchoolSchema {
+  return { "@type": "HighSchool", ...options };
+}
+
 export interface EducationalCredentialSchema {
   "@type": "EducationalOccupationalCredential";
   name: string;
   credentialCategory?: { "@type": "DefinedTerm"; name: string; termCode?: string };
+  educationalLevel?: string;
   datePublished?: string;
-  recognizedBy?: EducationalOrganizationSchema;
+  recognizedBy?: EducationalOrganizationSchema | CollegeOrUniversitySchema | HighSchoolSchema;
 }
 
 export interface WebPageSchema {
@@ -118,7 +149,11 @@ export interface PersonSchema {
     | OrganizationSchema
     | EmployeeRoleSchema
     | Array<OrganizationSchema | EmployeeRoleSchema>;
-  alumniOf?: EducationalOrganizationSchema;
+  alumniOf?:
+    | EducationalOrganizationSchema
+    | CollegeOrUniversitySchema
+    | HighSchoolSchema
+    | Array<EducationalOrganizationSchema | CollegeOrUniversitySchema | HighSchoolSchema>;
   hasCredential?: EducationalCredentialSchema | EducationalCredentialSchema[];
   sameAs?: string[];
 }
@@ -126,6 +161,12 @@ export interface PersonSchema {
 export function createPersonSchema(options: Omit<PersonSchema, "@type">): PersonSchema {
   return { "@type": "Person", ...options };
 }
+
+export const SITE_OWNER_PERSON_REF = createPersonSchema({
+  "@id": `${SITE_URL}/#person`,
+  name: "Viktor Andersson",
+  url: SITE_URL,
+});
 
 export interface ArticleSchema {
   "@type": "Article" | "BlogPosting" | "NewsArticle";
@@ -135,7 +176,7 @@ export interface ArticleSchema {
   datePublished: string; // ISO 8601 format (e.g., "2026-03-15T21:07:31+01:00")
   dateModified?: string; // ISO 8601 format
   author?: PersonSchema | OrganizationSchema | Array<PersonSchema | OrganizationSchema>;
-  publisher?: OrganizationSchema;
+  publisher?: OrganizationSchema | PersonSchema;
   mainEntityOfPage?: WebPageSchema | string;
   wordCount?: number;
   keywords?: string | string[];
@@ -152,16 +193,46 @@ export function createArticleSchema(
   };
 }
 
-// Updated union type to include WebPageSchema
+export interface ProfilePageSchema {
+  "@type": "ProfilePage";
+  dateCreated?: string;
+  dateModified?: string;
+  mainEntity: PersonSchema;
+}
+
+export function createProfilePageSchema(
+  options: Omit<ProfilePageSchema, "@type">,
+): ProfilePageSchema {
+  return { "@type": "ProfilePage", ...options };
+}
+
+export interface WebSiteSchema {
+  "@type": "WebSite";
+  "@id"?: string;
+  name: string;
+  url: string;
+  description?: string;
+  author?: PersonSchema | OrganizationSchema;
+  publisher?: PersonSchema | OrganizationSchema;
+}
+
+export function createWebSiteSchema(options: Omit<WebSiteSchema, "@type">): WebSiteSchema {
+  return { "@type": "WebSite", ...options };
+}
+
 export type StructuredDataSchema =
   | PersonSchema
   | OrganizationSchema
   | EducationalOrganizationSchema
+  | CollegeOrUniversitySchema
+  | HighSchoolSchema
   | EmployeeRoleSchema
   | EducationalCredentialSchema
   | WebPageSchema
   | SoftwareSourceCodeSchema
-  | ArticleSchema;
+  | ArticleSchema
+  | ProfilePageSchema
+  | WebSiteSchema;
 
 export function toJsonLd(schema: StructuredDataSchema): string {
   try {

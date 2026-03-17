@@ -23,7 +23,7 @@
 
 <SEO
   title={data.currentPage === 1 ? "Viktor Andersson | Blog" : `Viktor Andersson | Blog — Page ${data.currentPage}`}
-  description="The blog section of Viktor Andersson's personal portfolio website..."
+  description="The blog section of Viktor Andersson's personal website..."
   canonicalURL={canonicalURL}
   prevURL={prevURL}
   nextURL={nextURL}

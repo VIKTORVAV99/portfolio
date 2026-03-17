@@ -1,6 +1,6 @@
 # Portfolio
 
-Bun monorepo containing the portfolio frontend and backend API worker.
+Bun monorepo containing the personal website frontend and backend API worker.
 
 ## Structure
 

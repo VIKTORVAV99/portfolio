@@ -1,13 +1,8 @@
-import { createArticleSchema, createPersonSchema } from "$lib/seo";
+import { SITE_URL } from "$lib/config";
+import { createArticleSchema, createWebPageSchema, SITE_OWNER_PERSON_REF } from "$lib/seo";
 import { error } from "@sveltejs/kit";
 
 export const prerender = true;
-
-const BASE_BLOG_POST_AUTHOR = createPersonSchema({
-  "@id": "https://viktor.andersson.tech/#person",
-  name: "Viktor Andersson",
-  url: "https://viktor.andersson.tech",
-});
 
 export const load = async ({ params }) => {
   const posts = import.meta.glob("$blogs/*.md", { eager: true });
@@ -21,13 +16,18 @@ export const load = async ({ params }) => {
 
   const [, file] = match as [string, any];
 
+  const postUrl = `${SITE_URL}/blog/${params.slug}`;
+
   // StructuredData for the blog post
   const blogPostStructuredData = createArticleSchema({
     headline: file.metadata.title,
     description: file.metadata.description,
     datePublished: new Date(file.metadata.date).toISOString(),
     dateModified: new Date(file.metadata.last_updated || file.metadata.date).toISOString(),
-    author: BASE_BLOG_POST_AUTHOR,
+    author: SITE_OWNER_PERSON_REF,
+    publisher: SITE_OWNER_PERSON_REF,
+    url: postUrl,
+    mainEntityOfPage: createWebPageSchema(postUrl),
   });
 
   return {
