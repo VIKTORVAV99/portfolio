@@ -4,7 +4,7 @@
   import Highlight from "$components/Highlight.svelte";
 </script>
 
-<a href={href} class="text-lg flex-1 text-center rounded-full underline-offset-4 font-medium min-w-20" aria-label={label}>
+<a href={href} class="text-lg flex-1 text-center rounded-full underline-offset-4 font-medium min-w-20 outline-none" aria-label={label}>
   {#if page.url.pathname === href}
     &nbsp;> <Highlight>~</Highlight>/{name}
   {:else}

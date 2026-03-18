@@ -22,7 +22,7 @@
   <!-- Mobile nav -->
   <div class="flex md:hidden justify-start">
     <DropdownMenu.Root>
-      <DropdownMenu.Trigger class="rounded-full backdrop-blur-sm bg-surface-100/80 dark:bg-surface-800/80 p-3 cursor-pointer text-surface-900 dark:text-surface-50">
+      <DropdownMenu.Trigger class="rounded-full backdrop-blur-sm bg-surface-100/80 dark:bg-surface-800/80 p-3 cursor-pointer text-surface-900 dark:text-surface-50 outline-none">
         <Menu size={24} />
       </DropdownMenu.Trigger>
       <DropdownMenu.Content sideOffset={8} collisionPadding={16} align="start" class="z-50 rounded-2xl backdrop-blur-sm bg-surface-100/80 dark:bg-surface-800/80 py-4 px-8 font-mono">
