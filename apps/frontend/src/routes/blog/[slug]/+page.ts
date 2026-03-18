@@ -1,5 +1,10 @@
 import { SITE_URL } from "$lib/config";
-import { createArticleSchema, createBreadcrumbListSchema, createWebPageSchema, SITE_OWNER_PERSON_REF } from "$lib/seo";
+import {
+  createArticleSchema,
+  createBreadcrumbListSchema,
+  createWebPageSchema,
+  SITE_OWNER_PERSON_REF,
+} from "$lib/seo";
 import { error } from "@sveltejs/kit";
 
 export const prerender = true;
@@ -29,8 +34,12 @@ export const load = async ({ params }) => {
   const { file } = posts[index];
   const postUrl = `${SITE_URL}/blog/${params.slug}`;
 
-  const prevPost = index > 0 ? { slug: posts[index - 1].slug, title: posts[index - 1].title } : undefined;
-  const nextPost = index < posts.length - 1 ? { slug: posts[index + 1].slug, title: posts[index + 1].title } : undefined;
+  const prevPost =
+    index > 0 ? { slug: posts[index - 1].slug, title: posts[index - 1].title } : undefined;
+  const nextPost =
+    index < posts.length - 1
+      ? { slug: posts[index + 1].slug, title: posts[index + 1].title }
+      : undefined;
 
   const blogPostStructuredData = createArticleSchema({
     headline: file.metadata.title,

@@ -83,9 +83,7 @@ export interface HighSchoolSchema {
   location?: string | PlaceSchema;
 }
 
-export function createHighSchoolSchema(
-  options: Omit<HighSchoolSchema, "@type">,
-): HighSchoolSchema {
+export function createHighSchoolSchema(options: Omit<HighSchoolSchema, "@type">): HighSchoolSchema {
   return { "@type": "HighSchool", ...options };
 }
 
