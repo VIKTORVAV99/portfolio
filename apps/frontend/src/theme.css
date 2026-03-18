@@ -90,23 +90,38 @@
 
 /* Base styles */
 :root {
-  font-family: var(--font-inter);
+  @apply font-inter;
 }
 
 html {
-  background-color: var(--color-surface-50);
-  color: #000000;
+  @apply bg-surface-50 text-black;
 }
 
 html.dark {
-  background-color: var(--color-surface-950);
-  color: #ffffff;
+  @apply bg-surface-950 text-white;
 }
 
 a {
-  text-decoration: none;
+  @apply no-underline;
 }
 
 a:hover {
-  text-decoration: underline;
+  @apply underline;
+}
+
+/* Heading typography classes */
+h1 {
+  @apply text-4xl font-bold;
+}
+
+h2 {
+  @apply text-3xl font-bold;
+}
+
+h3 {
+  @apply text-2xl font-bold;
+}
+
+h4 {
+  @apply text-xl font-bold;
 }
