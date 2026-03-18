@@ -4,6 +4,7 @@
   import BlogPostCard from "$components/blog/BlogPostCard.svelte";
   import BlogPagination from "$components/blog/BlogPagination.svelte";
   import { SITE_URL } from "$lib/config";
+  import { createCollectionPageSchema, createItemListSchema } from "$lib/seo";
   import TitleText from "$components/TitleText.svelte";
 
   let { data }: { data: PageData } = $props();
@@ -14,19 +15,29 @@
 
   const prevURL = $derived(data.currentPage > 1
     ? (data.currentPage === 2 ? `${SITE_URL}/blog` : `${SITE_URL}/blog?page=${data.currentPage - 1}`)
-    : null);
+    : undefined);
 
   const nextURL = $derived(data.currentPage < data.totalPages
     ? `${SITE_URL}/blog?page=${data.currentPage + 1}`
-    : null);
+    : undefined);
+
+  const structuredData = $derived(createCollectionPageSchema({
+    name: "Blog",
+    description: "Thoughts on software engineering, climate tech, and open source.",
+    url: canonicalURL,
+    mainEntity: createItemListSchema(
+      data.pagedPosts.map((post) => `${SITE_URL}/blog/${post.slug}`),
+    ),
+  }));
 </script>
 
 <SEO
-  title={data.currentPage === 1 ? "Viktor Andersson | Blog" : `Viktor Andersson | Blog — Page ${data.currentPage}`}
+  title={`Viktor Andersson | Blog${data.currentPage > 1 ? ` — Page ${data.currentPage}` : ""}`}
   description="The blog section of Viktor Andersson's personal website..."
   canonicalURL={canonicalURL}
   prevURL={prevURL}
   nextURL={nextURL}
+  structuredData={structuredData}
 />
 
 <div class="flex flex-col gap-8 justify-start pt-8 items-center max-w-4xl mx-auto w-full">

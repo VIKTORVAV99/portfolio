@@ -18,7 +18,7 @@
     canonicalURL?: string;
     prevURL?: string;
     nextURL?: string;
-    structuredData?: StructuredDataSchema;
+    structuredData?: StructuredDataSchema | StructuredDataSchema[];
     noIndex?: boolean;
     image?: string;
     type?: "website" | "article" | "profile" | string;

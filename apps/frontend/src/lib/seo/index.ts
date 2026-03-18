@@ -155,6 +155,7 @@ export interface PersonSchema {
     | HighSchoolSchema
     | Array<EducationalOrganizationSchema | CollegeOrUniversitySchema | HighSchoolSchema>;
   hasCredential?: EducationalCredentialSchema | EducationalCredentialSchema[];
+  aboutPage?: string;
   sameAs?: string[];
 }
 
@@ -206,6 +207,63 @@ export function createProfilePageSchema(
   return { "@type": "ProfilePage", ...options };
 }
 
+export interface ListItemSchema {
+  "@type": "ListItem";
+  position: number;
+  name?: string;
+  url?: string;
+  item?: string;
+}
+
+export interface ItemListSchema {
+  "@type": "ItemList";
+  itemListElement: Pick<ListItemSchema, "@type" | "position" | "url">[];
+}
+
+export interface BreadcrumbListSchema {
+  "@type": "BreadcrumbList";
+  itemListElement: Pick<ListItemSchema, "@type" | "position" | "name" | "item">[];
+}
+
+export function createBreadcrumbListSchema(
+  items: { name: string; url?: string }[],
+): BreadcrumbListSchema {
+  return {
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((entry, i) => ({
+      "@type": "ListItem" as const,
+      position: i + 1,
+      name: entry.name,
+      ...(entry.url && { item: entry.url }),
+    })),
+  };
+}
+
+export function createItemListSchema(urls: string[]): ItemListSchema {
+  return {
+    "@type": "ItemList",
+    itemListElement: urls.map((url, i) => ({
+      "@type": "ListItem" as const,
+      position: i + 1,
+      url,
+    })),
+  };
+}
+
+export interface CollectionPageSchema {
+  "@type": "CollectionPage";
+  name: string;
+  description?: string;
+  url: string;
+  mainEntity: ItemListSchema;
+}
+
+export function createCollectionPageSchema(
+  options: Omit<CollectionPageSchema, "@type">,
+): CollectionPageSchema {
+  return { "@type": "CollectionPage", ...options };
+}
+
 export interface WebSiteSchema {
   "@type": "WebSite";
   "@id"?: string;
@@ -232,15 +290,17 @@ export type StructuredDataSchema =
   | SoftwareSourceCodeSchema
   | ArticleSchema
   | ProfilePageSchema
-  | WebSiteSchema;
+  | WebSiteSchema
+  | CollectionPageSchema
+  | BreadcrumbListSchema;
 
-export function toJsonLd(schema: StructuredDataSchema): string {
+export function toJsonLd(schema: StructuredDataSchema | StructuredDataSchema[]): string {
   try {
-    // Inject the Schema.org context at the root level
-    const json = JSON.stringify({
-      "@context": "https://schema.org",
-      ...schema,
-    });
+    const payload = Array.isArray(schema)
+      ? { "@context": "https://schema.org", "@graph": schema }
+      : { "@context": "https://schema.org", ...schema };
+
+    const json = JSON.stringify(payload);
 
     // Escape characters that can break out of an HTML <script> tag
     return json
