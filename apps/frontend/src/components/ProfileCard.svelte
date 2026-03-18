@@ -6,7 +6,7 @@
   <enhanced:img
     src={portrait}
     alt="Portrait of Viktor Andersson"
-    class="rounded-full w-24 h-24 object-cover"
+    class="rounded-full w-24 h-24 min-w-24 min-h-24 object-cover"
   />
   <div class="flex flex-col gap-0.5">
     <h2>Viktor Andersson</h2>
