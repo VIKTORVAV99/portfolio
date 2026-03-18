@@ -21,8 +21,8 @@
 
   <section class="flex flex-col gap-8 w-full">
     <section class="flex flex-col gap-4">
-      <h2 class="text-xl text-surface-100">Personal</h2>
-      <p class="text-surface-400">
+      <h3>Personal</h3>
+      <p class="text-surface-300">
         I'm a Software Engineer at Electricity Maps, the world's most comprehensive electricity
         data platform. I hold a Bachelor of Science in Digital Design and Innovation from Halmstad
         University. On my free time I like to learn about new things, watch Sci-Fi and enjoy
@@ -30,8 +30,8 @@
       </p>
     </section>
     <section class="flex flex-col gap-4">
-      <h2 class="text-xl text-surface-100">Professional</h2>
-      <p class="text-surface-400">
+      <h3>Professional</h3>
+      <p class="text-surface-300">
         I have experience in both frontend and backend development, with a focus on TypeScript and
         JavaScript. I enjoy working with Svelte and SvelteKit, but I also have experience with
         React and Node.js. I'm always eager to learn new technologies and improve my skills.

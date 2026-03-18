@@ -25,10 +25,10 @@
   </div>
 
   <div class="flex flex-col gap-2">
-    <h1 class="text-3xl tracking-tight text-surface-100">
+    <h1>
       {title}
     </h1>
-    <p class="text-surface-400">
+    <p class="text-surface-300">
       {description}
     </p>
   </div>

@@ -46,7 +46,7 @@
 
   <section class="flex flex-col w-full">
     {#if data.pagedPosts.length === 0}
-      <p class="text-surface-500 font-mono">No posts found.</p>
+      <p class="text-surface-300 font-mono">No posts found.</p>
     {:else}
       <ul class="flex flex-col gap-16">
         {#each data.pagedPosts as post}

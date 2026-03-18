@@ -39,7 +39,7 @@
 {#if data.prevPost || data.nextPost}
   <nav class="max-w-prose mx-auto w-full flex justify-between items-start gap-4 mb-16" aria-label="Post navigation">
     {#if data.prevPost}
-      <a href="/blog/{data.prevPost.slug}" class="group flex items-center gap-2 text-surface-400 hover:text-green-500 transition-colors">
+      <a href="/blog/{data.prevPost.slug}" class="group flex items-center gap-2 text-surface-300 hover:text-green-500 transition-colors">
         <ChevronLeft size={16} />
         <div class="flex flex-col">
           <span class="text-xs font-mono uppercase tracking-wide">Newer</span>
@@ -50,7 +50,7 @@
       <div></div>
     {/if}
     {#if data.nextPost}
-      <a href="/blog/{data.nextPost.slug}" class="group flex items-center gap-2 text-surface-400 hover:text-green-500 transition-colors text-right ml-auto">
+      <a href="/blog/{data.nextPost.slug}" class="group flex items-center gap-2 text-surface-300 hover:text-green-500 transition-colors text-right ml-auto">
         <div class="flex flex-col items-end">
           <span class="text-xs font-mono uppercase tracking-wide">Older</span>
           <span class="text-sm text-surface-300 group-hover:text-green-500 transition-colors">{data.nextPost.title}</span>

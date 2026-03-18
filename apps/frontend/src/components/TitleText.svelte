@@ -4,10 +4,10 @@
 </script>
 
 <div class="w-full border-b border-surface-800 pb-6 mb-2">
-  <h1 class="text-3xl font-mono text-surface-100" aria-label={path || 'Home'}>
+  <h1 class="font-mono" aria-label={path || 'Home'}>
     <Highlight>~</Highlight>/{path}
   </h1>
   {#if subtitle}
-    <p class="text-surface-500 mt-2 text-lg">{subtitle}</p>
+    <p class="text-surface-300 mt-2 text-lg">{subtitle}</p>
   {/if}
 </div>

@@ -19,11 +19,11 @@
 
 {#snippet chevron(href: string | undefined, label: string, Icon: Component<{ size: number }>)}
   {#if href}
-    <a {href} class="{box} text-surface-500 hover:text-green-500 transition-colors" aria-label={label}>
+    <a {href} class="{box} text-surface-300 hover:text-green-500 transition-colors" aria-label={label}>
       <Icon size={16} />
     </a>
   {:else}
-    <span class="{box} text-surface-500 opacity-30 cursor-not-allowed" aria-disabled="true">
+    <span class="{box} text-surface-300 opacity-30 cursor-not-allowed" aria-disabled="true">
       <Icon size={16} />
     </span>
   {/if}
@@ -37,7 +37,7 @@
       {#if page === currentPage}
         <span class="{box} text-green-500" aria-current="page">{page}</span>
       {:else}
-        <a href={pageHref(page)} class="{box} text-surface-500 hover:text-surface-300 transition-colors">{page}</a>
+        <a href={pageHref(page)} class="{box} text-surface-300 hover:text-green-500 transition-colors">{page}</a>
       {/if}
     {/each}
 
