@@ -14,13 +14,13 @@
   canonicalURL="https://viktor.andersson.tech"
   structuredData={data.structuredData}
 />
-<div class="flex flex-col gap-8 justify-start pt-8 items-center max-w-4xl mx-auto w-full">
+<div class="page-container">
   <TitleText path="" subtitle="Welcome" />
   <ProfileCard />
   <nav class="font-mono text-lg flex flex-col w-full">
-    <span><Highlight>~</Highlight>/</span>
-    <a href="/about" class="underline decoration-green-500/50 underline-offset-4">├── about</a>
-    <a href="/history" class="underline decoration-green-500/50 underline-offset-4">├── history</a>
-    <a href="/blog" class="underline decoration-green-500/50 underline-offset-4">└── blog</a>
+    <span aria-hidden="true"><Highlight>~</Highlight>/</span>
+    <a href="/about" class="underline-offset-4"><span aria-hidden="true">├── </span>about</a>
+    <a href="/history" class="underline-offset-4"><span aria-hidden="true">├── </span>history</a>
+    <a href="/blog" class="underline-offset-4"><span aria-hidden="true">└── </span>blog</a>
   </nav>
 </div>

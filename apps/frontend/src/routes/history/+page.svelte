@@ -17,7 +17,7 @@
   structuredData={data.structuredData}
 />
 
-<div class="flex flex-col gap-8 justify-start pt-8 items-center max-w-4xl mx-auto w-full">
+<div class="page-container">
   <TitleText path="history" subtitle="My timeline so far" />
   <section class="flex flex-col gap-4 items-center w-full" use:inview>
     <Timeline entries={timelineEntries} />

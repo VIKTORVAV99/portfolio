@@ -1,5 +1,4 @@
 import { timelineEntries } from "$data/metadata";
-import { createPersonSchema } from "$lib/seo";
 
 // Layout constants
 const lifeEntry = timelineEntries.find((e) => e.type === "life");

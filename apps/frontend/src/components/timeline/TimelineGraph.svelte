@@ -85,7 +85,7 @@
       y1={nodeY(Math.max(...graphData.nodes.map((n) => n.gridRow)), pxPerMonth)}
       x2={graphData.laneX(0)}
       y2={nodeY(1, pxPerMonth)}
-      class="stroke-surface-300 dark:stroke-surface-600 graph-line"
+      class="stroke-surface-600 graph-line"
       stroke-width={LINE_WIDTH}
       stroke-linecap="round"
       pathLength="1"
@@ -130,13 +130,13 @@
           width="32"
           height="16"
           rx="3"
-          class="fill-surface-50 dark:fill-surface-950"
+          class="fill-surface-950"
         />
         <text
           x={mx}
           y={my + 4}
           text-anchor="middle"
-          class="fill-surface-400 dark:fill-surface-500 font-semibold tracking-[0.05em]"
+          class="fill-surface-500 font-semibold tracking-[0.05em]"
           style="font-size: 0.5625rem;">{year}</text
         >
       </g>
@@ -150,7 +150,7 @@
         cy={ny}
         r={NODE_RADIUS}
         fill={node.color}
-        class="stroke-surface-50 dark:stroke-surface-950 stroke-3 graph-node"
+        class="stroke-surface-950 stroke-3 graph-node"
         style="animation-delay: {600 + i * 50}ms;"
       />
     {/each}
@@ -167,13 +167,13 @@
             width="32"
             height="16"
             rx="3"
-            class="fill-surface-50 dark:fill-surface-950"
+            class="fill-surface-950"
           />
           <text
             x={mx}
             y={my + 4}
             text-anchor="middle"
-            class="fill-surface-400 dark:fill-surface-500 font-semibold tracking-[0.05em]"
+            class="fill-surface-500 font-semibold tracking-[0.05em]"
             style="font-size: 0.5625rem;">{node.entry.title}</text
           >
         </g>
