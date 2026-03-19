@@ -1,13 +1,13 @@
 /// <reference types="@sveltejs/kit" />
 /// <reference lib="webworker" />
 
-import { build, files, prerendered, version } from "$service-worker";
+import { build, files, prerendered } from "$service-worker";
 
 // Explicitly type the global 'self' object for Service Workers
 declare const self: ServiceWorkerGlobalScope;
 
-/** Versioned static cache name, this will be deleted when a new version is installed */
-const CACHE = `static-cache-${version}`;
+/** Single unversioned static cache — entries are surgically added/pruned per deploy */
+const CACHE = `static-cache`;
 /** Dynamic cache name, this is not versioned as it's meant to be a rolling cache */
 const DYNAMIC_CACHE = `dynamic-cache`;
 
@@ -17,12 +17,16 @@ const imageRegex = /\.(avif|webp|jpe?g|png|svg|gif)$/i;
 /** Filter function to exclude images from the eager cache, but allow the favicon we always want to cache */
 const imageFilter = (url: string) => !imageRegex.test(url) || url.includes("favicon");
 
-/** List of assets to precache */
-const EAGER_ASSETS = [
-  ...build.filter(imageFilter),
-  ...files.filter(imageFilter),
-  ...prerendered.filter(imageFilter),
-];
+/** Only top-level prerendered pages, not individual blog posts */
+const topLevelPrerendered = prerendered.filter((p) => !p.startsWith("/blog/"));
+
+/** Assets with content hashes - safe to skip if already cached */
+const HASHED_ASSETS = build.filter(imageFilter);
+
+/** Assets without content hashes - must always be re-fetched */
+const UNHASHED_ASSETS = [...files.filter(imageFilter), ...topLevelPrerendered.filter(imageFilter)];
+
+const EAGER_ASSETS = [...HASHED_ASSETS, ...UNHASHED_ASSETS];
 
 /** Helper function to trim the dynamic cache to a maximum number of items */
 async function limitCacheSize(cacheName: string, maxItems: number) {
@@ -37,26 +41,47 @@ async function limitCacheSize(cacheName: string, maxItems: number) {
   }
 }
 
-self.addEventListener("install", (event) => {
-  async function addFilesToCache() {
-    const cache = await caches.open(CACHE);
-    await cache.addAll(EAGER_ASSETS);
-  }
+/** Helper function to add files to the static cache */
+async function addFilesToCache() {
+  const cache = await caches.open(CACHE);
+  const cached = new Set((await cache.keys()).map((r) => new URL(r.url).pathname));
+  const newHashedAssets = HASHED_ASSETS.filter((asset) => !cached.has(asset));
 
+  await cache.addAll([...newHashedAssets, ...UNHASHED_ASSETS]);
+}
+
+/** Helper function to prune stale entries from the static cache */
+async function pruneStaleEntries() {
+  const cache = await caches.open(CACHE);
+  const currentAssets = new Set(EAGER_ASSETS);
+
+  for (const request of await cache.keys()) {
+    if (!currentAssets.has(new URL(request.url).pathname)) {
+      await cache.delete(request);
+    }
+  }
+}
+
+const KNOWN_CACHES = new Set([CACHE, DYNAMIC_CACHE]);
+/**
+ * Delete any caches not matching our known cache names.
+ * This is a cleanup function if we ever rename caches
+ */
+async function deleteUnknownCaches() {
+  for (const key of await caches.keys()) {
+    if (!KNOWN_CACHES.has(key)) {
+      await caches.delete(key);
+    }
+  }
+}
+
+self.addEventListener("install", (event) => {
   event.waitUntil(addFilesToCache());
   self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
-  async function deleteOldCaches() {
-    for (const key of await caches.keys()) {
-      if (key !== CACHE && key !== DYNAMIC_CACHE) {
-        await caches.delete(key);
-      }
-    }
-  }
-
-  event.waitUntil(deleteOldCaches());
+  event.waitUntil(Promise.all([pruneStaleEntries(), deleteUnknownCaches()]));
   self.clients.claim();
 });
 
