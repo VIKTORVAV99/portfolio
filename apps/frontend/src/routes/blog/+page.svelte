@@ -42,7 +42,7 @@
 
 <div class="page-container">
 
-  <TitleText path="blog" subtitle="Thoughts on software engineering, climate tech, and open source." />
+  <TitleText path="blog" subtitle="Thoughts on software engineering, climate tech, and open source" />
 
   <section class="flex flex-col w-full">
     {#if data.pagedPosts.length === 0}
