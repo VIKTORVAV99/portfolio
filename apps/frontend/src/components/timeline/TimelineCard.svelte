@@ -1,16 +1,16 @@
 <script lang="ts">
   import type { TimelineEntry } from "$interfaces/timelineEntry";
+  import ExternalLink from "$components/ExternalLink.svelte";
 
-  let { entry }: { entry: TimelineEntry } = $props();
+  let { entry, accentSide = 'left' }: { entry: TimelineEntry; accentSide?: 'left' | 'right' } = $props();
+  const isRight = $derived(accentSide === 'right');
 </script>
 
-<h3>{entry.organization}</h3>
-
-<p class="p">{entry.title}</p>
+<p class="text-sm">{entry.title}</p>
 
 {#if entry.location}
-  <div class="flex text-surface-300">
-    <p class=" ">{entry.location}</p>
+  <div class="flex flex-wrap text-sm text-surface-300" class:justify-end={isRight}>
+    <p>{entry.location}</p>
     {#if entry.employmentType}
       <span class="mx-1">|</span>
       <p>{entry.employmentType}</p>
@@ -24,4 +24,9 @@
   <p class="text-sm mt-2 leading-normal text-surface-300">
     {entry.description}
   </p>
+{/if}
+{#if entry.link}
+  <ExternalLink href={entry.link} class="text-sm mt-2 {isRight ? 'ml-auto' : ''}">
+    {entry.linkLabel ?? entry.link}
+  </ExternalLink>
 {/if}

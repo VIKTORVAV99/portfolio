@@ -14,7 +14,7 @@
 
 <div class="flex flex-col min-h-screen">
   <Header />
-  <main class="flex-1 flex px-4 sm:px-8 flex-col">
+  <main class="flex-1 flex px-4 sm:px-0 flex-col">
     {@render children()}
   </main>
   <Footer />

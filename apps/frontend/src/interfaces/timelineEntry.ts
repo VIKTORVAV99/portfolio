@@ -12,4 +12,6 @@ export interface TimelineEntry {
   description?: string;
   location?: string;
   group?: string; // Entries with the same group are shown on the same side with a visual connector
+  link?: string; // Optional URL for more information about the entry
+  linkLabel?: string; // Optional label for the link. If not provided, the URL itself can be used as the label.
 }

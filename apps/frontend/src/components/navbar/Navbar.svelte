@@ -11,7 +11,7 @@
   ];
 </script>
 
-<div class="p-4">
+<div class="m-4">
   <!-- Desktop nav -->
   <nav class="hidden md:flex font-mono w-fill max-w-5xl mx-auto justify-evenly items-center gap-8 py-4 px-8 rounded-full backdrop-blur-sm bg-surface-800/80">
     {#each links as link}
