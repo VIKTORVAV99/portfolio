@@ -1,5 +1,9 @@
 import { SITE_URL } from "$lib/config";
-import { createWebSiteSchema, createSoftwareSourceCodeSchema, SITE_OWNER_PERSON_REF } from "$lib/seo";
+import {
+  createWebSiteSchema,
+  createSoftwareSourceCodeSchema,
+  SITE_OWNER_PERSON_REF,
+} from "$lib/seo";
 import { siteOwnerPerson } from "$lib/seo/person";
 
 import type { PageLoad } from "./$types";
