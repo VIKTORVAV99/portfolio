@@ -15,6 +15,7 @@
   title={data.metadata.title}
   description={data.metadata.description}
   type="article"
+  canonicalURL={data.postUrl}
   structuredData={data.structuredData}
   prevURL={prevURL}
   nextURL={nextURL}

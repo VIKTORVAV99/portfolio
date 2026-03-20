@@ -56,6 +56,7 @@ export const load = async ({ params }) => {
   return {
     component: file.default,
     metadata: file.metadata,
+    postUrl,
     structuredData: [
       blogPostStructuredData,
       createBreadcrumbListSchema([

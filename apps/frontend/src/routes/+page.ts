@@ -1,5 +1,5 @@
 import { SITE_URL } from "$lib/config";
-import { createWebSiteSchema, SITE_OWNER_PERSON_REF } from "$lib/seo";
+import { createWebSiteSchema, createSoftwareSourceCodeSchema, SITE_OWNER_PERSON_REF } from "$lib/seo";
 import { siteOwnerPerson } from "$lib/seo/person";
 
 import type { PageLoad } from "./$types";
@@ -14,6 +14,13 @@ const structuredData = [
     publisher: SITE_OWNER_PERSON_REF,
   }),
   siteOwnerPerson,
+  createSoftwareSourceCodeSchema({
+    name: "personal-website",
+    codeRepository: "https://github.com/VIKTORVAV99/personal-website",
+    programmingLanguage: ["TypeScript", "Svelte"],
+    author: SITE_OWNER_PERSON_REF,
+    license: "https://github.com/VIKTORVAV99/personal-website/blob/main/LICENSE",
+  }),
 ];
 
 export const load = (() => {

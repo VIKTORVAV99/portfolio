@@ -1,51 +1,11 @@
 ---
 title: "Hello World"
-date: 2024-06-01
-last_updated: 2024-06-01
-description: "My first blog post using SvelteKit and MDsveX!"
+date: 2026-03-20
+last_updated: 2026-03-20
+description: "My first blog post on my newly launched personal website built with SvelteKit and MDsveX!"
 tags: ["sveltekit", "mdsvex", "blog"]
 ---
 
-This is my first blog post! I'm excited to share my thoughts and experiences with you. Stay tuned for more updates and insights on web development, SvelteKit, and MDsveX!
+Yes it's a bit cliché with a Hello World post but at this point it's almost tradition!
 
-
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
-    <!-- Dark minimal background -->
-    <rect width="100%" height="100%" fill="#0a0a0f" />
-
-    <!-- Ultra-optimized, continuous single-path Ambigram -->
-    <path d="M160,160 L400,640 V160 L640,640 M280,400 H520"
-          fill="none"
-          stroke="#ffffff"
-          stroke-width="60"
-          stroke-linecap="butt"
-          stroke-linejoin="miter"
-          stroke-miterlimit="10" />
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
-    <!-- Dark minimal background -->
-    <rect width="100%" height="100%" fill="#0a0a0f" />
-
-    <!-- Softer, more spacious continuous path Ambigram -->
-    <path d="M100,160 L400,640 V160 L700,640 M200,320 H400 M400,480 H600"
-          fill="none"
-          stroke="#ffffff"
-          stroke-width="32"
-          stroke-linecap="round"
-          stroke-linejoin="round" />
-</svg>
-
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800">
-    <!-- Dark minimal background -->
-    <rect width="100%" height="100%" fill="#0a0a0f" />
-
-    <!-- Balanced Ambigram: Medium stance, split crossbars, sharp joints -->
-    <path d="M130,160 L400,640 V160 L670,640 M220,320 H400 M400,480 H580"
-          fill="none"
-          stroke="#ffffff"
-          stroke-width="46"
-          stroke-linecap="butt"
-          stroke-linejoin="miter"
-          stroke-miterlimit="10" />
-</svg>
+In the coming posts I'll be digging into the technical details of this website. Including framework and platform choices, optimizations and performance improvements, SEO and structured data. I'll also be sharing technical deep dives into some of the projects I've worked on professionally and personally, and maybe some thoughts on the industry and software engineering in general.

@@ -91,7 +91,6 @@ export const siteOwnerPerson = createPersonSchema({
       }),
     },
   ],
-  aboutPage: `${SITE_URL}/about`,
   sameAs: [
     "https://github.com/viktorvav99",
     "https://www.linkedin.com/in/viktor-va-andersson/",

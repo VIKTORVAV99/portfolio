@@ -153,7 +153,6 @@ export interface PersonSchema {
     | HighSchoolSchema
     | Array<EducationalOrganizationSchema | CollegeOrUniversitySchema | HighSchoolSchema>;
   hasCredential?: EducationalCredentialSchema | EducationalCredentialSchema[];
-  aboutPage?: string;
   sameAs?: string[];
 }
 
@@ -215,7 +214,7 @@ export interface ListItemSchema {
 
 export interface ItemListSchema {
   "@type": "ItemList";
-  itemListElement: Pick<ListItemSchema, "@type" | "position" | "url">[];
+  itemListElement: Pick<ListItemSchema, "@type" | "position" | "item">[];
 }
 
 export interface BreadcrumbListSchema {
@@ -243,7 +242,7 @@ export function createItemListSchema(urls: string[]): ItemListSchema {
     itemListElement: urls.map((url, i) => ({
       "@type": "ListItem" as const,
       position: i + 1,
-      url,
+      item: url,
     })),
   };
 }
