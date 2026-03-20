@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Component } from "svelte";
+  import type { ComponentType } from "svelte";
   import ChevronLeft from "lucide-svelte/icons/chevron-left";
   import ChevronRight from "lucide-svelte/icons/chevron-right";
 
@@ -17,7 +17,7 @@
   }
 </script>
 
-{#snippet chevron(href: string | undefined, label: string, Icon: Component<{ size: number }>)}
+{#snippet chevron(href: string | undefined, label: string, Icon: ComponentType)}
   {#if href}
     <a {href} class="{box} text-surface-300 hover:text-green-500 transition-colors" aria-label={label}>
       <Icon size={16} />
