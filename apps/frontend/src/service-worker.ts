@@ -1,95 +1,149 @@
 /// <reference types="@sveltejs/kit" />
 /// <reference lib="webworker" />
 
-import { build, files, prerendered, version } from "$service-worker";
+import { build, files, prerendered } from "$service-worker";
 
 // Explicitly type the global 'self' object for Service Workers
 declare const self: ServiceWorkerGlobalScope;
 
-// Split caches to prevent infinite growth and manage lifecycles separately
-const CACHE = `static-cache-${version}`;
-const DYNAMIC_CACHE = `dynamic-cache-${version}`;
+/** Single unversioned static cache — entries are surgically added/pruned per deploy */
+const CACHE = `static-cache`;
+/** Dynamic cache name, this is not versioned as it's meant to be a rolling cache */
+const DYNAMIC_CACHE = `dynamic-cache`;
 
-const ASSETS = [
-  ...build, // the app itself
-  ...files, // everything in `static`
-  ...prerendered, // prerendered pages (make sure to include an '/offline' page here!)
-];
+/** Image regex with common extensions */
+const imageRegex = /\.(avif|webp|jpe?g|png|svg|gif)$/i;
+
+/** Filter function to exclude images from the eager cache, but allow the favicon we always want to cache */
+const imageFilter = (url: string) => !imageRegex.test(url) || url.includes("favicon");
+
+/** Only top-level prerendered pages, not individual blog posts */
+const topLevelPrerendered = prerendered.filter((p) => !p.startsWith("/blog/"));
+
+/** Assets with content hashes - safe to skip if already cached */
+const HASHED_ASSETS = build.filter(imageFilter);
+
+/** Assets without content hashes - must always be re-fetched */
+const UNHASHED_ASSETS = [...files.filter(imageFilter), ...topLevelPrerendered.filter(imageFilter)];
+
+const EAGER_ASSETS = [...HASHED_ASSETS, ...UNHASHED_ASSETS];
+
+/** Helper function to trim the dynamic cache to a maximum number of items */
+async function limitCacheSize(cacheName: string, maxItems: number) {
+  const cache = await caches.open(cacheName);
+  const keys = await cache.keys();
+
+  if (keys.length > maxItems) {
+    // Delete the oldest items until we are back under the limit
+    for (let i = 0; i < keys.length - maxItems; i++) {
+      await cache.delete(keys[i]);
+    }
+  }
+}
+
+/** Helper function to add files to the static cache */
+async function addFilesToCache() {
+  const cache = await caches.open(CACHE);
+  const cached = new Set((await cache.keys()).map((r) => new URL(r.url).pathname));
+  const newHashedAssets = HASHED_ASSETS.filter((asset) => !cached.has(asset));
+
+  await cache.addAll([...newHashedAssets, ...UNHASHED_ASSETS]);
+}
+
+/** Helper function to prune stale entries from the static cache */
+async function pruneStaleEntries() {
+  const cache = await caches.open(CACHE);
+  const currentAssets = new Set(EAGER_ASSETS);
+
+  for (const request of await cache.keys()) {
+    if (!currentAssets.has(new URL(request.url).pathname)) {
+      await cache.delete(request);
+    }
+  }
+}
+
+const KNOWN_CACHES = new Set([CACHE, DYNAMIC_CACHE]);
+/**
+ * Delete any caches not matching our known cache names.
+ * This is a cleanup function if we ever rename caches
+ */
+async function deleteUnknownCaches() {
+  for (const key of await caches.keys()) {
+    if (!KNOWN_CACHES.has(key)) {
+      await caches.delete(key);
+    }
+  }
+}
 
 self.addEventListener("install", (event) => {
-  async function addFilesToCache() {
-    const cache = await caches.open(CACHE);
-    await cache.addAll(ASSETS);
-  }
-
   event.waitUntil(addFilesToCache());
-
-  // Force the waiting service worker to become the active service worker
   self.skipWaiting();
 });
 
 self.addEventListener("activate", (event) => {
-  async function deleteOldCaches() {
-    for (const key of await caches.keys()) {
-      // Delete old versions of both static and dynamic caches
-      if (key !== CACHE && key !== DYNAMIC_CACHE) {
-        await caches.delete(key);
-      }
-    }
-  }
-
-  event.waitUntil(deleteOldCaches());
-
-  // Tell the active service worker to take control of the page immediately
+  event.waitUntil(Promise.all([pruneStaleEntries(), deleteUnknownCaches()]));
   self.clients.claim();
 });
 
 self.addEventListener("fetch", (event) => {
   const url = new URL(event.request.url);
 
-  // Ignore POST requests, and ignore browser extension requests
   if (event.request.method !== "GET" || url.protocol.startsWith("chrome-extension")) {
     return;
   }
 
   async function respond() {
     const staticCache = await caches.open(CACHE);
+    const dynamicCache = await caches.open(DYNAMIC_CACHE);
 
-    // 1. Static Assets: Cache-first strategy
-    if (ASSETS.includes(url.pathname)) {
+    // ROUTE 1: Static Assets (The filtered eager cache) -> Cache-first
+    if (EAGER_ASSETS.includes(url.pathname)) {
       const response = await staticCache.match(url.pathname);
       if (response) return response;
     }
 
-    // 2. Everything else: Network-first strategy
+    // ROUTE 2: Images -> Cache-first (Runtime caching)
+    if (event.request.destination === "image" || imageRegex.test(url.pathname)) {
+      const cachedImage = await dynamicCache.match(event.request);
+
+      if (cachedImage) {
+        // "Bump" the frequently accessed image to the back of the queue
+        event.waitUntil(dynamicCache.put(event.request, cachedImage.clone()));
+        return cachedImage;
+      }
+
+      // Fetch from network. If it fails (offline), the browser naturally handles the error.
+      const response = await fetch(event.request);
+      if (response.status === 200 && response.type === "basic") {
+        dynamicCache.put(event.request, response.clone());
+        limitCacheSize(DYNAMIC_CACHE, 50);
+      }
+
+      return response;
+    }
+
+    // ROUTE 3: Everything else (HTML pages, dynamic API routes) -> Network-first
     try {
       const response = await fetch(event.request);
 
-      // Only cache valid, same-origin responses to avoid bloating storage with opaque responses
       if (response.status === 200 && response.type === "basic") {
-        const dynamicCache = await caches.open(DYNAMIC_CACHE);
-        // Important: You must clone the response before putting it in the cache
         dynamicCache.put(event.request, response.clone());
+        limitCacheSize(DYNAMIC_CACHE, 50);
       }
 
       return response;
     } catch (err) {
-      // Network failed (offline). Try the dynamic cache first
-      const dynamicCache = await caches.open(DYNAMIC_CACHE);
+      // Offline fallback
       const cachedResponse =
         (await dynamicCache.match(event.request)) || (await staticCache.match(event.request));
 
-      if (cachedResponse) {
-        return cachedResponse;
-      }
+      if (cachedResponse) return cachedResponse;
 
-      // If it's a page request and we are offline, show the offline page
       if (event.request.mode === "navigate") {
         const offlinePage = await staticCache.match("/offline");
         if (offlinePage) return offlinePage;
       }
 
-      // If there's no cache and no offline page, fail gracefully
       throw err;
     }
   }

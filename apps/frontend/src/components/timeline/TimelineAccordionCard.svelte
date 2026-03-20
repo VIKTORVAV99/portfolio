@@ -21,7 +21,7 @@
 <Accordion.Root type="single" value={defaultOpen ? 'entry' : ''}>
 	<Accordion.Item
 		value="entry"
-		class="w-full rounded-lg bg-surface-100 dark:bg-surface-800 overflow-hidden"
+		class="w-full rounded-lg bg-surface-800 overflow-hidden"
 		style="{isRight ? 'border-right' : 'border-left'}: 4px solid {color}"
 	>
 		<Accordion.Header>

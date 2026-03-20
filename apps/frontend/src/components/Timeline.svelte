@@ -76,7 +76,7 @@
 	const isCompact = $derived(mode === 'compact');
 </script>
 
-<div class="w-full max-w-5xl mx-auto px-4">
+<div class="w-full max-w-5xl mx-auto">
 	<div
 		class="grid w-full {isCompact ? 'grid-cols-[auto_1fr]' : 'grid-cols-[1fr_auto_1fr]'}"
 		style="grid-template-rows: repeat({graphData.totalGridRows}, {PX_PER_MONTH}px);"

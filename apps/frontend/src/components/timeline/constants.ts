@@ -22,7 +22,7 @@ export const LEADER_CHANNEL_GAP = 8;
 export const MAX_LEADER_CHANNELS = 5;
 
 // Colors
-export const COLOR_LIFE = "var(--color-tertiary-400)";
+export const COLOR_LIFE = "var(--color-secondary-400)";
 
 export const BRANCH_COLORS = [
   "#3b82f6", // blue

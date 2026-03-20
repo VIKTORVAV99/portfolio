@@ -1,3 +1,5 @@
+import { SITE_URL } from "$lib/config";
+
 export interface PostalAddressSchema {
   "@type": "PostalAddress";
   addressLocality?: string;
@@ -36,7 +38,7 @@ export interface EmployeeRoleSchema {
   roleName?: string;
   startDate?: string;
   endDate?: string;
-  worksFor?: Omit<OrganizationSchema, "@context">;
+  worksFor?: OrganizationSchema;
 }
 
 export function createEmployeeRoleSchema(
@@ -59,12 +61,39 @@ export function createEducationalOrganizationSchema(
   return { "@type": "EducationalOrganization", ...options };
 }
 
+export interface CollegeOrUniversitySchema {
+  "@type": "CollegeOrUniversity";
+  name: string;
+  url?: string;
+  sameAs?: string[];
+  location?: string | PlaceSchema;
+}
+
+export function createCollegeOrUniversitySchema(
+  options: Omit<CollegeOrUniversitySchema, "@type">,
+): CollegeOrUniversitySchema {
+  return { "@type": "CollegeOrUniversity", ...options };
+}
+
+export interface HighSchoolSchema {
+  "@type": "HighSchool";
+  name: string;
+  url?: string;
+  sameAs?: string[];
+  location?: string | PlaceSchema;
+}
+
+export function createHighSchoolSchema(options: Omit<HighSchoolSchema, "@type">): HighSchoolSchema {
+  return { "@type": "HighSchool", ...options };
+}
+
 export interface EducationalCredentialSchema {
   "@type": "EducationalOccupationalCredential";
   name: string;
   credentialCategory?: { "@type": "DefinedTerm"; name: string; termCode?: string };
+  educationalLevel?: string;
   datePublished?: string;
-  recognizedBy?: EducationalOrganizationSchema;
+  recognizedBy?: EducationalOrganizationSchema | CollegeOrUniversitySchema | HighSchoolSchema;
 }
 
 export interface WebPageSchema {
@@ -95,7 +124,6 @@ export function createSoftwareSourceCodeSchema(
 }
 
 export interface PersonSchema {
-  "@context": "https://schema.org";
   "@type": "Person";
   /**
    * The "@id" property is optional but can be very useful for uniquely identifying the person in structured data, especially when linking to other entities.
@@ -116,33 +144,160 @@ export interface PersonSchema {
   knowsLanguage?: string | string[];
   knowsAbout?: string | string[];
   worksFor?:
-    | Omit<OrganizationSchema, "@context">
+    | OrganizationSchema
     | EmployeeRoleSchema
-    | Array<Omit<OrganizationSchema, "@context"> | EmployeeRoleSchema>;
-  alumniOf?: EducationalOrganizationSchema;
+    | Array<OrganizationSchema | EmployeeRoleSchema>;
+  alumniOf?:
+    | EducationalOrganizationSchema
+    | CollegeOrUniversitySchema
+    | HighSchoolSchema
+    | Array<EducationalOrganizationSchema | CollegeOrUniversitySchema | HighSchoolSchema>;
   hasCredential?: EducationalCredentialSchema | EducationalCredentialSchema[];
   sameAs?: string[];
 }
 
-export function createPersonSchema(
-  options: Omit<PersonSchema, "@context" | "@type">,
-): PersonSchema {
-  return { "@context": "https://schema.org", "@type": "Person", ...options };
+export function createPersonSchema(options: Omit<PersonSchema, "@type">): PersonSchema {
+  return { "@type": "Person", ...options };
 }
 
-// Updated union type to include WebPageSchema
+export const SITE_OWNER_PERSON_REF = createPersonSchema({
+  "@id": `${SITE_URL}/#person`,
+  name: "Viktor Andersson",
+  url: SITE_URL,
+});
+
+export interface ArticleSchema {
+  "@type": "Article" | "BlogPosting" | "NewsArticle";
+  headline: string;
+  description?: string;
+  image?: string | string[];
+  datePublished: string; // ISO 8601 format (e.g., "2026-03-15T21:07:31+01:00")
+  dateModified?: string; // ISO 8601 format
+  author?: PersonSchema | OrganizationSchema | Array<PersonSchema | OrganizationSchema>;
+  publisher?: OrganizationSchema | PersonSchema;
+  mainEntityOfPage?: WebPageSchema | string;
+  wordCount?: number;
+  keywords?: string | string[];
+  articleBody?: string;
+  url?: string;
+}
+
+export function createArticleSchema(
+  options: Omit<ArticleSchema, "@type"> & { "@type"?: "Article" | "BlogPosting" | "NewsArticle" },
+): ArticleSchema {
+  return {
+    "@type": options["@type"] || "BlogPosting",
+    ...options,
+  };
+}
+
+export interface ProfilePageSchema {
+  "@type": "ProfilePage";
+  dateCreated?: string;
+  dateModified?: string;
+  mainEntity: PersonSchema;
+}
+
+export function createProfilePageSchema(
+  options: Omit<ProfilePageSchema, "@type">,
+): ProfilePageSchema {
+  return { "@type": "ProfilePage", ...options };
+}
+
+export interface ListItemSchema {
+  "@type": "ListItem";
+  position: number;
+  name?: string;
+  url?: string;
+  item?: string;
+}
+
+export interface ItemListSchema {
+  "@type": "ItemList";
+  itemListElement: Pick<ListItemSchema, "@type" | "position" | "item">[];
+}
+
+export interface BreadcrumbListSchema {
+  "@type": "BreadcrumbList";
+  itemListElement: Pick<ListItemSchema, "@type" | "position" | "name" | "item">[];
+}
+
+export function createBreadcrumbListSchema(
+  items: { name: string; url?: string }[],
+): BreadcrumbListSchema {
+  return {
+    "@type": "BreadcrumbList",
+    itemListElement: items.map((entry, i) => ({
+      "@type": "ListItem" as const,
+      position: i + 1,
+      name: entry.name,
+      ...(entry.url && { item: entry.url }),
+    })),
+  };
+}
+
+export function createItemListSchema(urls: string[]): ItemListSchema {
+  return {
+    "@type": "ItemList",
+    itemListElement: urls.map((url, i) => ({
+      "@type": "ListItem" as const,
+      position: i + 1,
+      item: url,
+    })),
+  };
+}
+
+export interface CollectionPageSchema {
+  "@type": "CollectionPage";
+  name: string;
+  description?: string;
+  url: string;
+  mainEntity: ItemListSchema;
+}
+
+export function createCollectionPageSchema(
+  options: Omit<CollectionPageSchema, "@type">,
+): CollectionPageSchema {
+  return { "@type": "CollectionPage", ...options };
+}
+
+export interface WebSiteSchema {
+  "@type": "WebSite";
+  "@id"?: string;
+  name: string;
+  url: string;
+  description?: string;
+  author?: PersonSchema | OrganizationSchema;
+  publisher?: PersonSchema | OrganizationSchema;
+}
+
+export function createWebSiteSchema(options: Omit<WebSiteSchema, "@type">): WebSiteSchema {
+  return { "@type": "WebSite", ...options };
+}
+
 export type StructuredDataSchema =
   | PersonSchema
   | OrganizationSchema
   | EducationalOrganizationSchema
+  | CollegeOrUniversitySchema
+  | HighSchoolSchema
   | EmployeeRoleSchema
   | EducationalCredentialSchema
   | WebPageSchema
-  | SoftwareSourceCodeSchema;
+  | SoftwareSourceCodeSchema
+  | ArticleSchema
+  | ProfilePageSchema
+  | WebSiteSchema
+  | CollectionPageSchema
+  | BreadcrumbListSchema;
 
-export function toJsonLd(schema: StructuredDataSchema): string {
+export function toJsonLd(schema: StructuredDataSchema | StructuredDataSchema[]): string {
   try {
-    const json = JSON.stringify(schema);
+    const payload = Array.isArray(schema)
+      ? { "@context": "https://schema.org", "@graph": schema }
+      : { "@context": "https://schema.org", ...schema };
+
+    const json = JSON.stringify(payload);
 
     // Escape characters that can break out of an HTML <script> tag
     return json

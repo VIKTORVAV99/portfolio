@@ -1,56 +1,27 @@
 <script lang="ts">
-  import IconSet from "$components/IconSet.svelte";
-  import Timeline from "$components/Timeline.svelte";
-  import { timelineEntries } from "$data/metadata";
   import type { PageData } from "./$types";
-  import portrait from "$images/Viktor_Andersson.jpeg?enhanced";
+  import TitleText from "$components/TitleText.svelte";
+  import ProfileCard from "$components/ProfileCard.svelte";
   import SEO from "$lib/seo/components/SEO.svelte";
-  import { inview } from "$lib/actions/inview";
+  import Highlight from "$components/Highlight.svelte";
+  import { SITE_URL } from "$lib/config";
 
   let { data }: { data: PageData } = $props();
 </script>
 
 <SEO
-  title="Viktor Andersson | Software Engineer"
-  description="Personal portfolio website for Viktor Andersson, Software Engineer at Electricity Maps and Digital Design and Innovation graduate"
-  canonicalURL="https://viktor.andersson.tech"
+  title="Viktor Andersson - Software Engineer"
+  description="Personal website for Viktor Andersson, Software Engineer at Electricity Maps and Digital Design and Innovation graduate"
+  canonicalURL={SITE_URL}
   structuredData={data.structuredData}
 />
-
-<div class="flex flex-col gap-8 justify-start pt-8 items-center">
-  <section class="flex flex-col items-center gap-4 w-full">
-    <enhanced:img
-      src={portrait}
-      alt="Portrait of Viktor Andersson"
-      class="rounded-full w-64 h-64 border border-surface-100 dark:border-surface-800"
-    />
-    <h1>Viktor Andersson</h1>
-    <IconSet />
-  </section>
-  <section class="flex flex-col items-center gap-4 w-full max-w-4xl">
-    <h2>About me</h2>
-    <div class="flex flex-col md:flex-row gap-8">
-      <section class="flex flex-col gap-4 items-center flex-1">
-        <h3>Personal</h3>
-        <p>
-          I'm a Software Engineer at Electricity Maps, the world's most comprehensive electricity
-          data platform. I hold a Bachelor of Science in Digital Design and Innovation from Halmstad
-          University. On my free time I like to learn about new things, watch Sci-Fi and enjoy
-          nature by walking, taking a bike ride or skiing down a mountain.
-        </p>
-      </section>
-      <section class="flex flex-col gap-4 items-center flex-1">
-        <h3>Professional</h3>
-        <p>
-          I have experience in both frontend and backend development, with a focus on TypeScript and
-          JavaScript. I enjoy working with Svelte and SvelteKit, but I also have experience with
-          React and Node.js. I'm always eager to learn new technologies and improve my skills.
-        </p>
-      </section>
-    </div>
-  </section>
-  <section class="flex flex-col gap-4 items-center w-full" use:inview>
-    <h2>Experience</h2>
-    <Timeline entries={timelineEntries} />
-  </section>
+<div class="page-container">
+  <TitleText path="" subtitle="Welcome" />
+  <ProfileCard />
+  <nav class="font-mono text-lg flex flex-col w-full">
+    <span aria-hidden="true"><Highlight>~</Highlight>/</span>
+    <a href="/about" class="underline-offset-4"><span aria-hidden="true">├── </span>about</a>
+    <a href="/history" class="underline-offset-4"><span aria-hidden="true">├── </span>history</a>
+    <a href="/blog" class="underline-offset-4"><span aria-hidden="true">└── </span>blog</a>
+  </nav>
 </div>

@@ -9,7 +9,7 @@
 <p class="p">{entry.title}</p>
 
 {#if entry.location}
-  <div class="flex text-surface-400 dark:text-surface-500">
+  <div class="flex text-surface-300">
     <p class=" ">{entry.location}</p>
     {#if entry.employmentType}
       <span class="mx-1">|</span>
@@ -21,7 +21,7 @@
   </div>
 {/if}
 {#if entry.description}
-  <p class="text-sm mt-2 leading-normal text-surface-400 dark:text-surface-500">
+  <p class="text-sm mt-2 leading-normal text-surface-300">
     {entry.description}
   </p>
 {/if}

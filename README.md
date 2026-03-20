@@ -1,6 +1,6 @@
-# Portfolio
+# Personal Website
 
-Bun monorepo containing the portfolio frontend and backend API worker.
+Bun monorepo containing my personal website frontend and backend API worker.
 
 ## Structure
 
@@ -36,3 +36,5 @@ bun run dev:backend
 | `bun run test:unit`  | Run unit tests across all apps     |
 | `bun run lint`       | Lint all apps                      |
 | `bun run format`     | Format all apps                    |
+| `bun run format:check` | Check formatting without writing |
+| `bun run check:ci`   | SvelteKit sync + svelte-check      |
