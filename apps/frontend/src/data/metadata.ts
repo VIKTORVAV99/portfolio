@@ -11,9 +11,12 @@ const primaryWorkEntries: TimelineEntry[] = [
     endYear: 2025,
     endMonth: 6,
     showDates: true,
-    description: "Building and nurturing the open source community",
+    description:
+      "Building and nurturing the open source community of electricitymaps-contrib as well as maintaining the open source repository of Electricity Maps. Which contains the date ingenstion parsers and contained the frontend code of the public web app.",
     location: "Remote, Denmark",
     group: "electricity-maps",
+    link: "https://electricitymaps.com",
+    linkLabel: "open electricitymaps.com",
   },
   {
     title: "Software Engineer",
@@ -24,9 +27,12 @@ const primaryWorkEntries: TimelineEntry[] = [
     startMonth: 7,
     endYear: null,
     showDates: true,
-    description: "Powering decarbonization through data",
+    description:
+      "Enginnering core data ingenstion, validation and processing systems for near real-time electricity data.",
     location: "Hybrid, Denmark",
     group: "electricity-maps",
+    link: "https://electricitymaps.com",
+    linkLabel: "open electricitymaps.com",
   },
 ];
 const secondaryWorkEntries: TimelineEntry[] = [
@@ -71,7 +77,7 @@ const educationEntries: TimelineEntry[] = [
     showDates: true,
     description:
       "Focus on programming in C# and web development using PHP, and JavaScript frameworks.",
-    location: "Sweden",
+    location: "Älmhult, Sweden",
   },
   {
     title: "Digital Design and Innovation",
@@ -85,6 +91,8 @@ const educationEntries: TimelineEntry[] = [
     showDates: true,
     description: "Bachelor of Science with a major in Informatics, Digital Design and Innovation",
     location: "Halmstad, Sweden",
+    link: "https://hh.se",
+    linkLabel: "open hh.se",
   },
 ];
 const lifeEntries: TimelineEntry[] = [

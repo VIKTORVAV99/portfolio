@@ -4,6 +4,5 @@
 </script>
 
 <header class="sticky top-0 z-10 w-full">
-	<UnderConstruction />
 	<Navbar />
 </header>

@@ -86,7 +86,7 @@
 			{#each graphData.nodes as node}
 				{#if node.side === 'left'}
 					<div
-						class="col-start-1 flex justify-end pr-2 self-start"
+						class="col-start-1 flex justify-end self-start"
 						style="grid-row: {node.gridRow} / {node.gridRowEnd};"
 						use:observeCardHeight={node.entry}
 					>
@@ -104,7 +104,7 @@
 			{#if node.side === 'right'}
 				{#if !(node.entry.type === 'life' && !node.entry.showDates)}
 					<div
-						class="{isCompact ? 'col-start-2' : 'col-start-3'} flex justify-start pl-2 self-start"
+						class="{isCompact ? 'col-start-2' : 'col-start-3'} flex justify-start self-start"
 						style="grid-row: {node.gridRow} / {node.gridRowEnd};"
 						use:observeCardHeight={node.entry}
 					>
