@@ -1,29 +1,42 @@
 import { describe, it, expect } from "bun:test";
 
-import { GET } from "./+server";
+import { _buildSitemapXml, _staticPages } from "./+server";
+
+const buildDate = "2026-03-20";
+
+const testPages = [
+  ..._staticPages.map((p) => ({ ...p, lastmod: buildDate })),
+  { path: "/blog/hello_world", priority: "0.7", changefreq: "monthly", lastmod: buildDate },
+];
 
 describe("sitemap.xml", () => {
-  it("should return content type application/xml", async () => {
-    const response = await GET();
-    expect(response.headers.get("Content-Type")).toBe("application/xml");
+  it("should produce valid XML", () => {
+    const xml = _buildSitemapXml(testPages);
+    expect(xml).toStartWith('<?xml version="1.0" encoding="UTF-8"?>');
   });
 
-  it("should return 200 status", async () => {
-    const response = await GET();
-    expect(response.status).toBe(200);
+  it("should include all static pages", () => {
+    const xml = _buildSitemapXml(testPages);
+    expect(xml).toContain("<loc>https://viktor.andersson.tech</loc>");
+    expect(xml).toContain("<loc>https://viktor.andersson.tech/blog</loc>");
+    expect(xml).toContain("<loc>https://viktor.andersson.tech/about</loc>");
+    expect(xml).toContain("<loc>https://viktor.andersson.tech/history</loc>");
   });
 
-  // it should return xml that includes the domain
-  it("should include domain", async () => {
-    const response = await GET();
-    expect(await response.text()).toContain("https://viktor.andersson.tech");
+  it("should include blog posts", () => {
+    const xml = _buildSitemapXml(testPages);
+    expect(xml).toContain("<loc>https://viktor.andersson.tech/blog/hello_world</loc>");
   });
 
-  it("should match snapshot", async () => {
-    const response = await GET();
-    let text = await response.text();
+  it("should include domain", () => {
+    const xml = _buildSitemapXml(testPages);
+    expect(xml).toContain("https://viktor.andersson.tech");
+  });
+
+  it("should match snapshot", () => {
+    const xml = _buildSitemapXml(testPages);
     // Replace date patterns with a placeholder
-    text = text.replace(/\d{4}-\d{2}-\d{2}/g, "YYYY-MM-DD");
-    expect(text).toMatchSnapshot();
+    const normalized = xml.replace(/\d{4}-\d{2}-\d{2}/g, "YYYY-MM-DD");
+    expect(normalized).toMatchSnapshot();
   });
 });
