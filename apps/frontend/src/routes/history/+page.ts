@@ -13,10 +13,7 @@ const structuredData = [
       mainEntityOfPage: createWebPageSchema(`${SITE_URL}/history`),
     },
   }),
-  createBreadcrumbListSchema([
-    { name: "Home", url: SITE_URL },
-    { name: "History" },
-  ]),
+  createBreadcrumbListSchema([{ name: "Home", url: SITE_URL }, { name: "History" }]),
 ];
 
 export const load = (() => ({ structuredData })) satisfies PageLoad;

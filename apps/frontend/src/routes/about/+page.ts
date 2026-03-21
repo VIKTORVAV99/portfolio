@@ -10,10 +10,7 @@ const structuredData = [
     dateModified: PROFILE_DATE_MODIFIED,
     mainEntity: { ...siteOwnerPerson, mainEntityOfPage: createWebPageSchema(`${SITE_URL}/about`) },
   }),
-  createBreadcrumbListSchema([
-    { name: "Home", url: SITE_URL },
-    { name: "About" },
-  ]),
+  createBreadcrumbListSchema([{ name: "Home", url: SITE_URL }, { name: "About" }]),
 ];
 
 export const load = (() => {
