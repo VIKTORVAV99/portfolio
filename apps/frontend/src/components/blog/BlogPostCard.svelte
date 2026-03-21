@@ -6,10 +6,11 @@
     title: string;
     description: string;
     date: string;
+    readingTime?: number;
     tags?: string[];
   }
 
-  let { slug, title, description, date, tags }: Props = $props();
+  let { slug, title, description, date, readingTime, tags }: Props = $props();
 </script>
 
 <li class="flex flex-col gap-2 border-b border-surface-700 last:border-none">
@@ -21,5 +22,5 @@
     {description}
   </p>
 
-  <BlogPostMeta {date} {tags} />
+  <BlogPostMeta {date} {readingTime} {tags} />
 </li>

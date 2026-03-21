@@ -7,20 +7,31 @@ export interface BlogPostMeta {
   last_updated?: string;
   tags?: string[];
   slug: string;
+  readingTime: number;
   /** Raw mdsvex module – only used by [slug]/+page.ts for the rendered component. */
   _file?: any;
 }
 
+const WORDS_PER_MINUTE = 200;
+
+const calculateReadingTime = (raw: string): number => {
+  const body = raw.replace(/^---[\s\S]*?---/, "").trim();
+  const words = body.match(/\S+/g)?.length ?? 0;
+  return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
+};
+
 export const getAllPosts = (): BlogPostMeta[] => {
   const paths = import.meta.glob("$blogs/*.md", { eager: true });
+  const rawPaths = import.meta.glob("$blogs/*.md", { eager: true, query: "?raw" });
   const posts: BlogPostMeta[] = [];
 
   for (const path in paths) {
     const file = paths[path] as any;
+    const raw = (rawPaths[path] as any)?.default ?? "";
     const slug = path.split("/").at(-1)?.replace(/\.md$/, "").toLowerCase();
 
     if (file && typeof file === "object" && "metadata" in file && slug) {
-      posts.push({ ...file.metadata, slug, _file: file });
+      posts.push({ ...file.metadata, slug, readingTime: calculateReadingTime(raw), _file: file });
     }
   }
 
@@ -42,3 +53,16 @@ export const slugifyTag = (tag: string): string =>
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
+
+export const paginatePosts = (posts: BlogPostMeta[], url: URL) => {
+  const totalPages = Math.max(1, Math.ceil(posts.length / PAGE_SIZE));
+  let rawPage: string | null = null;
+  try {
+    rawPage = url.searchParams.get("page");
+  } catch {
+    rawPage = null;
+  }
+  const currentPage = rawPage ? Math.max(1, Math.min(Number(rawPage), totalPages)) : 1;
+  const pagedPosts = posts.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE);
+  return { pagedPosts, currentPage, totalPages };
+};
