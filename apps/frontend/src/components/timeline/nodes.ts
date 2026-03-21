@@ -9,7 +9,7 @@ import {
   type Branch,
 } from "./types";
 
-export function buildLifeNodes(entries: TimelineEntry[]): CommitNode[] {
+export const buildLifeNodes = (entries: TimelineEntry[]): CommitNode[] => {
   const nodes: CommitNode[] = [];
   for (const entry of entries) {
     if (entry.type === "life") {
@@ -29,9 +29,9 @@ export function buildLifeNodes(entries: TimelineEntry[]): CommitNode[] {
     }
   }
   return nodes;
-}
+};
 
-export function buildBranchNodes(branches: Branch[]): CommitNode[] {
+export const buildBranchNodes = (branches: Branch[]): CommitNode[] => {
   const nodes: CommitNode[] = [];
   for (const branch of branches) {
     for (const entry of branch.entries) {
@@ -55,4 +55,4 @@ export function buildBranchNodes(branches: Branch[]): CommitNode[] {
     }
   }
   return nodes;
-}
+};

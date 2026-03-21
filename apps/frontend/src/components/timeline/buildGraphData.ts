@@ -8,12 +8,12 @@ import { buildLeaderLines } from "./leaderLines";
 import { buildLifeNodes, buildBranchNodes } from "./nodes";
 import { resolveDesktopOverlap } from "./overlap";
 
-export function buildGraphData(
+export const buildGraphData = (
   entries: TimelineEntry[],
   pxPerMonth: number,
   measuredHeightsByEntry?: Map<TimelineEntry, number>,
   mode: TimelineMode = "desktop",
-): GraphData {
+): GraphData => {
   const spacing = mode === "compact" ? COMPACT_LANE_SPACING : LANE_SPACING;
   const { branches, leftLaneCount, rightLaneCount } = assignLanes(entries, mode);
 
@@ -38,4 +38,4 @@ export function buildGraphData(
   const leaderLines = buildLeaderLines(nodes, laneX, graphWidth, pxPerMonth, laneX(0));
 
   return { branches, nodes, graphWidth, laneX, totalGridRows, mode, leaderLines };
-}
+};

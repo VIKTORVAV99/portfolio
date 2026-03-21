@@ -51,15 +51,13 @@ export interface GraphData {
   leaderLines: LeaderLine[];
 }
 
-export function toAbsoluteMonth(year: number, month: number = 1): number {
-  return (year - ORIGIN_YEAR) * 12 + month;
-}
+export const toAbsoluteMonth = (year: number, month: number = 1): number =>
+  (year - ORIGIN_YEAR) * 12 + month;
 
-export function entryStartAbsMonth(entry: TimelineEntry): number {
-  return toAbsoluteMonth(entry.startYear ?? ORIGIN_YEAR, entry.startMonth ?? ORIGIN_MONTH);
-}
+export const entryStartAbsMonth = (entry: TimelineEntry): number =>
+  toAbsoluteMonth(entry.startYear ?? ORIGIN_YEAR, entry.startMonth ?? ORIGIN_MONTH);
 
-export function entryEndAbsMonth(entry: TimelineEntry): number {
+export const entryEndAbsMonth = (entry: TimelineEntry): number => {
   if (entry.endYear === null) {
     return toAbsoluteMonth(CURRENT_YEAR, CURRENT_MONTH);
   }
@@ -67,17 +65,14 @@ export function entryEndAbsMonth(entry: TimelineEntry): number {
     return toAbsoluteMonth(entry.startYear ?? ORIGIN_YEAR, entry.startMonth ?? ORIGIN_MONTH);
   }
   return toAbsoluteMonth(entry.endYear, entry.endMonth ?? 12);
-}
+};
 
-export function monthToRow(absMonth: number): number {
-  return TOTAL_MONTHS - absMonth + 1;
-}
+export const monthToRow = (absMonth: number): number => TOTAL_MONTHS - absMonth + 1;
 
-export function nodeY(row: number, pxPerMonth: number = PX_PER_MONTH): number {
-  return (row - 1) * pxPerMonth + pxPerMonth * 0.5 + GRAPH_TOP_PADDING_PX;
-}
+export const nodeY = (row: number, pxPerMonth: number = PX_PER_MONTH): number =>
+  (row - 1) * pxPerMonth + pxPerMonth * 0.5 + GRAPH_TOP_PADDING_PX;
 
-export function formatDate(entry: TimelineEntry): string {
+export const formatDate = (entry: TimelineEntry): string => {
   if (!entry.showDates || entry.startYear == null) return "";
   const startStr =
     entry.startMonth != null
@@ -92,4 +87,4 @@ export function formatDate(entry: TimelineEntry): string {
     if (startStr !== endStr) return `${startStr} — ${endStr}`;
   }
   return startStr;
-}
+};

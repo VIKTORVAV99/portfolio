@@ -13,9 +13,8 @@
 
   const box = "inline-flex items-center justify-center size-8";
 
-  function pageHref(page: number): string {
-    return page === 1 ? baseHref : `${baseHref}?page=${page}`;
-  }
+  const pageHref = (page: number): string =>
+    page === 1 ? baseHref : `${baseHref}?page=${page}`;
 </script>
 
 {#snippet chevron(href: string | undefined, label: string, Icon: ComponentType)}

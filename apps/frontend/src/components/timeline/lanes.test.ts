@@ -5,33 +5,29 @@ import { describe, it, expect } from "bun:test";
 import { BRANCH_COLORS } from "./constants";
 import { assignLanes, buildLaneLayout } from "./lanes";
 
-function workEntry(overrides: Partial<TimelineEntry> = {}): TimelineEntry {
-  return {
-    title: "Job",
-    organization: "Corp",
-    type: "work",
-    startYear: 2020,
-    startMonth: 1,
-    endYear: 2021,
-    endMonth: 12,
-    showDates: true,
-    ...overrides,
-  };
-}
+const workEntry = (overrides: Partial<TimelineEntry> = {}): TimelineEntry => ({
+  title: "Job",
+  organization: "Corp",
+  type: "work",
+  startYear: 2020,
+  startMonth: 1,
+  endYear: 2021,
+  endMonth: 12,
+  showDates: true,
+  ...overrides,
+});
 
-function eduEntry(overrides: Partial<TimelineEntry> = {}): TimelineEntry {
-  return {
-    title: "School",
-    organization: "Uni",
-    type: "education",
-    startYear: 2020,
-    startMonth: 1,
-    endYear: 2021,
-    endMonth: 12,
-    showDates: true,
-    ...overrides,
-  };
-}
+const eduEntry = (overrides: Partial<TimelineEntry> = {}): TimelineEntry => ({
+  title: "School",
+  organization: "Uni",
+  type: "education",
+  startYear: 2020,
+  startMonth: 1,
+  endYear: 2021,
+  endMonth: 12,
+  showDates: true,
+  ...overrides,
+});
 
 describe("assignLanes", () => {
   it("excludes life entries from branches", () => {

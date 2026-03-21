@@ -11,12 +11,13 @@ export interface PlaceSchema {
   address: PostalAddressSchema;
 }
 
-export function createPlaceSchema(addressLocality: string, addressCountry: string): PlaceSchema {
-  return {
-    "@type": "Place",
-    address: { "@type": "PostalAddress", addressLocality, addressCountry },
-  };
-}
+export const createPlaceSchema = (
+  addressLocality: string,
+  addressCountry: string,
+): PlaceSchema => ({
+  "@type": "Place",
+  address: { "@type": "PostalAddress", addressLocality, addressCountry },
+});
 
 export interface OrganizationSchema {
   "@type": "Organization";
@@ -27,11 +28,9 @@ export interface OrganizationSchema {
   sameAs?: string[];
 }
 
-export function createOrganizationSchema(
+export const createOrganizationSchema = (
   options: Omit<OrganizationSchema, "@type">,
-): OrganizationSchema {
-  return { "@type": "Organization", ...options };
-}
+): OrganizationSchema => ({ "@type": "Organization", ...options });
 
 export interface EmployeeRoleSchema {
   "@type": "EmployeeRole";
@@ -41,11 +40,9 @@ export interface EmployeeRoleSchema {
   worksFor?: OrganizationSchema;
 }
 
-export function createEmployeeRoleSchema(
+export const createEmployeeRoleSchema = (
   options: Omit<EmployeeRoleSchema, "@type">,
-): EmployeeRoleSchema {
-  return { "@type": "EmployeeRole", ...options };
-}
+): EmployeeRoleSchema => ({ "@type": "EmployeeRole", ...options });
 
 export interface EducationalOrganizationSchema {
   "@type": "EducationalOrganization";
@@ -55,11 +52,9 @@ export interface EducationalOrganizationSchema {
   location?: string | PlaceSchema;
 }
 
-export function createEducationalOrganizationSchema(
+export const createEducationalOrganizationSchema = (
   options: Omit<EducationalOrganizationSchema, "@type">,
-): EducationalOrganizationSchema {
-  return { "@type": "EducationalOrganization", ...options };
-}
+): EducationalOrganizationSchema => ({ "@type": "EducationalOrganization", ...options });
 
 export interface CollegeOrUniversitySchema {
   "@type": "CollegeOrUniversity";
@@ -69,11 +64,9 @@ export interface CollegeOrUniversitySchema {
   location?: string | PlaceSchema;
 }
 
-export function createCollegeOrUniversitySchema(
+export const createCollegeOrUniversitySchema = (
   options: Omit<CollegeOrUniversitySchema, "@type">,
-): CollegeOrUniversitySchema {
-  return { "@type": "CollegeOrUniversity", ...options };
-}
+): CollegeOrUniversitySchema => ({ "@type": "CollegeOrUniversity", ...options });
 
 export interface HighSchoolSchema {
   "@type": "HighSchool";
@@ -83,9 +76,9 @@ export interface HighSchoolSchema {
   location?: string | PlaceSchema;
 }
 
-export function createHighSchoolSchema(options: Omit<HighSchoolSchema, "@type">): HighSchoolSchema {
-  return { "@type": "HighSchool", ...options };
-}
+export const createHighSchoolSchema = (
+  options: Omit<HighSchoolSchema, "@type">,
+): HighSchoolSchema => ({ "@type": "HighSchool", ...options });
 
 export interface EducationalCredentialSchema {
   "@type": "EducationalOccupationalCredential";
@@ -101,9 +94,10 @@ export interface WebPageSchema {
   "@id": string;
 }
 
-export function createWebPageSchema(id: string): WebPageSchema {
-  return { "@type": "WebPage", "@id": id };
-}
+export const createWebPageSchema = (id: string): WebPageSchema => ({
+  "@type": "WebPage",
+  "@id": id,
+});
 
 export interface SoftwareSourceCodeSchema {
   "@type": "SoftwareSourceCode";
@@ -117,11 +111,9 @@ export interface SoftwareSourceCodeSchema {
   dateModified?: string;
 }
 
-export function createSoftwareSourceCodeSchema(
+export const createSoftwareSourceCodeSchema = (
   options: Omit<SoftwareSourceCodeSchema, "@type">,
-): SoftwareSourceCodeSchema {
-  return { "@type": "SoftwareSourceCode", ...options };
-}
+): SoftwareSourceCodeSchema => ({ "@type": "SoftwareSourceCode", ...options });
 
 export interface PersonSchema {
   "@type": "Person";
@@ -156,9 +148,10 @@ export interface PersonSchema {
   sameAs?: string[];
 }
 
-export function createPersonSchema(options: Omit<PersonSchema, "@type">): PersonSchema {
-  return { "@type": "Person", ...options };
-}
+export const createPersonSchema = (options: Omit<PersonSchema, "@type">): PersonSchema => ({
+  "@type": "Person",
+  ...options,
+});
 
 export const SITE_OWNER_PERSON_REF = createPersonSchema({
   "@id": `${SITE_URL}/#person`,
@@ -182,14 +175,12 @@ export interface ArticleSchema {
   url?: string;
 }
 
-export function createArticleSchema(
+export const createArticleSchema = (
   options: Omit<ArticleSchema, "@type"> & { "@type"?: "Article" | "BlogPosting" | "NewsArticle" },
-): ArticleSchema {
-  return {
-    "@type": options["@type"] || "BlogPosting",
-    ...options,
-  };
-}
+): ArticleSchema => ({
+  "@type": options["@type"] || "BlogPosting",
+  ...options,
+});
 
 export interface ProfilePageSchema {
   "@type": "ProfilePage";
@@ -198,11 +189,9 @@ export interface ProfilePageSchema {
   mainEntity: PersonSchema;
 }
 
-export function createProfilePageSchema(
+export const createProfilePageSchema = (
   options: Omit<ProfilePageSchema, "@type">,
-): ProfilePageSchema {
-  return { "@type": "ProfilePage", ...options };
-}
+): ProfilePageSchema => ({ "@type": "ProfilePage", ...options });
 
 export interface ListItemSchema {
   "@type": "ListItem";
@@ -222,30 +211,26 @@ export interface BreadcrumbListSchema {
   itemListElement: Pick<ListItemSchema, "@type" | "position" | "name" | "item">[];
 }
 
-export function createBreadcrumbListSchema(
+export const createBreadcrumbListSchema = (
   items: { name: string; url?: string }[],
-): BreadcrumbListSchema {
-  return {
-    "@type": "BreadcrumbList",
-    itemListElement: items.map((entry, i) => ({
-      "@type": "ListItem" as const,
-      position: i + 1,
-      name: entry.name,
-      ...(entry.url && { item: entry.url }),
-    })),
-  };
-}
+): BreadcrumbListSchema => ({
+  "@type": "BreadcrumbList",
+  itemListElement: items.map((entry, i) => ({
+    "@type": "ListItem" as const,
+    position: i + 1,
+    name: entry.name,
+    ...(entry.url && { item: entry.url }),
+  })),
+});
 
-export function createItemListSchema(urls: string[]): ItemListSchema {
-  return {
-    "@type": "ItemList",
-    itemListElement: urls.map((url, i) => ({
-      "@type": "ListItem" as const,
-      position: i + 1,
-      item: url,
-    })),
-  };
-}
+export const createItemListSchema = (urls: string[]): ItemListSchema => ({
+  "@type": "ItemList",
+  itemListElement: urls.map((url, i) => ({
+    "@type": "ListItem" as const,
+    position: i + 1,
+    item: url,
+  })),
+});
 
 export interface CollectionPageSchema {
   "@type": "CollectionPage";
@@ -255,11 +240,9 @@ export interface CollectionPageSchema {
   mainEntity: ItemListSchema;
 }
 
-export function createCollectionPageSchema(
+export const createCollectionPageSchema = (
   options: Omit<CollectionPageSchema, "@type">,
-): CollectionPageSchema {
-  return { "@type": "CollectionPage", ...options };
-}
+): CollectionPageSchema => ({ "@type": "CollectionPage", ...options });
 
 export interface WebSiteSchema {
   "@type": "WebSite";
@@ -271,9 +254,10 @@ export interface WebSiteSchema {
   publisher?: PersonSchema | OrganizationSchema;
 }
 
-export function createWebSiteSchema(options: Omit<WebSiteSchema, "@type">): WebSiteSchema {
-  return { "@type": "WebSite", ...options };
-}
+export const createWebSiteSchema = (options: Omit<WebSiteSchema, "@type">): WebSiteSchema => ({
+  "@type": "WebSite",
+  ...options,
+});
 
 export type StructuredDataSchema =
   | PersonSchema
@@ -292,20 +276,19 @@ export type StructuredDataSchema =
   | BreadcrumbListSchema;
 
 /** Converts a date string to ISO 8601. Month-only dates (e.g. "2025-07") floor to the 1st. */
-export function toISOStartDate(date: string): string {
-  return new Date(date.length === 7 ? `${date}-01` : date).toISOString();
-}
+export const toISOStartDate = (date: string): string =>
+  new Date(date.length === 7 ? `${date}-01` : date).toISOString();
 
 /** Converts a date string to ISO 8601. Month-only dates (e.g. "2025-06") ceil to the last day. */
-export function toISOEndDate(date: string): string {
+export const toISOEndDate = (date: string): string => {
   if (date.length === 7) {
     const [year, month] = date.split("-").map(Number);
     return new Date(Date.UTC(year, month, 0)).toISOString();
   }
   return new Date(date).toISOString();
-}
+};
 
-export function toJsonLd(schema: StructuredDataSchema | StructuredDataSchema[]): string {
+export const toJsonLd = (schema: StructuredDataSchema | StructuredDataSchema[]): string => {
   try {
     const payload = Array.isArray(schema)
       ? { "@context": "https://schema.org", "@graph": schema }
@@ -324,4 +307,4 @@ export function toJsonLd(schema: StructuredDataSchema | StructuredDataSchema[]):
     console.error("Failed to stringify JSON-LD schema:", error);
     return "{}"; // Fallback to a safe, empty JSON object
   }
-}
+};

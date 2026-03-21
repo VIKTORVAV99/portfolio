@@ -1,13 +1,13 @@
 import { NODE_RADIUS, LEADER_CHANNEL_GAP, MAX_LEADER_CHANNELS } from "./constants";
 import { nodeY, type CommitNode, type LeaderLine } from "./types";
 
-export function buildLeaderLines(
+export const buildLeaderLines = (
   nodes: CommitNode[],
   laneX: (lane: number) => number,
   graphWidth: number,
   pxPerMonth: number,
   trunkX: number,
-): LeaderLine[] {
+): LeaderLine[] => {
   // Separate channel tracking for left and right sides
   const rightChannelRanges: Array<Array<{ min: number; max: number }>> = Array.from(
     { length: MAX_LEADER_CHANNELS },
@@ -99,4 +99,4 @@ export function buildLeaderLines(
   }
 
   return lines;
-}
+};
