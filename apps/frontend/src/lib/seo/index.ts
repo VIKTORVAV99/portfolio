@@ -291,6 +291,20 @@ export type StructuredDataSchema =
   | CollectionPageSchema
   | BreadcrumbListSchema;
 
+/** Converts a date string to ISO 8601. Month-only dates (e.g. "2025-07") floor to the 1st. */
+export function toISOStartDate(date: string): string {
+  return new Date(date.length === 7 ? `${date}-01` : date).toISOString();
+}
+
+/** Converts a date string to ISO 8601. Month-only dates (e.g. "2025-06") ceil to the last day. */
+export function toISOEndDate(date: string): string {
+  if (date.length === 7) {
+    const [year, month] = date.split("-").map(Number);
+    return new Date(Date.UTC(year, month, 0)).toISOString();
+  }
+  return new Date(date).toISOString();
+}
+
 export function toJsonLd(schema: StructuredDataSchema | StructuredDataSchema[]): string {
   try {
     const payload = Array.isArray(schema)

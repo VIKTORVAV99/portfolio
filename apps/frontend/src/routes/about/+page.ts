@@ -1,12 +1,12 @@
 import { SITE_URL } from "$lib/config";
 import { createProfilePageSchema, createWebPageSchema } from "$lib/seo";
-import { siteOwnerPerson } from "$lib/seo/person";
+import { PROFILE_DATE_CREATED, PROFILE_DATE_MODIFIED, siteOwnerPerson } from "$lib/seo/person";
 
 import type { PageLoad } from "./$types";
 
 const structuredData = createProfilePageSchema({
-  dateCreated: "2025-03-01",
-  dateModified: "2026-03-17",
+  dateCreated: PROFILE_DATE_CREATED,
+  dateModified: PROFILE_DATE_MODIFIED,
   mainEntity: { ...siteOwnerPerson, mainEntityOfPage: createWebPageSchema(`${SITE_URL}/about`) },
 });
 
