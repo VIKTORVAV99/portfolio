@@ -4,7 +4,7 @@
   import BlogPostCard from "$components/blog/BlogPostCard.svelte";
   import BlogPagination from "$components/blog/BlogPagination.svelte";
   import { SITE_URL } from "$lib/config";
-  import { createCollectionPageSchema, createItemListSchema } from "$lib/seo";
+  import { createBreadcrumbListSchema, createCollectionPageSchema, createItemListSchema } from "$lib/seo";
   import TitleText from "$components/TitleText.svelte";
 
   let { data }: { data: PageData } = $props();
@@ -21,14 +21,20 @@
     ? `${SITE_URL}/blog?page=${data.currentPage + 1}`
     : undefined);
 
-  const structuredData = $derived(createCollectionPageSchema({
-    name: "Blog",
-    description: "Thoughts on software engineering, climate tech, and open source.",
-    url: canonicalURL,
-    mainEntity: createItemListSchema(
-      data.pagedPosts.map((post) => `${SITE_URL}/blog/${post.slug}`),
-    ),
-  }));
+  const structuredData = $derived([
+    createCollectionPageSchema({
+      name: "Blog",
+      description: "Thoughts on software engineering, climate tech, and open source.",
+      url: canonicalURL,
+      mainEntity: createItemListSchema(
+        data.pagedPosts.map((post) => `${SITE_URL}/blog/${post.slug}`),
+      ),
+    }),
+    createBreadcrumbListSchema([
+      { name: "Home", url: SITE_URL },
+      { name: "Blog" },
+    ]),
+  ]);
 </script>
 
 <SEO
