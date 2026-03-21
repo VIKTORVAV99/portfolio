@@ -6,14 +6,15 @@
   interface Props {
     currentPage: number;
     totalPages: number;
+    baseHref?: string;
   }
 
-  let { currentPage, totalPages }: Props = $props();
+  let { currentPage, totalPages, baseHref = "/blog" }: Props = $props();
 
   const box = "inline-flex items-center justify-center size-8";
 
   function pageHref(page: number): string {
-    return page === 1 ? "/blog" : `/blog?page=${page}`;
+    return page === 1 ? baseHref : `${baseHref}?page=${page}`;
   }
 </script>
 

@@ -1,3 +1,4 @@
+import { getAllPosts } from "$lib/blog";
 import { SITE_URL } from "$lib/config";
 import {
   createArticleSchema,
@@ -9,29 +10,14 @@ import { error } from "@sveltejs/kit";
 
 export const prerender = true;
 
-function getAllPosts() {
-  const paths = import.meta.glob("$blogs/*.md", { eager: true });
-  const posts = [];
-
-  for (const path in paths) {
-    const file = paths[path] as any;
-    const slug = path.split("/").at(-1)?.replace(/\.md$/, "").toLowerCase();
-
-    if (file && typeof file === "object" && "metadata" in file && slug) {
-      posts.push({ slug, title: file.metadata.title, date: file.metadata.date, file });
-    }
-  }
-
-  return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-}
-
 export const load = async ({ params }) => {
   const posts = getAllPosts();
 
   const index = posts.findIndex((p) => p.slug === params.slug.toLowerCase());
   if (index === -1) throw error(404, `Post "${params.slug}" not found`);
 
-  const { file } = posts[index];
+  const post = posts[index];
+  const file = post._file;
   const postUrl = `${SITE_URL}/blog/${params.slug}`;
 
   const prevPost =

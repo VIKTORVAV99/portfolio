@@ -12,7 +12,7 @@ const primaryWorkEntries: TimelineEntry[] = [
     endMonth: 6,
     showDates: true,
     description:
-      "Building and nurturing the open source community of electricitymaps-contrib as well as maintaining the open source repository of Electricity Maps. Which contains the date ingenstion parsers and contained the frontend code of the public web app.",
+      "Building and nurturing the open source community of electricitymaps-contrib as well as maintaining the open source repository of Electricity Maps. Which contains the date ingestion parsers and contained the frontend code of the public web app.",
     location: "Remote, Denmark",
     group: "electricity-maps",
     link: "https://electricitymaps.com",
@@ -28,7 +28,7 @@ const primaryWorkEntries: TimelineEntry[] = [
     endYear: null,
     showDates: true,
     description:
-      "Enginnering core data ingenstion, validation and processing systems for near real-time electricity data.",
+      "Engineering core data ingestion, validation and processing systems for near real-time electricity data.",
     location: "Hybrid, Denmark",
     group: "electricity-maps",
     link: "https://electricitymaps.com",
