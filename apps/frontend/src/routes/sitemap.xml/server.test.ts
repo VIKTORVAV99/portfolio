@@ -5,7 +5,7 @@ import { _buildSitemapXml, _staticPages } from "./+server";
 const buildDate = "2026-03-20";
 
 const testPages = [
-  ..._staticPages.map((p) => ({ ...p, lastmod: buildDate })),
+  ..._staticPages.map((p) => Object.assign({}, p, { lastmod: buildDate })),
   { path: "/blog/hello_world", priority: "0.7", changefreq: "monthly", lastmod: buildDate },
 ];
 

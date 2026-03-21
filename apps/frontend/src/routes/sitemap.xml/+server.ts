@@ -64,10 +64,11 @@ export const GET = async () => {
   });
 
   const allPages = [
-    ..._staticPages.map((p) => ({
-      ...p,
-      lastmod: p.path === "/blog" ? newestPostDate : (p.lastmod ?? buildDate),
-    })),
+    ..._staticPages.map((p) =>
+      Object.assign({}, p, {
+        lastmod: p.path === "/blog" ? newestPostDate : (p.lastmod ?? buildDate),
+      }),
+    ),
     ...blogPages,
     ...tagPages,
   ];
