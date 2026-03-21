@@ -42,6 +42,7 @@ export const load = async ({ params }) => {
   return {
     component: file.default,
     metadata: file.metadata,
+    readingTime: post.readingTime,
     postUrl,
     structuredData: [
       blogPostStructuredData,

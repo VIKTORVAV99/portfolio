@@ -1,8 +1,7 @@
 <script lang="ts">
   import type { PageData } from './$types';
   import SEO from "$lib/seo/components/SEO.svelte";
-  import BlogPostCard from "$components/blog/BlogPostCard.svelte";
-  import BlogPagination from "$components/blog/BlogPagination.svelte";
+  import BlogPostList from "$components/blog/BlogPostList.svelte";
   import { SITE_URL } from "$lib/config";
   import { createBreadcrumbListSchema, createCollectionPageSchema, createItemListSchema } from "$lib/seo";
   import TitleText from "$components/TitleText.svelte";
@@ -50,25 +49,5 @@
 
   <TitleText path="blog" subtitle="Thoughts on software engineering, climate tech, and open source" />
 
-  <section class="flex flex-col w-full">
-    {#if data.pagedPosts.length === 0}
-      <p class="text-surface-300 font-mono">No posts found.</p>
-    {:else}
-      <ul class="flex flex-col gap-16">
-        {#each data.pagedPosts as post}
-          <BlogPostCard
-            slug={post.slug}
-            title={post.title}
-            description={post.description}
-            date={post.date}
-            tags={post.tags}
-          />
-        {/each}
-      </ul>
-
-      <div class="flex justify-center mt-8">
-        <BlogPagination currentPage={data.currentPage} totalPages={data.totalPages} />
-      </div>
-    {/if}
-  </section>
+  <BlogPostList posts={data.pagedPosts} currentPage={data.currentPage} totalPages={data.totalPages} />
 </div>
