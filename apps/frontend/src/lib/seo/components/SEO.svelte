@@ -40,6 +40,7 @@
     {@html `<script type="application/ld+json">${toJsonLd(structuredData)}<` + `/script>`}
   {/if}
 
+  <meta property="og:site_name" content="Viktor Andersson" />
   <meta property="og:type" content={type} />
   <meta property="og:title" content={title} />
   <meta property="og:description" content={description} />
