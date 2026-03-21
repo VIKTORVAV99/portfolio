@@ -1,3 +1,4 @@
+import { getAllPosts } from "$lib/blog";
 import { SITE_URL } from "$lib/config";
 import {
   createArticleSchema,
@@ -5,7 +6,6 @@ import {
   createWebPageSchema,
   SITE_OWNER_PERSON_REF,
 } from "$lib/seo";
-import { getAllPosts } from "$lib/blog";
 import { error } from "@sveltejs/kit";
 
 export const prerender = true;

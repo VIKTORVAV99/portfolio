@@ -1,6 +1,6 @@
 export const prerender = true;
-import { SITE_URL } from "$lib/config";
 import { getAllPosts, getAllTags, slugifyTag } from "$lib/blog";
+import { SITE_URL } from "$lib/config";
 import { PROFILE_DATE_MODIFIED } from "$lib/seo/person";
 
 interface SitemapPage {
@@ -50,9 +50,10 @@ export async function GET() {
   const allPosts = getAllPosts();
 
   // lastmod for /blog = newest post's date
-  const newestPostDate = allPosts.length > 0
-    ? new Date(allPosts[0].last_updated || allPosts[0].date).toISOString().split("T")[0]
-    : buildDate;
+  const newestPostDate =
+    allPosts.length > 0
+      ? new Date(allPosts[0].last_updated || allPosts[0].date).toISOString().split("T")[0]
+      : buildDate;
 
   const tagPages = getAllTags(allPosts).map((tag) => {
     const tagSlug = slugifyTag(tag);

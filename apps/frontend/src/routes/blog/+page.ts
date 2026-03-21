@@ -1,5 +1,6 @@
-import type { PageLoadEvent } from "./$types";
 import { getAllPosts, PAGE_SIZE } from "$lib/blog";
+
+import type { PageLoadEvent } from "./$types";
 
 export const prerender = true;
 
