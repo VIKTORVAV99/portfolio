@@ -2,12 +2,12 @@ import type { TimelineEntry } from "$interfaces/timelineEntry";
 
 import type { CommitNode } from "./types";
 
-export function resolveDesktopOverlap(
+export const resolveDesktopOverlap = (
   nodes: CommitNode[],
   pxPerMonth: number,
   baseTotalRows: number,
   measuredHeightsByEntry?: Map<TimelineEntry, number>,
-): { totalGridRows: number } {
+): { totalGridRows: number } => {
   for (const side of ["left", "right"] as const) {
     const sideNodes = nodes.filter((n) => n.side === side).sort((a, b) => a.gridRow - b.gridRow);
     for (const node of sideNodes) {
@@ -32,4 +32,4 @@ export function resolveDesktopOverlap(
 
   const totalGridRows = Math.max(baseTotalRows, ...nodes.map((n) => n.gridRowEnd));
   return { totalGridRows };
-}
+};

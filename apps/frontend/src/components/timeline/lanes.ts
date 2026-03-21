@@ -20,10 +20,10 @@ export interface LaneLayout {
   laneX: (lane: number) => number;
 }
 
-export function assignLanes(
+export const assignLanes = (
   entries: TimelineEntry[],
   mode: TimelineMode = "desktop",
-): AssignLanesResult {
+): AssignLanesResult => {
   // Group entries into branches
   const groupMap = new Map<string, TimelineEntry[]>();
   let ungroupedIdx = 0;
@@ -54,7 +54,7 @@ export function assignLanes(
   let nextLeftLane = -1;
   let nextRightLane = 1;
 
-  function findReusableLane(side: "left" | "right", start: number, end: number): number | null {
+  const findReusableLane = (side: "left" | "right", start: number, end: number): number | null => {
     for (const [lane, ranges] of laneOccupancy) {
       if (side === "left" && lane >= 0) continue;
       if (side === "right" && lane <= 0) continue;
@@ -62,7 +62,7 @@ export function assignLanes(
       if (!overlaps) return lane;
     }
     return null;
-  }
+  };
 
   let branchColorIdx = 0;
   for (const [id, groupEntries] of sortedGroups) {
@@ -97,22 +97,20 @@ export function assignLanes(
   const rightLaneCount = Math.max(0, ...branches.map((b) => b.lane));
 
   return { branches, leftLaneCount, rightLaneCount };
-}
+};
 
-export function buildLaneLayout(
+export const buildLaneLayout = (
   leftLaneCount: number,
   rightLaneCount: number,
   spacing: number,
   mode: TimelineMode = "desktop",
-): LaneLayout {
+): LaneLayout => {
   if (mode === "compact") {
     const leaderChannelWidth = MAX_LEADER_CHANNELS * LEADER_CHANNEL_GAP;
     const graphWidth = (leftLaneCount + 2) * spacing + leaderChannelWidth;
 
-    function laneX(lane: number): number {
-      // lane 0 (trunk) sits at the right side of the branch area
-      return (leftLaneCount + 1) * spacing + lane * spacing;
-    }
+    // lane 0 (trunk) sits at the right side of the branch area
+    const laneX = (lane: number): number => (leftLaneCount + 1) * spacing + lane * spacing;
 
     return { graphWidth, laneX };
   }
@@ -120,9 +118,7 @@ export function buildLaneLayout(
   const maxLaneCount = Math.max(leftLaneCount, rightLaneCount);
   const graphWidth = (2 * maxLaneCount + 2) * spacing;
 
-  function laneX(lane: number): number {
-    return (maxLaneCount + lane) * spacing + spacing;
-  }
+  const laneX = (lane: number): number => (maxLaneCount + lane) * spacing + spacing;
 
   return { graphWidth, laneX };
-}
+};

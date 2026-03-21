@@ -1,5 +1,5 @@
 /** Adds the `in-view` class when the element enters the viewport (once). */
-export function inview(node: HTMLElement, options?: IntersectionObserverInit) {
+export const inview = (node: HTMLElement, options?: IntersectionObserverInit) => {
   const observer = new IntersectionObserver(
     ([entry]) => {
       if (entry.isIntersecting) {
@@ -11,4 +11,4 @@ export function inview(node: HTMLElement, options?: IntersectionObserverInit) {
   );
   observer.observe(node);
   return { destroy: () => observer.disconnect() };
-}
+};

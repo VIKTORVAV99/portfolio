@@ -28,14 +28,14 @@
 
 	let measuredHeightsByEntry = $state(new Map<TimelineEntry, number>());
 
-	function setMeasuredHeight(entry: TimelineEntry, height: number) {
+	const setMeasuredHeight = (entry: TimelineEntry, height: number) => {
 		if (measuredHeightsByEntry.get(entry) === height) return;
 		const next = new Map(measuredHeightsByEntry);
 		next.set(entry, height);
 		measuredHeightsByEntry = next;
-	}
+	};
 
-	function observeCardHeight(element: HTMLElement, entry: TimelineEntry) {
+	const observeCardHeight = (element: HTMLElement, entry: TimelineEntry) => {
 		if (typeof ResizeObserver === 'undefined') return;
 
 		let currentEntry = entry;
@@ -56,7 +56,7 @@
 				observer.disconnect();
 			}
 		};
-	}
+	};
 
 	const yearMarkers = $derived.by(() => {
 		const markers: number[] = [];

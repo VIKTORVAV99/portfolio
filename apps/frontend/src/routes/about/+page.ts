@@ -13,10 +13,8 @@ const structuredData = [
   createBreadcrumbListSchema([{ name: "Home", url: SITE_URL }, { name: "About" }]),
 ];
 
-export const load = (() => {
-  return {
-    structuredData,
-  };
-}) satisfies PageLoad;
+export const load = (() => ({
+  structuredData,
+})) satisfies PageLoad;
 
 export const prerender = true;

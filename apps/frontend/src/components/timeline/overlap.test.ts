@@ -7,25 +7,23 @@ import type { CommitNode } from "./types";
 import { PX_PER_MONTH } from "./constants";
 import { resolveDesktopOverlap } from "./overlap";
 
-function makeNode(overrides: Partial<CommitNode> = {}): CommitNode {
-  return {
-    lane: 1,
-    branchId: "test",
-    row: 10,
-    gridRow: 10,
-    gridRowEnd: 13,
-    color: "#3b82f6",
-    entry: {
-      title: "Test",
-      organization: "Corp",
-      type: "work",
-      startYear: 2020,
-      showDates: true,
-    } as TimelineEntry,
-    side: "right",
-    ...overrides,
-  };
-}
+const makeNode = (overrides: Partial<CommitNode> = {}): CommitNode => ({
+  lane: 1,
+  branchId: "test",
+  row: 10,
+  gridRow: 10,
+  gridRowEnd: 13,
+  color: "#3b82f6",
+  entry: {
+    title: "Test",
+    organization: "Corp",
+    type: "work",
+    startYear: 2020,
+    showDates: true,
+  } as TimelineEntry,
+  side: "right",
+  ...overrides,
+});
 
 describe("resolveDesktopOverlap", () => {
   it("shifts overlapping same-side nodes down", () => {

@@ -19,8 +19,8 @@ export const _staticPages = [
   { path: "/history", priority: "0.8", changefreq: "monthly", lastmod: profileLastmod },
 ];
 
-export function _buildSitemapXml(pages: SitemapPage[]): string {
-  return `<?xml version="1.0" encoding="UTF-8"?>
+export const _buildSitemapXml = (pages: SitemapPage[]): string =>
+  `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="https://www.sitemaps.org/schemas/sitemap/0.9">
 ${pages
   .map(
@@ -33,9 +33,8 @@ ${pages
   )
   .join("\n")}
 </urlset>`;
-}
 
-export async function GET() {
+export const GET = async () => {
   // Since prerender is true, this date is locked in exactly at build time, which is what we want for a sitemap.
   const buildDate = new Date().toISOString().split("T")[0];
 
@@ -79,4 +78,4 @@ export async function GET() {
       "Cache-Control": "max-age=0, s-maxage=3600",
     },
   });
-}
+};

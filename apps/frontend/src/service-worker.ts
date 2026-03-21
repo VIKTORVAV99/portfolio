@@ -29,7 +29,7 @@ const UNHASHED_ASSETS = [...files.filter(imageFilter), ...topLevelPrerendered.fi
 const EAGER_ASSETS = [...HASHED_ASSETS, ...UNHASHED_ASSETS];
 
 /** Helper function to trim the dynamic cache to a maximum number of items */
-async function limitCacheSize(cacheName: string, maxItems: number) {
+const limitCacheSize = async (cacheName: string, maxItems: number) => {
   const cache = await caches.open(cacheName);
   const keys = await cache.keys();
 
@@ -39,19 +39,19 @@ async function limitCacheSize(cacheName: string, maxItems: number) {
       await cache.delete(keys[i]);
     }
   }
-}
+};
 
 /** Helper function to add files to the static cache */
-async function addFilesToCache() {
+const addFilesToCache = async () => {
   const cache = await caches.open(CACHE);
   const cached = new Set((await cache.keys()).map((r) => new URL(r.url).pathname));
   const newHashedAssets = HASHED_ASSETS.filter((asset) => !cached.has(asset));
 
   await cache.addAll([...newHashedAssets, ...UNHASHED_ASSETS]);
-}
+};
 
 /** Helper function to prune stale entries from the static cache */
-async function pruneStaleEntries() {
+const pruneStaleEntries = async () => {
   const cache = await caches.open(CACHE);
   const currentAssets = new Set(EAGER_ASSETS);
 
@@ -60,20 +60,20 @@ async function pruneStaleEntries() {
       await cache.delete(request);
     }
   }
-}
+};
 
 const KNOWN_CACHES = new Set([CACHE, DYNAMIC_CACHE]);
 /**
  * Delete any caches not matching our known cache names.
  * This is a cleanup function if we ever rename caches
  */
-async function deleteUnknownCaches() {
+const deleteUnknownCaches = async () => {
   for (const key of await caches.keys()) {
     if (!KNOWN_CACHES.has(key)) {
       await caches.delete(key);
     }
   }
-}
+};
 
 self.addEventListener("install", (event) => {
   event.waitUntil(addFilesToCache());
@@ -92,7 +92,7 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  async function respond() {
+  const respond = async () => {
     const staticCache = await caches.open(CACHE);
     const dynamicCache = await caches.open(DYNAMIC_CACHE);
 
@@ -146,7 +146,7 @@ self.addEventListener("fetch", (event) => {
 
       throw err;
     }
-  }
+  };
 
   event.respondWith(respond());
 });

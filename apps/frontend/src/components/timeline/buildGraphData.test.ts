@@ -7,10 +7,10 @@ import { buildGraphData } from "./buildGraphData";
 import { PX_PER_MONTH } from "./constants";
 
 /** Strip the non-serializable `laneX` function for snapshot comparison. */
-function snapshottable(data: ReturnType<typeof buildGraphData>) {
+const snapshottable = (data: ReturnType<typeof buildGraphData>) => {
   const { laneX: _laneX, ...rest } = data;
   return rest;
-}
+};
 
 describe("buildGraphData snapshot", () => {
   it("matches desktop snapshot", () => {

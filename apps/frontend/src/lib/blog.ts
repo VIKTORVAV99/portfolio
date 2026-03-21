@@ -11,7 +11,7 @@ export interface BlogPostMeta {
   _file?: any;
 }
 
-export function getAllPosts(): BlogPostMeta[] {
+export const getAllPosts = (): BlogPostMeta[] => {
   const paths = import.meta.glob("$blogs/*.md", { eager: true });
   const posts: BlogPostMeta[] = [];
 
@@ -25,9 +25,9 @@ export function getAllPosts(): BlogPostMeta[] {
   }
 
   return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-}
+};
 
-export function getAllTags(posts: BlogPostMeta[]): string[] {
+export const getAllTags = (posts: BlogPostMeta[]): string[] => {
   const tagSet = new Set<string>();
   for (const post of posts) {
     for (const tag of post.tags ?? []) {
@@ -35,11 +35,10 @@ export function getAllTags(posts: BlogPostMeta[]): string[] {
     }
   }
   return [...tagSet].sort();
-}
+};
 
-export function slugifyTag(tag: string): string {
-  return tag
+export const slugifyTag = (tag: string): string =>
+  tag
     .toLowerCase()
     .replace(/[^a-z0-9]+/g, "-")
     .replace(/(^-|-$)/g, "");
-}
