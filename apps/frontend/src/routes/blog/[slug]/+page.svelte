@@ -24,7 +24,7 @@
 <article class="prose max-w-prose mx-auto my-16 flex flex-col gap-8">
   <div class="flex flex-col gap-2">
     <h1>{data.metadata.title}</h1>
-    <BlogPostMeta date={data.metadata.date} />
+    <BlogPostMeta date={data.metadata.date} tags={data.metadata.tags} />
   </div>
   <data.component />
 </article>

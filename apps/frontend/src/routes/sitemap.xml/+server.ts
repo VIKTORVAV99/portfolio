@@ -1,5 +1,7 @@
 export const prerender = true;
 import { SITE_URL } from "$lib/config";
+import { getAllPosts, getAllTags, slugifyTag } from "$lib/blog";
+import { PROFILE_DATE_MODIFIED } from "$lib/seo/person";
 
 interface SitemapPage {
   path: string;
@@ -8,11 +10,13 @@ interface SitemapPage {
   lastmod: string;
 }
 
+const profileLastmod = PROFILE_DATE_MODIFIED.split("T")[0];
+
 export const _staticPages = [
-  { path: "", priority: "1.0", changefreq: "weekly" },
+  { path: "", priority: "1.0", changefreq: "weekly", lastmod: profileLastmod },
   { path: "/blog", priority: "0.9", changefreq: "weekly" },
-  { path: "/about", priority: "0.8", changefreq: "monthly" },
-  { path: "/history", priority: "0.8", changefreq: "monthly" },
+  { path: "/about", priority: "0.8", changefreq: "monthly", lastmod: profileLastmod },
+  { path: "/history", priority: "0.8", changefreq: "monthly", lastmod: profileLastmod },
 ];
 
 export function _buildSitemapXml(pages: SitemapPage[]): string {
@@ -43,7 +47,30 @@ export async function GET() {
     return { path: `/blog/${slug}`, priority: "0.7", changefreq: "monthly", lastmod };
   });
 
-  const allPages = [..._staticPages.map((p) => ({ ...p, lastmod: buildDate })), ...blogPages];
+  const allPosts = getAllPosts();
+
+  // lastmod for /blog = newest post's date
+  const newestPostDate = allPosts.length > 0
+    ? new Date(allPosts[0].last_updated || allPosts[0].date).toISOString().split("T")[0]
+    : buildDate;
+
+  const tagPages = getAllTags(allPosts).map((tag) => {
+    const tagSlug = slugifyTag(tag);
+    const newestTagPost = allPosts.find((p) => p.tags?.some((t) => slugifyTag(t) === tagSlug));
+    const lastmod = newestTagPost
+      ? new Date(newestTagPost.last_updated || newestTagPost.date).toISOString().split("T")[0]
+      : buildDate;
+    return { path: `/blog/tag/${tagSlug}`, priority: "0.6", changefreq: "weekly", lastmod };
+  });
+
+  const allPages = [
+    ..._staticPages.map((p) => ({
+      ...p,
+      lastmod: p.path === "/blog" ? newestPostDate : (p.lastmod ?? buildDate),
+    })),
+    ...blogPages,
+    ...tagPages,
+  ];
 
   return new Response(_buildSitemapXml(allPages), {
     headers: {

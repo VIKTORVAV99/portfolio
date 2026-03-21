@@ -1,5 +1,6 @@
 <script lang="ts">
   import { formatDate } from "$lib/helpers/formatDate";
+  import { slugifyTag } from "$lib/blog";
 
   interface Props {
     date: string;
@@ -18,9 +19,9 @@
     <span class="opacity-40">|</span>
     <div class="flex gap-4">
       {#each tags as tag}
-        <span class="text-surface-300 hover:text-surface-100 transition-colors cursor-default">
+        <a href="/blog/tag/{slugifyTag(tag)}" class="text-surface-300 hover:text-green-500 transition-colors">
           {tag}
-        </span>
+        </a>
       {/each}
     </div>
   {/if}

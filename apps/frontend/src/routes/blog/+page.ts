@@ -1,24 +1,7 @@
 import type { PageLoadEvent } from "./$types";
+import { getAllPosts, PAGE_SIZE } from "$lib/blog";
 
 export const prerender = true;
-
-const PAGE_SIZE = 15;
-
-function getAllPosts() {
-  const paths = import.meta.glob("$blogs/*.md", { eager: true });
-  const posts = [];
-
-  for (const path in paths) {
-    const file = paths[path] as any;
-    const slug = path.split("/").at(-1)?.replace(/\.md$/, "").toLowerCase();
-
-    if (file && typeof file === "object" && "metadata" in file && slug) {
-      posts.push({ ...file.metadata, slug });
-    }
-  }
-
-  return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-}
 
 export const entries = (): Record<string, string>[] => {
   const posts = getAllPosts();
