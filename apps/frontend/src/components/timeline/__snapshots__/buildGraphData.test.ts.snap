@@ -106,7 +106,7 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
       "endRow": 1,
       "entries": [
         {
-          "description": "Building and nurturing the open source community of electricitymaps-contrib as well as maintaining the open source repository of Electricity Maps. Which contains the date ingenstion parsers and contained the frontend code of the public web app.",
+          "description": "Building and nurturing the open source community of electricitymaps-contrib as well as maintaining the open source repository of Electricity Maps. Which contains the date ingestion parsers and contained the frontend code of the public web app.",
           "employmentType": "Part-time",
           "endMonth": 6,
           "endYear": 2025,
@@ -122,7 +122,7 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
           "type": "work",
         },
         {
-          "description": "Enginnering core data ingenstion, validation and processing systems for near real-time electricity data.",
+          "description": "Engineering core data ingestion, validation and processing systems for near real-time electricity data.",
           "employmentType": "Full-time",
           "endYear": null,
           "group": "electricity-maps",
@@ -338,7 +338,7 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
       "branchId": "electricity-maps",
       "color": "#a855f7",
       "entry": {
-        "description": "Building and nurturing the open source community of electricitymaps-contrib as well as maintaining the open source repository of Electricity Maps. Which contains the date ingenstion parsers and contained the frontend code of the public web app.",
+        "description": "Building and nurturing the open source community of electricitymaps-contrib as well as maintaining the open source repository of Electricity Maps. Which contains the date ingestion parsers and contained the frontend code of the public web app.",
         "employmentType": "Part-time",
         "endMonth": 6,
         "endYear": 2025,
@@ -363,7 +363,7 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
       "branchId": "electricity-maps",
       "color": "#a855f7",
       "entry": {
-        "description": "Enginnering core data ingenstion, validation and processing systems for near real-time electricity data.",
+        "description": "Engineering core data ingestion, validation and processing systems for near real-time electricity data.",
         "employmentType": "Full-time",
         "endYear": null,
         "group": "electricity-maps",
