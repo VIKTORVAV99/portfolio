@@ -33,7 +33,7 @@
     <div class="flex gap-4">
       {#each tags as tag}
         <a href="/blog/tag/{slugifyTag(tag)}" class="text-surface-300 hover:text-green-500 transition-colors">
-          {tag}
+          #{tag}
         </a>
       {/each}
     </div>
