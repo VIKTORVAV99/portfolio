@@ -40,6 +40,7 @@
 </script>
 
 <SEO
+  noIndex={data.totalPosts < 4}
   title={`Viktor Andersson | #${data.displayTag}${data.currentPage > 1 ? ` — Page ${data.currentPage}` : ""}`}
   description={`Blog posts tagged with "${data.displayTag}".`}
   canonicalURL={canonicalURL}

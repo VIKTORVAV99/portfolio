@@ -54,14 +54,17 @@ export const GET = async () => {
       ? new Date(allPosts[0].last_updated || allPosts[0].date).toISOString().split("T")[0]
       : buildDate;
 
-  const tagPages = getAllTags(allPosts).map((tag) => {
-    const tagSlug = slugifyTag(tag);
-    const newestTagPost = allPosts.find((p) => p.tags?.some((t) => slugifyTag(t) === tagSlug));
-    const lastmod = newestTagPost
-      ? new Date(newestTagPost.last_updated || newestTagPost.date).toISOString().split("T")[0]
-      : buildDate;
-    return { path: `/blog/tag/${tagSlug}`, priority: "0.6", changefreq: "weekly", lastmod };
-  });
+  const tagPages = getAllTags(allPosts)
+    .map((tag) => {
+      const tagSlug = slugifyTag(tag);
+      const tagPosts = allPosts.filter((p) => p.tags?.some((t) => slugifyTag(t) === tagSlug));
+      if (tagPosts.length < 4) return null;
+      const lastmod = new Date(tagPosts[0].last_updated || tagPosts[0].date)
+        .toISOString()
+        .split("T")[0];
+      return { path: `/blog/tag/${tagSlug}`, priority: "0.6", changefreq: "weekly", lastmod };
+    })
+    .filter(Boolean) as SitemapPage[];
 
   const allPages = [
     ..._staticPages.map((p) =>
