@@ -12,9 +12,9 @@
   <link rel="icon" href={favicon} />
 </svelte:head>
 
-<div class="flex flex-col min-h-screen">
+<div class="flex flex-col min-h-dvh">
   <Header />
-  <main class="flex-1 flex px-4 sm:px-0 flex-col">
+  <main class="flex-1 flex px-4 md:px-8 lg:px-0 flex-col">
     {@render children()}
   </main>
   <Footer />
