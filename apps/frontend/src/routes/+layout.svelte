@@ -9,7 +9,7 @@
 </script>
 
 <svelte:head>
-  <link rel="icon" href={favicon} />
+  <link rel="icon" href={favicon} type="image/svg+xml" sizes="any" />
 </svelte:head>
 
 <div class="flex flex-col min-h-dvh">
