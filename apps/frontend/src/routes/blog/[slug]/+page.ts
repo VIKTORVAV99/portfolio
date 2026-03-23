@@ -8,9 +8,11 @@ import {
 } from "$lib/seo";
 import { error } from "@sveltejs/kit";
 
+import type { PageLoadEvent } from "./$types";
+
 export const prerender = true;
 
-export const load = async ({ params }) => {
+export const load = async ({ params }: PageLoadEvent) => {
   const posts = getAllPosts();
 
   const index = posts.findIndex((p) => p.slug === params.slug.toLowerCase());
