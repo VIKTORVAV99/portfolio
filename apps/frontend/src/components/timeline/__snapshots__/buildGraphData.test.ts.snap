@@ -5,31 +5,8 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
   "branches": [
     {
       "color": "#3b82f6",
-      "endRow": 70,
-      "entries": [
-        {
-          "degree": "High School Diploma",
-          "description": "Focus on programming in C# and web development using PHP, and JavaScript frameworks.",
-          "endMonth": 6,
-          "endYear": 2020,
-          "location": "Älmhult, Sweden",
-          "organization": "Haganässkolan",
-          "showDates": true,
-          "startMonth": 8,
-          "startYear": 2017,
-          "title": "Information and Media Technology",
-          "type": "education",
-        },
-      ],
-      "forkRow": 103,
-      "id": "__ungrouped_0",
-      "lane": -1,
-      "side": "left",
-      "type": "education",
-    },
-    {
-      "color": "#22c55e",
-      "endRow": 80,
+      "curveOffset": 1,
+      "endRow": 81,
       "entries": [
         {
           "description": "Summer worker at the restaurant.",
@@ -47,13 +24,15 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
       ],
       "forkRow": 81,
       "id": "__ungrouped_2",
+      "isOngoing": false,
       "lane": 1,
       "side": "right",
       "type": "work",
     },
     {
-      "color": "#f59e0b",
-      "endRow": 39,
+      "color": "#22c55e",
+      "curveOffset": 3,
+      "endRow": 42,
       "entries": [
         {
           "description": "Summer job and recurring weekend work at the restaurant, bistro and Swedish Food Market.",
@@ -69,15 +48,43 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
           "type": "work",
         },
       ],
-      "forkRow": 45,
+      "forkRow": 43,
       "id": "__ungrouped_3",
+      "isOngoing": false,
       "lane": 1,
       "side": "right",
       "type": "work",
     },
     {
+      "color": "#f59e0b",
+      "curveOffset": 3,
+      "endRow": 73,
+      "entries": [
+        {
+          "degree": "High School Diploma",
+          "description": "Focus on programming in C# and web development using PHP, and JavaScript frameworks.",
+          "endMonth": 6,
+          "endYear": 2020,
+          "location": "Älmhult, Sweden",
+          "organization": "Haganässkolan",
+          "showDates": true,
+          "startMonth": 8,
+          "startYear": 2017,
+          "title": "Information and Media Technology",
+          "type": "education",
+        },
+      ],
+      "forkRow": 101,
+      "id": "__ungrouped_0",
+      "isOngoing": false,
+      "lane": -1,
+      "side": "left",
+      "type": "education",
+    },
+    {
       "color": "#ef4444",
-      "endRow": 10,
+      "curveOffset": 3,
+      "endRow": 13,
       "entries": [
         {
           "degree": "Bachelor of Science",
@@ -95,14 +102,16 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
           "type": "education",
         },
       ],
-      "forkRow": 43,
+      "forkRow": 41,
       "id": "__ungrouped_1",
+      "isOngoing": false,
       "lane": -1,
       "side": "left",
       "type": "education",
     },
     {
       "color": "#a855f7",
+      "curveOffset": 3,
       "endRow": 1,
       "entries": [
         {
@@ -137,25 +146,26 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
           "type": "work",
         },
       ],
-      "forkRow": 39,
+      "forkRow": 37,
       "id": "electricity-maps",
-      "lane": 2,
+      "isOngoing": true,
+      "lane": 1,
       "side": "right",
       "type": "work",
     },
   ],
-  "graphWidth": 240,
+  "graphWidth": 160,
   "leaderLines": [
     {
       "color": "#3b82f6",
       "points": [
         {
-          "x": 71,
-          "y": 704,
+          "x": 129,
+          "y": 656,
         },
         {
-          "x": 0,
-          "y": 704,
+          "x": 160,
+          "y": 656,
         },
       ],
     },
@@ -163,12 +173,20 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
       "color": "#22c55e",
       "points": [
         {
-          "x": 169,
-          "y": 656,
+          "x": 129,
+          "y": 348,
         },
         {
-          "x": 240,
-          "y": 656,
+          "x": 131,
+          "y": 348,
+        },
+        {
+          "x": 131,
+          "y": 352,
+        },
+        {
+          "x": 160,
+          "y": 352,
         },
       ],
     },
@@ -176,12 +194,12 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
       "color": "#f59e0b",
       "points": [
         {
-          "x": 169,
-          "y": 344,
+          "x": 31,
+          "y": 704,
         },
         {
-          "x": 240,
-          "y": 344,
+          "x": 0,
+          "y": 704,
         },
       ],
     },
@@ -189,7 +207,7 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
       "color": "#ef4444",
       "points": [
         {
-          "x": 71,
+          "x": 31,
           "y": 224,
         },
         {
@@ -202,12 +220,20 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
       "color": "#a855f7",
       "points": [
         {
-          "x": 209,
-          "y": 208,
+          "x": 129,
+          "y": 196,
         },
         {
-          "x": 240,
-          "y": 208,
+          "x": 131,
+          "y": 196,
+        },
+        {
+          "x": 131,
+          "y": 200,
+        },
+        {
+          "x": 160,
+          "y": 200,
         },
       ],
     },
@@ -215,11 +241,11 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
       "color": "#a855f7",
       "points": [
         {
-          "x": 209,
+          "x": 129,
           "y": 48,
         },
         {
-          "x": 240,
+          "x": 160,
           "y": 48,
         },
       ],
@@ -245,30 +271,8 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
       "side": "right",
     },
     {
-      "branchId": "__ungrouped_0",
-      "color": "#3b82f6",
-      "entry": {
-        "degree": "High School Diploma",
-        "description": "Focus on programming in C# and web development using PHP, and JavaScript frameworks.",
-        "endMonth": 6,
-        "endYear": 2020,
-        "location": "Älmhult, Sweden",
-        "organization": "Haganässkolan",
-        "showDates": true,
-        "startMonth": 8,
-        "startYear": 2017,
-        "title": "Information and Media Technology",
-        "type": "education",
-      },
-      "gridRow": 87,
-      "gridRowEnd": 105,
-      "lane": -1,
-      "row": 87,
-      "side": "left",
-    },
-    {
       "branchId": "__ungrouped_2",
-      "color": "#22c55e",
+      "color": "#3b82f6",
       "entry": {
         "description": "Summer worker at the restaurant.",
         "employmentType": "Seasonal",
@@ -290,7 +294,7 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
     },
     {
       "branchId": "__ungrouped_3",
-      "color": "#f59e0b",
+      "color": "#22c55e",
       "entry": {
         "description": "Summer job and recurring weekend work at the restaurant, bistro and Swedish Food Market.",
         "employmentType": "Contract",
@@ -304,11 +308,33 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
         "title": "FOOD Co-Worker",
         "type": "work",
       },
-      "gridRow": 42,
+      "gridRow": 43,
       "gridRowEnd": 47,
       "lane": 1,
-      "row": 42,
+      "row": 42.5,
       "side": "right",
+    },
+    {
+      "branchId": "__ungrouped_0",
+      "color": "#f59e0b",
+      "entry": {
+        "degree": "High School Diploma",
+        "description": "Focus on programming in C# and web development using PHP, and JavaScript frameworks.",
+        "endMonth": 6,
+        "endYear": 2020,
+        "location": "Älmhult, Sweden",
+        "organization": "Haganässkolan",
+        "showDates": true,
+        "startMonth": 8,
+        "startYear": 2017,
+        "title": "Information and Media Technology",
+        "type": "education",
+      },
+      "gridRow": 87,
+      "gridRowEnd": 105,
+      "lane": -1,
+      "row": 87,
+      "side": "left",
     },
     {
       "branchId": "__ungrouped_1",
@@ -353,10 +379,10 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
         "title": "Open Source Community Engineer",
         "type": "work",
       },
-      "gridRow": 25,
+      "gridRow": 24,
       "gridRowEnd": 41,
-      "lane": 2,
-      "row": 25,
+      "lane": 1,
+      "row": 23.5,
       "side": "right",
     },
     {
@@ -379,7 +405,7 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
       },
       "gridRow": 5,
       "gridRowEnd": 10,
-      "lane": 2,
+      "lane": 1,
       "row": 5,
       "side": "right",
     },

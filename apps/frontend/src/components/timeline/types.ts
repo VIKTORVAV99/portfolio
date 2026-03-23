@@ -18,6 +18,8 @@ export interface Branch {
   entries: TimelineEntry[];
   forkRow: number;
   endRow: number;
+  curveOffset: number;
+  isOngoing: boolean;
   color: string;
 }
 

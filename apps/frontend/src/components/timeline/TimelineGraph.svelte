@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { LINE_WIDTH, NODE_RADIUS, FORK_CURVE_MONTHS } from "./constants";
+  import { LINE_WIDTH, NODE_RADIUS } from "./constants";
   import {
     type GraphData,
     nodeY,
@@ -20,9 +20,28 @@
     totalHeight: number;
   } = $props();
 
-  const branchPaths = $derived.by(() => {
-    const ch = pxPerMonth * FORK_CURVE_MONTHS;
+  const maxGridRow = $derived(Math.max(...graphData.nodes.map((n) => n.gridRow)));
 
+  const trunkLabels = $derived.by(() => {
+    const labels: Array<{ y: number; text: string }> = [];
+    for (const year of yearMarkers) {
+      labels.push({
+        y: nodeY(monthToRow(toAbsoluteMonth(year, 1)), pxPerMonth),
+        text: String(year),
+      });
+    }
+    for (const node of graphData.nodes) {
+      if (node.entry.type === "life" && !node.entry.showDates) {
+        labels.push({
+          y: nodeY(node.row, pxPerMonth),
+          text: node.entry.title,
+        });
+      }
+    }
+    return labels;
+  });
+
+  const branchPaths = $derived.by(() => {
     // Build tick y-positions per branch
     const ticksByBranch = new Map<string, number[]>();
     const byBranch = new Map<string, (typeof graphData.nodes)[number][]>();
@@ -46,7 +65,8 @@
       const bx = graphData.laneX(branch.lane);
       const forkY = nodeY(branch.forkRow, pxPerMonth);
       const endY = nodeY(branch.endRow, pxPerMonth);
-      const isOngoing = branch.entries.some((e) => e.endYear === null);
+      const ch = branch.curveOffset * pxPerMonth;
+      const { isOngoing } = branch;
 
       let d =
         `M ${mainX} ${forkY + ch}` +
@@ -82,7 +102,7 @@
     <!-- Main branch line -->
     <line
       x1={graphData.laneX(0)}
-      y1={nodeY(Math.max(...graphData.nodes.map((n) => n.gridRow)), pxPerMonth)}
+      y1={nodeY(maxGridRow, pxPerMonth)}
       x2={graphData.laneX(0)}
       y2={nodeY(1, pxPerMonth)}
       class="stroke-surface-600 graph-line"
@@ -119,29 +139,6 @@
       />
     {/each}
 
-    <!-- Year markers -->
-    {#each yearMarkers as year, i}
-      {@const mx = graphData.laneX(0)}
-      {@const my = nodeY(monthToRow(toAbsoluteMonth(year, 1)), pxPerMonth)}
-      <g class="graph-fade" style="animation-delay: {800 + i * 50}ms;">
-        <rect
-          x={mx - 16}
-          y={my - 8}
-          width="32"
-          height="16"
-          rx="3"
-          class="fill-surface-950"
-        />
-        <text
-          x={mx}
-          y={my + 4}
-          text-anchor="middle"
-          class="fill-surface-500 font-semibold tracking-[0.05em]"
-          style="font-size: 0.5625rem;">{year}</text
-        >
-      </g>
-    {/each}
-
     <!-- Commit nodes -->
     {#each graphData.nodes as node, i}
       {@const ny = nodeY(node.row, pxPerMonth)}
@@ -155,29 +152,26 @@
       />
     {/each}
 
-    <!-- Life labels -->
-    {#each graphData.nodes as node, i}
-      {#if node.entry.type === "life" && !node.entry.showDates}
-        {@const mx = graphData.laneX(0)}
-        {@const my = nodeY(node.row, pxPerMonth)}
-        <g class="graph-fade" style="animation-delay: {800 + i * 50}ms;">
-          <rect
-            x={mx - 16}
-            y={my - 8}
-            width="32"
-            height="16"
-            rx="3"
-            class="fill-surface-950"
-          />
-          <text
-            x={mx}
-            y={my + 4}
-            text-anchor="middle"
-            class="fill-surface-500 font-semibold tracking-[0.05em]"
-            style="font-size: 0.5625rem;">{node.entry.title}</text
-          >
-        </g>
-      {/if}
+    <!-- Trunk labels (year markers + life labels) -->
+    {#each trunkLabels as label, i}
+      {@const mx = graphData.laneX(0)}
+      <g class="graph-fade" style="animation-delay: {800 + i * 50}ms;">
+        <rect
+          x={mx - 16}
+          y={label.y - 8}
+          width="32"
+          height="16"
+          rx="3"
+          class="fill-surface-950"
+        />
+        <text
+          x={mx}
+          y={label.y + 4}
+          text-anchor="middle"
+          class="fill-surface-500 font-semibold tracking-[0.05em]"
+          style="font-size: 0.5625rem;">{label.text}</text
+        >
+      </g>
     {/each}
   </svg>
 </div>

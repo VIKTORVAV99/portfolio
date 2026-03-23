@@ -34,13 +34,17 @@ export const buildLifeNodes = (entries: TimelineEntry[]): CommitNode[] => {
 export const buildBranchNodes = (branches: Branch[]): CommitNode[] => {
   const nodes: CommitNode[] = [];
   for (const branch of branches) {
-    for (const entry of branch.entries) {
-      const start = entryStartAbsMonth(entry);
-      const end = entryEndAbsMonth(entry);
-      const midRow = monthToRow(Math.round((start + end) / 2));
-      const row = midRow;
-      const gridRow = midRow;
-      let gridRowEnd = monthToRow(start) + 1;
+    for (let i = 0; i < branch.entries.length; i++) {
+      const entry = branch.entries[i];
+      const sectionStartRow =
+        i === 0 ? branch.forkRow : monthToRow(entryStartAbsMonth(entry));
+      const sectionEndRow =
+        i === branch.entries.length - 1
+          ? branch.endRow
+          : monthToRow(entryEndAbsMonth(entry));
+      const row = (sectionStartRow + sectionEndRow) / 2;
+      const gridRow = Math.round(row);
+      let gridRowEnd = monthToRow(entryStartAbsMonth(entry)) + 1;
       if (gridRowEnd - gridRow < MIN_SPAN) gridRowEnd = gridRow + MIN_SPAN;
       nodes.push({
         lane: branch.lane,
