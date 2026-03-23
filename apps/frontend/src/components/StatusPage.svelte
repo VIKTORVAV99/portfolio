@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Button } from "bits-ui";
-  import type { Snippet, ComponentType } from "svelte";
+  import type { LucideIcon } from "@lucide/svelte";
+  import type { Snippet } from "svelte";
 
   let {
     icon: Icon,
@@ -9,7 +10,7 @@
     buttonContent,
     onAction,
   }: {
-    icon: ComponentType;
+    icon: LucideIcon;
     title: string;
     description: string;
     buttonContent: Snippet;

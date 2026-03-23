@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { WifiOff } from "lucide-svelte";
+  import WifiOff from "@lucide/svelte/icons/wifi-off";
   import StatusPage from "$components/StatusPage.svelte";
   import SEO from "$lib/seo/components/SEO.svelte";
 </script>
