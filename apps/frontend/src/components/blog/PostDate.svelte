@@ -1,15 +1,13 @@
 <script lang="ts">
   import { formatDate } from "$lib/helpers/formatDate";
-  import { slugifyTag } from "$lib/blog";
 
   interface Props {
     date: string;
     lastUpdated?: string;
     readingTime?: number;
-    tags?: string[];
   }
 
-  let { date, lastUpdated, readingTime, tags }: Props = $props();
+  let { date, lastUpdated, readingTime }: Props = $props();
   const showUpdated = $derived(lastUpdated && formatDate(lastUpdated) !== formatDate(date));
 </script>
 
@@ -26,16 +24,5 @@
   {#if readingTime}
     <span class="opacity-40">|</span>
     <span>{readingTime} min read</span>
-  {/if}
-
-  {#if tags?.length}
-    <span class="opacity-40">|</span>
-    <div class="flex gap-4">
-      {#each tags as tag}
-        <a href="/blog/tag/{slugifyTag(tag)}" class="text-surface-300 hover:text-green-500 transition-colors">
-          #{tag}
-        </a>
-      {/each}
-    </div>
   {/if}
 </div>

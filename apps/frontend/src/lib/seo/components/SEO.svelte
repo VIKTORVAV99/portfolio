@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { FALLBACK_HERO_IMAGE } from "$lib/config";
   import type { StructuredDataSchema } from "..";
   import { toJsonLd } from "..";
 
@@ -10,7 +11,7 @@
     nextURL,
     structuredData,
     noIndex = false,
-    image,
+    image = FALLBACK_HERO_IMAGE,
     type = "website",
   }: {
     title: string;

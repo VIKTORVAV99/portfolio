@@ -1,5 +1,6 @@
 <script lang="ts">
-  import BlogPostMeta from "./BlogPostMeta.svelte";
+  import PostDate from "./PostDate.svelte";
+  import PostTags from "./PostTags.svelte";
 
   interface Props {
     slug: string;
@@ -8,19 +9,27 @@
     date: string;
     readingTime?: number;
     tags?: string[];
+    last: boolean;
   }
 
-  let { slug, title, description, date, readingTime, tags }: Props = $props();
+  let { slug, title, description, date, readingTime, tags, last }: Props = $props();
 </script>
 
-<li class="flex flex-col gap-2 border-b border-surface-700 last:border-none">
-  <a href="/blog/{slug}" class="text-2xl font-bold text-surface-100 hover:text-green-500 transition-colors w-fit">
-    {title}
-  </a>
+<li>
+  <article class="flex flex-col gap-2">
+    <a href="/blog/{slug}" class="text-2xl font-bold text-surface-100 hover:text-green-500 transition-colors w-fit">
+      {title}
+    </a>
 
-  <p class="text-surface-300 leading-relaxed text-lg max-w-3xl">
-    {description}
-  </p>
+    <PostDate {date} {readingTime} />
 
-  <BlogPostMeta {date} {readingTime} {tags} />
+    <p class="text-surface-300 leading-relaxed text-base md:text-lg max-w-3xl">
+      {description}
+    </p>
+
+    <PostTags {tags} />
+  </article>
+  {#if !last}
+    <hr class="border-surface-700 mt-4" />
+  {/if}
 </li>

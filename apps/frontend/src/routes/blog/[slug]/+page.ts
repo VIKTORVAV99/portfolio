@@ -1,5 +1,5 @@
 import { getAllPosts } from "$lib/blog";
-import { SITE_URL } from "$lib/config";
+import { FALLBACK_HERO_IMAGE, SITE_URL } from "$lib/config";
 import {
   createArticleSchema,
   createBreadcrumbListSchema,
@@ -39,6 +39,7 @@ export const load = async ({ params }: PageLoadEvent) => {
     keywords: file.metadata.tags,
     url: postUrl,
     mainEntityOfPage: createWebPageSchema(postUrl),
+    image: file.metadata.image || FALLBACK_HERO_IMAGE,
   });
 
   return {
