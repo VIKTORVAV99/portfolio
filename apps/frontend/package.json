@@ -18,10 +18,10 @@
     "format:check": "oxfmt --check"
   },
   "dependencies": {
-    "bits-ui": "^2.16.3",
     "portfolio-backend": "workspace:*"
   },
   "devDependencies": {
+    "@lucide/svelte": "^1.0.1",
     "@sveltejs/adapter-cloudflare": "^7.2.8",
     "@sveltejs/enhanced-img": "^0.10.4",
     "@sveltejs/kit": "^2.55.0",
@@ -29,7 +29,7 @@
     "@tailwindcss/vite": "^4.2.1",
     "@types/bun": "^1.3.10",
     "@types/serviceworker": "^0.0.193",
-    "lucide-svelte": "^0.577.0",
+    "bits-ui": "^2.16.3",
     "mdsvex": "^0.12.7",
     "svelte": "^5.53.12",
     "svelte-check": "^4.4.5",

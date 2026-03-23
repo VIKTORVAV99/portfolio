@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { ComponentType } from "svelte";
-  import ChevronLeft from "lucide-svelte/icons/chevron-left";
-  import ChevronRight from "lucide-svelte/icons/chevron-right";
+  import type { LucideIcon } from "@lucide/svelte";
+  import ChevronLeft from "@lucide/svelte/icons/chevron-left";
+  import ChevronRight from "@lucide/svelte/icons/chevron-right";
 
   interface Props {
     currentPage: number;
@@ -17,7 +17,7 @@
     page === 1 ? baseHref : `${baseHref}?page=${page}`;
 </script>
 
-{#snippet chevron(href: string | undefined, label: string, Icon: ComponentType)}
+{#snippet chevron(href: string | undefined, label: string, Icon: LucideIcon)}
   {#if href}
     <a {href} class="{box} text-surface-300 hover:text-green-500 transition-colors" aria-label={label}>
       <Icon size={16} />

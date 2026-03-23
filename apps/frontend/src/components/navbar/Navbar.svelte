@@ -1,7 +1,7 @@
 <script lang="ts">
   import NavbarLink from './NavbarLink.svelte';
   import { DropdownMenu } from "bits-ui";
-  import { Menu } from "lucide-svelte";
+  import Menu from "@lucide/svelte/icons/menu";
 
   const links = [
     { href: '/', label: 'Home', name: '' },

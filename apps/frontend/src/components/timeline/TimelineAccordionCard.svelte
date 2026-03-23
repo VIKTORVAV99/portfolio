@@ -2,8 +2,8 @@
 	import type { TimelineEntry } from '$interfaces/timelineEntry';
 	import { Accordion } from 'bits-ui';
 	import { untrack } from 'svelte';
-	import ChevronsUpDown from 'lucide-svelte/icons/chevrons-up-down';
-	import ChevronsDownUp from 'lucide-svelte/icons/chevrons-down-up';
+	import ChevronsUpDown from '@lucide/svelte/icons/chevrons-up-down';
+	import ChevronsDownUp from '@lucide/svelte/icons/chevrons-down-up';
 	import TimelineCard from './TimelineCard.svelte';
 
 	let {
