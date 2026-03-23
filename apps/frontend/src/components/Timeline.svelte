@@ -81,36 +81,25 @@
 		class="grid w-full {isCompact ? 'grid-cols-[auto_1fr]' : 'grid-cols-[1fr_auto_1fr]'}"
 		style="grid-template-rows: repeat({graphData.totalGridRows}, {PX_PER_MONTH}px);"
 	>
-		<!-- Left cards (desktop only) -->
-		{#if !isCompact}
-			{#each graphData.nodes as node}
-				{#if node.side === 'left'}
-					<div
-						class="col-start-1 flex justify-end self-start"
-						style="grid-row: {node.gridRow} / {node.gridRowEnd};"
-						use:observeCardHeight={node.entry}
-					>
-						<TimelineAccordionCard entry={node.entry} color={node.color} accentSide="right" defaultOpen={true} />
-					</div>
-				{/if}
-			{/each}
-		{/if}
-
 		<!-- Graph -->
 		<TimelineGraph {graphData} {yearMarkers} pxPerMonth={PX_PER_MONTH} {totalHeight} />
 
-		<!-- Right cards -->
+		<!-- Cards -->
 		{#each graphData.nodes as node}
-			{#if node.side === 'right'}
-				{#if !(node.entry.type === 'life' && !node.entry.showDates)}
-					<div
-						class="{isCompact ? 'col-start-2' : 'col-start-3'} flex justify-start self-start"
-						style="grid-row: {node.gridRow} / {node.gridRowEnd};"
-						use:observeCardHeight={node.entry}
-					>
-						<TimelineAccordionCard entry={node.entry} color={node.color} defaultOpen={!isCompact} />
-					</div>
-				{/if}
+			{#if !(node.entry.type === 'life' && !node.entry.showDates)}
+				{@const isLeft = node.side === 'left'}
+				<div
+					class="{isLeft ? 'col-start-1' : isCompact ? 'col-start-2' : 'col-start-3'} flex {isLeft ? 'justify-end' : 'justify-start'} self-start"
+					style="grid-row: {node.gridRow} / {node.gridRowEnd};"
+					use:observeCardHeight={node.entry}
+				>
+					<TimelineAccordionCard
+						entry={node.entry}
+						color={node.color}
+						accentSide={isLeft ? 'right' : 'left'}
+						defaultOpen={!isCompact}
+					/>
+				</div>
 			{/if}
 		{/each}
 	</div>
