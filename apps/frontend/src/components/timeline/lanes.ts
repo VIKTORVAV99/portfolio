@@ -1,6 +1,11 @@
 import type { TimelineEntry } from "$interfaces/timelineEntry";
 
-import { BRANCH_COLORS, MAX_LEADER_CHANNELS, LEADER_CHANNEL_GAP } from "./constants";
+import {
+  BRANCH_COLORS,
+  FORK_CURVE_MONTHS,
+  MAX_LEADER_CHANNELS,
+  LEADER_CHANNEL_GAP,
+} from "./constants";
 import {
   monthToRow,
   entryStartAbsMonth,
@@ -43,10 +48,17 @@ export const assignLanes = (
   // Assign branches to lanes (reuse lanes when branches don't overlap in time)
   const branches: Branch[] = [];
 
-  const sortedGroups = [...groupMap.entries()].sort((a, b) => {
-    const aStart = Math.min(...a[1].map((e) => entryStartAbsMonth(e)));
-    const bStart = Math.min(...b[1].map((e) => entryStartAbsMonth(e)));
-    return aStart - bStart;
+  // Pre-compute date ranges; sort by span ascending so shorter branches get inner lanes
+  const groupsWithStart = [...groupMap.entries()].map(([id, entries]) => ({
+    id,
+    entries,
+    earliestStart: Math.min(...entries.map((e) => entryStartAbsMonth(e))),
+    latestEnd: Math.max(...entries.map((e) => entryEndAbsMonth(e))),
+  }));
+  groupsWithStart.sort((a, b) => {
+    const spanA = a.latestEnd - a.earliestStart;
+    const spanB = b.latestEnd - b.earliestStart;
+    return spanA - spanB || a.earliestStart - b.earliestStart;
   });
 
   // Track which time ranges occupy each lane
@@ -58,20 +70,25 @@ export const assignLanes = (
     for (const [lane, ranges] of laneOccupancy) {
       if (side === "left" && lane >= 0) continue;
       if (side === "right" && lane <= 0) continue;
-      const overlaps = ranges.some((r) => start <= r.end && end >= r.start);
+      const overlaps = ranges.some((r) => {
+        const overlap = Math.min(end, r.end) - Math.max(start, r.start);
+        if (overlap <= 0) return false;
+        const contained = (start >= r.start && end <= r.end) || (r.start >= start && r.end <= end);
+        return contained || overlap > FORK_CURVE_MONTHS;
+      });
       if (!overlaps) return lane;
     }
     return null;
   };
 
   let branchColorIdx = 0;
-  for (const [id, groupEntries] of sortedGroups) {
+  for (const { id, entries: groupEntries, earliestStart, latestEnd } of groupsWithStart) {
     const type = groupEntries[0].type;
     const side: "left" | "right" =
       mode === "compact" ? "left" : type === "education" ? "left" : "right";
-
-    const earliestStart = Math.min(...groupEntries.map((e) => entryStartAbsMonth(e)));
-    const latestEnd = Math.max(...groupEntries.map((e) => entryEndAbsMonth(e)));
+    const span = latestEnd - earliestStart;
+    const curveOffset = Math.min(FORK_CURVE_MONTHS, Math.floor(span / 2));
+    const isOngoing = groupEntries.some((e) => e.endYear === null);
 
     let lane = findReusableLane(side, earliestStart, latestEnd);
     if (lane === null) {
@@ -87,8 +104,10 @@ export const assignLanes = (
       side,
       lane,
       entries: groupEntries,
-      forkRow: monthToRow(earliestStart) - 1,
-      endRow: monthToRow(latestEnd),
+      forkRow: monthToRow(earliestStart) - curveOffset,
+      endRow: isOngoing ? monthToRow(latestEnd) : monthToRow(latestEnd) + curveOffset,
+      curveOffset,
+      isOngoing,
       color: BRANCH_COLORS[branchColorIdx++ % BRANCH_COLORS.length],
     });
   }

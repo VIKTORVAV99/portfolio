@@ -1,7 +1,6 @@
 <script lang="ts">
 	import type { TimelineEntry } from '$interfaces/timelineEntry';
 	import { Accordion } from 'bits-ui';
-	import { untrack } from 'svelte';
 	import ChevronsUpDown from '@lucide/svelte/icons/chevrons-up-down';
 	import ChevronsDownUp from '@lucide/svelte/icons/chevrons-down-up';
 	import TimelineCard from './TimelineCard.svelte';
@@ -18,7 +17,10 @@
 		accentSide?: 'left' | 'right';
 	} = $props();
 
-	let value = $state(untrack(() => defaultOpen) ? 'entry' : '');
+	let value = $state('');
+	$effect(() => {
+		value = defaultOpen ? 'entry' : '';
+	});
 	const isOpen = $derived(value === 'entry');
 	const isRight = $derived(accentSide === 'right');
 </script>

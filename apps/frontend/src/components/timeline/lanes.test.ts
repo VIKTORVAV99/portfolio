@@ -84,6 +84,36 @@ describe("assignLanes", () => {
     expect(branches[0].lane).toBe(branches[1].lane);
   });
 
+  it("reuses lanes when one branch ends the same month another starts", () => {
+    const entries: TimelineEntry[] = [
+      workEntry({ startYear: 2018, startMonth: 1, endYear: 2020, endMonth: 6 }),
+      workEntry({ startYear: 2020, startMonth: 6, endYear: 2022, endMonth: 12 }),
+    ];
+    const { branches } = assignLanes(entries);
+    expect(branches[0].lane).toBe(branches[1].lane);
+  });
+
+  it("reuses lanes when overlap is within curve transition length", () => {
+    // IKEA 2022 ends Jan 2023, Electricity Maps starts Dec 2022 → 2-month overlap < FORK_CURVE_MONTHS (3)
+    const entries: TimelineEntry[] = [
+      workEntry({ startYear: 2022, startMonth: 6, endYear: 2023, endMonth: 1 }),
+      workEntry({ startYear: 2022, startMonth: 12, endYear: 2025, endMonth: 12 }),
+    ];
+    const { branches } = assignLanes(entries);
+    expect(branches[0].lane).toBe(branches[1].lane);
+  });
+
+  it("assigns different lanes when one branch is contained within another", () => {
+    // IKEA 2019 (Jun-Aug) is fully within Haganässkolan (Aug 2017 – Jun 2020)
+    // Even though the overlap (2 months) < FORK_CURVE_MONTHS, containment forces separate lanes
+    const entries: TimelineEntry[] = [
+      workEntry({ startYear: 2017, startMonth: 8, endYear: 2020, endMonth: 6 }),
+      workEntry({ startYear: 2019, startMonth: 6, endYear: 2019, endMonth: 8 }),
+    ];
+    const { branches } = assignLanes(entries);
+    expect(branches[0].lane).not.toBe(branches[1].lane);
+  });
+
   it("assigns different lanes for overlapping same-side branches", () => {
     const entries: TimelineEntry[] = [
       workEntry({
