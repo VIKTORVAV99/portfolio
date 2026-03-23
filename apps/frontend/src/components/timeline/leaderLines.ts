@@ -40,7 +40,6 @@ export const buildLeaderLines = (
   const lines: LeaderLine[] = [];
 
   for (const node of visibleNodes) {
-
     const nx = laneX(node.lane);
     const dotY = nodeY(node.row, pxPerMonth);
     const cardY = nodeY(node.gridRow, pxPerMonth);

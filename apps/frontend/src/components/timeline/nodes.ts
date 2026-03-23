@@ -36,12 +36,9 @@ export const buildBranchNodes = (branches: Branch[]): CommitNode[] => {
   for (const branch of branches) {
     for (let i = 0; i < branch.entries.length; i++) {
       const entry = branch.entries[i];
-      const sectionStartRow =
-        i === 0 ? branch.forkRow : monthToRow(entryStartAbsMonth(entry));
+      const sectionStartRow = i === 0 ? branch.forkRow : monthToRow(entryStartAbsMonth(entry));
       const sectionEndRow =
-        i === branch.entries.length - 1
-          ? branch.endRow
-          : monthToRow(entryEndAbsMonth(entry));
+        i === branch.entries.length - 1 ? branch.endRow : monthToRow(entryEndAbsMonth(entry));
       const row = (sectionStartRow + sectionEndRow) / 2;
       const gridRow = Math.round(row);
       let gridRowEnd = monthToRow(entryStartAbsMonth(entry)) + 1;

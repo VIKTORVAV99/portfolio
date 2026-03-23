@@ -1,6 +1,11 @@
 import type { TimelineEntry } from "$interfaces/timelineEntry";
 
-import { BRANCH_COLORS, FORK_CURVE_MONTHS, MAX_LEADER_CHANNELS, LEADER_CHANNEL_GAP } from "./constants";
+import {
+  BRANCH_COLORS,
+  FORK_CURVE_MONTHS,
+  MAX_LEADER_CHANNELS,
+  LEADER_CHANNEL_GAP,
+} from "./constants";
 import {
   monthToRow,
   entryStartAbsMonth,
