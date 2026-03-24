@@ -17,8 +17,8 @@
   {#if posts.length === 0}
     <p class="text-surface-300 font-mono">No posts found.</p>
   {:else}
-    <ul class="flex flex-col gap-16">
-      {#each posts as post}
+    <ul class="flex flex-col gap-8">
+      {#each posts as post, index}
         <BlogPostCard
           slug={post.slug}
           title={post.title}
@@ -26,6 +26,7 @@
           date={post.date}
           readingTime={post.readingTime}
           tags={post.tags}
+          last={index === posts.length - 1}
         />
       {/each}
     </ul>

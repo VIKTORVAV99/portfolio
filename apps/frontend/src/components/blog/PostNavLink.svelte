@@ -14,18 +14,22 @@
 
 <a
   {href}
-  class="group flex items-center gap-2 text-surface-300 hover:text-green-500 transition-colors"
+  class="group relative flex items-center md:max-w-1/2 text-surface-300 hover:text-green-500 transition-colors"
   class:text-right={!isPrev}
-  class:ml-auto={!isPrev}
+  class:md:ml-auto={!isPrev}
 >
   {#if isPrev}
-    <ChevronLeft size={16} />
+    <span class="absolute -left-6 top-1/2 -translate-y-1/2">
+      <ChevronLeft size={16} />
+    </span>
   {/if}
   <div class="flex flex-col" class:items-end={!isPrev}>
     <span class="text-xs font-mono uppercase tracking-wide">{isPrev ? "Newer" : "Older"}</span>
     <span class="text-sm text-surface-300 group-hover:text-green-500 transition-colors">{title}</span>
   </div>
   {#if !isPrev}
-    <ChevronRight size={16} />
+    <span class="absolute -right-6 top-1/2 -translate-y-1/2">
+      <ChevronRight size={16} />
+    </span>
   {/if}
 </a>

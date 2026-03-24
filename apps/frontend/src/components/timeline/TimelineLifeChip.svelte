@@ -3,7 +3,7 @@
 </script>
 
 <div
-	class="inline-flex py-1.5 px-5 rounded-full border border-surface-700 bg-surface-800 text-sm"
+	class="inline-flex py-1.5 px-5 rounded-full border border-surface-700 bg-surface-800 text-sm font-bold"
 >
-	<span class="font-bold">{title}</span>
+	{title}
 </div>

@@ -43,6 +43,7 @@
         "svelte-check": "^4.4.5",
         "tailwindcss": "^4.2.1",
         "vite": "^8.0.0",
+        "vite-imagetools": "^10.0.0",
       },
     },
   },
@@ -621,7 +622,7 @@
 
     "vite": ["vite@8.0.0", "", { "dependencies": { "@oxc-project/runtime": "0.115.0", "lightningcss": "^1.32.0", "picomatch": "^4.0.3", "postcss": "^8.5.8", "rolldown": "1.0.0-rc.9", "tinyglobby": "^0.2.15" }, "optionalDependencies": { "fsevents": "~2.3.3" }, "peerDependencies": { "@types/node": "^20.19.0 || >=22.12.0", "@vitejs/devtools": "^0.0.0-alpha.31", "esbuild": "^0.27.0", "jiti": ">=1.21.0", "less": "^4.0.0", "sass": "^1.70.0", "sass-embedded": "^1.70.0", "stylus": ">=0.54.8", "sugarss": "^5.0.0", "terser": "^5.16.0", "tsx": "^4.8.1", "yaml": "^2.4.2" }, "optionalPeers": ["@types/node", "@vitejs/devtools", "esbuild", "jiti", "less", "sass", "sass-embedded", "stylus", "sugarss", "terser", "tsx", "yaml"], "bin": { "vite": "bin/vite.js" } }, "sha512-fPGaRNj9Zytaf8LEiBhY7Z6ijnFKdzU/+mL8EFBaKr7Vw1/FWcTBAMW0wLPJAGMPX38ZPVCVgLceWiEqeoqL2Q=="],
 
-    "vite-imagetools": ["vite-imagetools@9.0.3", "", { "dependencies": { "@rollup/pluginutils": "^5.0.5", "imagetools-core": "^9.1.0", "sharp": "^0.34.1" } }, "sha512-FwjApRNZyN+RucPW9Z9kf0dyzyi3r3zlDfrTnzHXNaYpmT3pZ5w//d6QkApy1iypbDm+3fq+Gwfv+PYA4j4uYw=="],
+    "vite-imagetools": ["vite-imagetools@10.0.0", "", { "dependencies": { "@rollup/pluginutils": "^5.0.5", "imagetools-core": "^9.1.0", "sharp": "^0.34.1" }, "peerDependencies": { "vite": ">=7.0.0" } }, "sha512-+83L32YPU/2BOHWhudO2+9T5HBvb3+0qHoUNN7fb0+XcAoXilx7aE25cDPWU5kBi5Yc750zYCvHxgfyR+tAuMA=="],
 
     "vitefu": ["vitefu@1.1.2", "", { "peerDependencies": { "vite": "^3.0.0 || ^4.0.0 || ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0-beta.0" }, "optionalPeers": ["vite"] }, "sha512-zpKATdUbzbsycPFBN71nS2uzBUQiVnFoOrr2rvqv34S1lcAgMKKkjWleLGeiJlZ8lwCXvtWaRn7R3ZC16SYRuw=="],
 
@@ -642,6 +643,8 @@
     "@cspotcode/source-map-support/@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.9", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.0.3", "@jridgewell/sourcemap-codec": "^1.4.10" } }, "sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ=="],
 
     "@sveltejs/adapter-cloudflare/@cloudflare/workers-types": ["@cloudflare/workers-types@4.20260310.1", "", {}, "sha512-Cg4gyGDtfimNMgBr2h06aGR5Bt8puUbblyzPNZN55mBfVYCTWwQiUd9PrbkcoddKrWHlsy0ACH/16dAeGf5BQg=="],
+
+    "@sveltejs/enhanced-img/vite-imagetools": ["vite-imagetools@9.0.3", "", { "dependencies": { "@rollup/pluginutils": "^5.0.5", "imagetools-core": "^9.1.0", "sharp": "^0.34.1" } }, "sha512-FwjApRNZyN+RucPW9Z9kf0dyzyi3r3zlDfrTnzHXNaYpmT3pZ5w//d6QkApy1iypbDm+3fq+Gwfv+PYA4j4uYw=="],
 
     "@tailwindcss/node/lightningcss": ["lightningcss@1.31.1", "", { "dependencies": { "detect-libc": "^2.0.3" }, "optionalDependencies": { "lightningcss-android-arm64": "1.31.1", "lightningcss-darwin-arm64": "1.31.1", "lightningcss-darwin-x64": "1.31.1", "lightningcss-freebsd-x64": "1.31.1", "lightningcss-linux-arm-gnueabihf": "1.31.1", "lightningcss-linux-arm64-gnu": "1.31.1", "lightningcss-linux-arm64-musl": "1.31.1", "lightningcss-linux-x64-gnu": "1.31.1", "lightningcss-linux-x64-musl": "1.31.1", "lightningcss-win32-arm64-msvc": "1.31.1", "lightningcss-win32-x64-msvc": "1.31.1" } }, "sha512-l51N2r93WmGUye3WuFoN5k10zyvrVs0qfKBhyC5ogUQ6Ew6JUSswh78mbSO+IU3nTWsyOArqPCcShdQSadghBQ=="],
 
