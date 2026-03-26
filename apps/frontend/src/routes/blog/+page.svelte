@@ -26,7 +26,7 @@
       description: "Thoughts on software engineering, climate tech, and open source.",
       url: canonicalURL,
       mainEntity: createItemListSchema(
-        data.pagedPosts.map((post) => `${SITE_URL}/blog/${post.slug}`),
+        data.allSlugs.map((slug) => `${SITE_URL}/blog/${slug}`),
       ),
     }),
     createBreadcrumbListSchema([

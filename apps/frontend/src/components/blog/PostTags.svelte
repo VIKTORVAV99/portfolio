@@ -12,7 +12,7 @@
   <div class="flex flex-wrap gap-x-4 gap-y-2 text-sm font-mono">
     {#each tags as tag}
       <a href="/blog/tag/{slugifyTag(tag)}" class="text-surface-300 hover:text-green-500 transition-colors">
-        #{tag}
+        <span class="text-green-500">#</span>{tag}
       </a>
     {/each}
   </div>

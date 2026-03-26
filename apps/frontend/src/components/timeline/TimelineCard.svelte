@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { TimelineEntry } from "$interfaces/timelineEntry";
-  import ExternalLink from "$components/ExternalLink.svelte";
+  import Link from "$components/Link.svelte";
 
   let { entry, accentSide = 'left' }: { entry: TimelineEntry; accentSide?: 'left' | 'right' } = $props();
   const isRight = $derived(accentSide === 'right');
@@ -26,7 +26,7 @@
   </p>
 {/if}
 {#if entry.link}
-  <ExternalLink href={entry.link} class="text-sm mt-2 {isRight ? 'ml-auto' : ''}">
+  <Link href={entry.link} mono class="text-sm mt-2 {isRight ? 'ml-auto' : ''}">
     {entry.linkLabel ?? entry.link}
-  </ExternalLink>
+  </Link>
 {/if}

@@ -14,4 +14,7 @@ export const entries = (): Record<string, string>[] => {
   return result;
 };
 
-export const load = async ({ url }: PageLoadEvent) => paginatePosts(getAllPosts(), url);
+export const load = async ({ url }: PageLoadEvent) => {
+  const posts = getAllPosts();
+  return { ...paginatePosts(posts, url), allSlugs: posts.map((p) => p.slug) };
+};

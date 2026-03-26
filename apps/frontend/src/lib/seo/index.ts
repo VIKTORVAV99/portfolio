@@ -203,6 +203,7 @@ export interface ListItemSchema {
 
 export interface ItemListSchema {
   "@type": "ItemList";
+  numberOfItems?: number;
   itemListElement: Pick<ListItemSchema, "@type" | "position" | "item">[];
 }
 
@@ -225,11 +226,32 @@ export const createBreadcrumbListSchema = (
 
 export const createItemListSchema = (urls: string[]): ItemListSchema => ({
   "@type": "ItemList",
+  numberOfItems: urls.length,
   itemListElement: urls.map((url, i) => ({
     "@type": "ListItem" as const,
     position: i + 1,
     item: url,
   })),
+});
+
+export interface DefinedTermSchema {
+  "@type": "DefinedTerm";
+  name: string;
+}
+
+export const createDefinedTermSchema = (name: string): DefinedTermSchema => ({
+  "@type": "DefinedTerm",
+  name,
+});
+
+export interface CollectionPageRefSchema {
+  "@type": "CollectionPage";
+  url: string;
+}
+
+export const createCollectionPageRefSchema = (url: string): CollectionPageRefSchema => ({
+  "@type": "CollectionPage",
+  url,
 });
 
 export interface CollectionPageSchema {
@@ -238,6 +260,8 @@ export interface CollectionPageSchema {
   description?: string;
   url: string;
   mainEntity: ItemListSchema;
+  isPartOf?: CollectionPageRefSchema;
+  about?: DefinedTermSchema;
 }
 
 export const createCollectionPageSchema = (
@@ -273,7 +297,8 @@ export type StructuredDataSchema =
   | ProfilePageSchema
   | WebSiteSchema
   | CollectionPageSchema
-  | BreadcrumbListSchema;
+  | BreadcrumbListSchema
+  | DefinedTermSchema;
 
 /** Converts a date string to ISO 8601. Month-only dates (e.g. "2025-07") floor to the 1st. */
 export const toISOStartDate = (date: string): string =>
