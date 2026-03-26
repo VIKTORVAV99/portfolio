@@ -1,8 +1,8 @@
-import { fileURLToPath } from "node:url";
-import { dirname, resolve } from "node:path";
 import adapter from "@sveltejs/adapter-cloudflare";
 import { vitePreprocess } from "@sveltejs/vite-plugin-svelte";
 import { mdsvex, escapeSvelte } from "mdsvex";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { createHighlighter } from "shiki";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
