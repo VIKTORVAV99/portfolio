@@ -1,5 +1,6 @@
 @import "tailwindcss";
 @import "./theme.css";
+@plugin "@tailwindcss/typography";
 
 /* Fonts */
 
@@ -7,10 +8,12 @@
   font-family: "Inter";
   src:
     local("Inter"),
-    url("./fonts/Inter-roman.var.woff2") format("woff2");
+    url("./fonts/Inter.subset.var.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0000-00FF, U+0100-024F, U+0300-036F, U+2000-206F, U+2074, U+20AC, U+2122,
+    U+2190-21FF, U+2212, U+FEFF, U+FFFD;
 }
 
 @font-face {
@@ -18,10 +21,13 @@
   src:
     local("Monaspace Neon"),
     local("MonaspaceNeon-Regular"),
-    url("./fonts/Monaspace-Neon.var.woff2") format("woff2");
+    url("./fonts/Monaspace-Neon.subset.var.woff2") format("woff2");
   font-weight: 100 900;
   font-style: normal;
   font-display: swap;
+  unicode-range: U+0000-00FF, U+0100-024F, U+0300-036F, U+2000-206F, U+2074, U+20AC, U+2122,
+    U+2190-21FF, U+2200-22FF, U+2212, U+2300-23FF, U+2500-257F, U+2580-259F, U+25A0-25FF,
+    U+2700-27BF, U+E000-F8FF, U+FE00-FE0F, U+FB00-FB06, U+FEFF, U+FFFD;
 }
 
 /* === Animations === */
@@ -85,6 +91,25 @@
   margin-left: auto;
   margin-right: auto;
   width: 100%;
+}
+
+/* Prose accent color */
+.prose {
+  :where(ul > li)::marker,
+  :where(ol > li)::marker,
+  :where(th),
+  :where(th) a {
+    color: var(--color-green-500);
+  }
+}
+
+/* Code blocks (Shiki) */
+.shiki {
+  background-color: var(--color-surface-900) !important;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: smaller;
 }
 
 /* Reduced motion */

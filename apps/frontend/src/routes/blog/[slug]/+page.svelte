@@ -23,14 +23,16 @@
   nextURL={nextURL}
 />
 
-<article class="prose w-full max-w-prose mx-auto mt-16 flex flex-1 flex-col gap-8">
+<article class="w-full max-w-prose mx-auto mt-16 flex flex-1 flex-col gap-8">
   <header class="flex flex-col gap-3">
     <h1>{data.metadata.title}</h1>
     <PostDate date={data.metadata.date} lastUpdated={data.metadata.last_updated} readingTime={data.readingTime} />
     <PostTags tags={data.metadata.tags} />
     <AuthorBanner />
   </header>
-  <data.component />
+  <section class="prose prose-invert">
+    <data.component />
+  </section>
   {#if data.prevPost || data.nextPost}
     <footer class="mt-auto w-full flex flex-col md:flex-row md:justify-between items-center md:items-start gap-4 md:gap-8" aria-label="Post navigation">
       <div class="flex flex-col md:contents gap-4 max-w-2/3">

@@ -3,7 +3,7 @@ title: "Hello World"
 date: 2026-03-20
 last_updated: 2026-03-20
 description: "My first blog post on my newly launched personal website built with SvelteKit and MDsveX!"
-tags: ["sveltekit", "mdsvex", "blog"]
+tags: ["SvelteKit", "MDsveX", "Blog"]
 ---
 
 Yes it's a bit cliché with a Hello World post but at this point it's almost tradition!
