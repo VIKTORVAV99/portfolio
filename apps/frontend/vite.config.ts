@@ -18,6 +18,11 @@ export default defineConfig({
     port: 8888,
   },
   build: {
+    rolldownOptions: {
+      output: {
+        comments: false,
+      },
+    },
     assetsInlineLimit: (filePath) => {
       // Don't inline the favicon as this prevents Google Image Bot from indexing it.
       // Which in turn prevents the favicon from showing up in search results
