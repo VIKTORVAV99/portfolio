@@ -6,6 +6,7 @@
   import PostDate from '$components/blog/PostDate.svelte';
   import PostTags from '$components/blog/PostTags.svelte';
   import AuthorBanner from '$components/blog/AuthorBanner.svelte';
+  import './blog.css';
 
   let { data }: { data: PageData } = $props();
 
@@ -30,7 +31,7 @@
     <PostTags tags={data.metadata.tags} />
     <AuthorBanner />
   </header>
-  <section class="prose prose-invert">
+  <section class="blog-content">
     <data.component />
   </section>
   {#if data.prevPost || data.nextPost}

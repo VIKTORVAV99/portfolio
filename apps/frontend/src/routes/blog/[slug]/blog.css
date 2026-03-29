@@ -1,0 +1,21 @@
+@reference "../../../app.css";
+
+.blog-content {
+  @apply prose prose-invert;
+
+  :where(ul > li)::marker,
+  :where(ol > li)::marker,
+  :where(th),
+  :where(th) a {
+    color: var(--color-green-500);
+  }
+}
+
+/* Code blocks (Shiki) */
+.shiki {
+  background-color: var(--color-surface-900) !important;
+  border-radius: 0.5rem;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: smaller;
+}
