@@ -9,7 +9,7 @@
   src:
     local("Inter"),
     url("./fonts/Inter.subset.var.woff2") format("woff2");
-  font-weight: 100 900;
+  font-weight: 400 700;
   font-style: normal;
   font-display: swap;
   unicode-range:
@@ -21,9 +21,8 @@
   font-family: "Monaspace Neon";
   src:
     local("Monaspace Neon"),
-    local("MonaspaceNeon-Regular"),
     url("./fonts/Monaspace-Neon.subset.var.woff2") format("woff2");
-  font-weight: 100 900;
+  font-weight: 400 500;
   font-style: normal;
   font-display: swap;
   unicode-range:
