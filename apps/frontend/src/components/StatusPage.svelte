@@ -35,7 +35,7 @@
 
   <button
     onclick={onAction}
-    class="cursor-pointer rounded-full font-mono backdrop-blur-sm bg-surface-800/80 px-6 py-3 text-sm font-medium text-surface-50 transition-colors hover:bg-surface-700/80"
+    class="cursor-pointer rounded-full font-mono backdrop-blur-sm bg-surface-800/80 px-6 py-3 text-sm text-surface-50 transition-colors hover:bg-surface-700/80"
   >
     {@render buttonContent()}
   </button>
