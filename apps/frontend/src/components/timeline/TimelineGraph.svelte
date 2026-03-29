@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+  import { linear } from "svelte/easing";
+  import { draw, scale, fade } from "svelte/transition";
   import { LINE_WIDTH, NODE_RADIUS } from "./constants";
   import {
     type GraphData,
@@ -21,6 +24,20 @@
   } = $props();
 
   const maxGridRow = $derived(Math.max(...graphData.nodes.map((n) => n.gridRow)));
+
+  let mounted = $state(false);
+  onMount(() => { mounted = true; });
+
+  /** ms delay per grid row, bottom-up: row closer to maxGridRow → shorter delay */
+  const msPerRow = 3;
+  const rowDelay = (row: number) => (maxGridRow - row) * msPerRow;
+
+  /** Trunk total pixel length and px/ms rate — used to scale branch durations */
+  const trunkPxLen = $derived(
+    Math.abs(nodeY(maxGridRow, pxPerMonth) - nodeY(1, pxPerMonth)),
+  );
+  const trunkDuration = $derived(maxGridRow * msPerRow);
+  const pxPerMs = $derived(trunkPxLen / trunkDuration);
 
   const trunkLabels = $derived.by(() => {
     const labels: Array<{ y: number; text: string }> = [];
@@ -84,9 +101,16 @@
           ` C ${bx} ${endY - 0.6 * ch}, ${mainX} ${endY - 0.4 * ch}, ${mainX} ${endY - ch}`;
       }
 
-      return { d, color: branch.color };
+      const verticalPx = Math.abs(forkY + ch - (isOngoing ? endY : endY - ch));
+      return { d, color: branch.color, forkRow: branch.forkRow, verticalPx };
     });
   });
+
+  // Empty until mounted so {#each} items are "added" and get intro transitions
+  const visibleBranches = $derived(mounted ? branchPaths : []);
+  const visibleNodes = $derived(mounted ? graphData.nodes : []);
+  const visibleLeaders = $derived(mounted ? graphData.leaderLines : []);
+  const visibleLabels = $derived(mounted ? trunkLabels : []);
 </script>
 
 <div
@@ -111,57 +135,62 @@
     />
 
     <!-- Branch paths (fork curve + vertical + merge curve combined) -->
-    {#each branchPaths as bp}
+    {#each visibleBranches as bp}
       <path
         d={bp.d}
         fill="none"
         stroke={bp.color}
         stroke-width={LINE_WIDTH}
         stroke-linecap="round"
+        in:draw={{ duration: Math.max(400, bp.verticalPx / pxPerMs), delay: rowDelay(bp.forkRow), easing: linear }}
       />
     {/each}
 
     <!-- Leader lines -->
-    {#each graphData.leaderLines as leader}
+    {#each visibleLeaders as leader}
       <polyline
         points={leader.points.map((p) => `${p.x},${p.y}`).join(" ")}
         fill="none"
         stroke={leader.color}
         stroke-width={1}
         stroke-dasharray="4 3"
+        in:fade={{ duration: 300, delay: (1 - leader.points[0].y / totalHeight) * maxGridRow * msPerRow }}
       />
     {/each}
 
     <!-- Commit nodes -->
-    {#each graphData.nodes as node}
+    {#each visibleNodes as node}
       {@const ny = nodeY(node.row, pxPerMonth)}
       <circle
         cx={graphData.laneX(node.lane)}
         cy={ny}
         r={NODE_RADIUS}
         fill={node.color}
-        class="stroke-surface-950 stroke-3"
+        class="[transform-box:fill-box] origin-center stroke-surface-950 stroke-3"
+        in:scale={{ duration: 300, delay: rowDelay(node.row), start: 0 }}
       />
     {/each}
 
     <!-- Trunk labels (year markers + life labels) -->
-    {#each trunkLabels as label}
+    {#each visibleLabels as label}
       {@const mx = graphData.laneX(0)}
-      <rect
-        x={mx - 16}
-        y={label.y - 8}
-        width="32"
-        height="16"
-        rx="3"
-        class="fill-surface-950"
-      />
-      <text
-        x={mx}
-        y={label.y + 4}
-        text-anchor="middle"
-        class="fill-surface-500 font-semibold tracking-[0.05em]"
-        style="font-size: 0.5625rem;">{label.text}</text
-      >
+      <g in:fade={{ duration: 300, delay: (1 - label.y / totalHeight) * maxGridRow * msPerRow }}>
+        <rect
+          x={mx - 16}
+          y={label.y - 8}
+          width="32"
+          height="16"
+          rx="3"
+          class="fill-surface-950"
+        />
+        <text
+          x={mx}
+          y={label.y + 4}
+          text-anchor="middle"
+          class="fill-surface-500 font-semibold tracking-[0.05em]"
+          style="font-size: 0.5625rem;">{label.text}</text
+        >
+      </g>
     {/each}
   </svg>
 </div>
