@@ -24,10 +24,10 @@ const limitCacheSize = async (cache: Cache, maxItems: number) => {
   }
 };
 
-export function createRouter(config: RouterConfig) {
+export const createRouter = (config: RouterConfig) => {
   const { eagerAssets, offlinePage, imageRegex, maxDynamicCacheSize } = config;
 
-  return async function handleFetch(ctx: FetchContext): Promise<Response> {
+  return async (ctx: FetchContext): Promise<Response> => {
     const { staticCache, dynamicCache, url, request, destination, mode, waitUntil } = ctx;
 
     const cacheDynamic = (req: Request, res: Response) =>
@@ -86,4 +86,4 @@ export function createRouter(config: RouterConfig) {
       throw err;
     }
   };
-}
+};

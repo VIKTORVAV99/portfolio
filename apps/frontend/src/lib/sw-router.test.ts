@@ -13,7 +13,7 @@ const router = createRouter({
 });
 
 /** Create a minimal mock Cache */
-function createMockCache(entries: Record<string, Response> = {}): Cache {
+const createMockCache = (entries: Record<string, Response> = {}): Cache => {
   const store = new Map<string, Response>(Object.entries(entries));
 
   return {
@@ -34,35 +34,34 @@ function createMockCache(entries: Record<string, Response> = {}): Cache {
     addAll: async () => {},
     matchAll: async () => [],
   };
-}
+};
 
-function ok(body = "ok", type: ResponseType = "basic"): Response {
+const ok = (body = "ok", type: ResponseType = "basic"): Response => {
   const res = new Response(body, { status: 200 });
   Object.defineProperty(res, "type", { value: type });
   return res;
-}
+};
 
-function createCtx(
+const createCtx = (
   overrides: Partial<FetchContext> & { url: URL; request: Request },
-): FetchContext {
-  return {
-    staticCache: createMockCache(),
-    dynamicCache: createMockCache(),
-    destination: "" as RequestDestination,
-    mode: "navigate" as RequestMode,
-    preloadResponse: Promise.resolve(undefined),
-    waitUntil: () => {},
-    fetch: () => Promise.resolve(ok()),
-    ...overrides,
-  };
-}
+): FetchContext => ({
+  staticCache: createMockCache(),
+  dynamicCache: createMockCache(),
+  destination: "" as RequestDestination,
+  mode: "navigate" as RequestMode,
+  preloadResponse: Promise.resolve(undefined),
+  waitUntil: () => {},
+  fetch: () => Promise.resolve(ok()),
+  ...overrides,
+});
 
-function req(url: string, destination: RequestDestination = ""): { url: URL; request: Request } {
-  return {
-    url: new URL(url, "https://example.com"),
-    request: new Request(new URL(url, "https://example.com")),
-  };
-}
+const req = (
+  url: string,
+  _destination: RequestDestination = "",
+): { url: URL; request: Request } => ({
+  url: new URL(url, "https://example.com"),
+  request: new Request(new URL(url, "https://example.com")),
+});
 
 // ─── ROUTE 1: Static Assets (cache-first) ───
 
@@ -182,7 +181,7 @@ describe("ROUTE 2: Images", () => {
       fetch: () => Promise.reject(new TypeError("Failed to fetch")),
     });
 
-    await expect(router(ctx)).resolves.toBeDefined();
+    expect(router(ctx)).resolves.toBeDefined();
   });
 });
 
@@ -288,6 +287,6 @@ describe("ROUTE 3: HTML / API", () => {
       fetch: () => Promise.reject(new TypeError("Failed to fetch")),
     });
 
-    await expect(router(ctx)).rejects.toThrow("Failed to fetch");
+    expect(router(ctx)).rejects.toThrow("Failed to fetch");
   });
 });
