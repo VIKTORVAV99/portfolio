@@ -1,7 +1,7 @@
 ---
-title: "Website: Stack - Building a personal website with SvelteKit and Cloudflare Workers"
-date: 2026-03-25
-last_updated: 2026-03-25
+title: "Website: Tech Stack - Building a personal website with SvelteKit and Cloudflare Workers"
+date: 2026-03-29
+last_updated: 2026-03-29
 description: "A deep dive into the technical stack behind this website, focusing on SvelteKit, MDsveX for markdown blog posts, TailwindCSS v4, and Cloudflare Workers hosting."
 tags: ["SvelteKit", "MDsveX", "TailwindCSS", "Cloudflare", "Vite"]
 ---
