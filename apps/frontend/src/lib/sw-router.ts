@@ -32,7 +32,9 @@ export function createRouter(config: RouterConfig) {
 
     const cacheDynamic = (req: Request, res: Response) =>
       waitUntil(
-        dynamicCache.put(req, res.clone()).then(() => limitCacheSize(dynamicCache, maxDynamicCacheSize)),
+        dynamicCache
+          .put(req, res.clone())
+          .then(() => limitCacheSize(dynamicCache, maxDynamicCacheSize)),
       );
 
     // ROUTE 1: Static Assets (The filtered eager cache) -> Cache-first

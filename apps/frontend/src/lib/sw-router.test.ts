@@ -1,4 +1,5 @@
 import { describe, it, expect } from "bun:test";
+
 import { createRouter, type FetchContext } from "./sw-router";
 
 const OFFLINE_PAGE = "/offline";
@@ -24,8 +25,7 @@ function createMockCache(entries: Record<string, Response> = {}): Cache {
       const url = typeof key === "string" ? key : key instanceof URL ? key.toString() : key.url;
       store.set(url, response.clone());
     },
-    keys: async () =>
-      [...store.keys()].map((url) => new Request(url)),
+    keys: async () => [...store.keys()].map((url) => new Request(url)),
     delete: async (key: RequestInfo | URL) => {
       const url = typeof key === "string" ? key : key instanceof URL ? key.toString() : key.url;
       return store.delete(url);
@@ -42,7 +42,9 @@ function ok(body = "ok", type: ResponseType = "basic"): Response {
   return res;
 }
 
-function createCtx(overrides: Partial<FetchContext> & { url: URL; request: Request }): FetchContext {
+function createCtx(
+  overrides: Partial<FetchContext> & { url: URL; request: Request },
+): FetchContext {
   return {
     staticCache: createMockCache(),
     dynamicCache: createMockCache(),
@@ -152,7 +154,9 @@ describe("ROUTE 2: Images", () => {
       url,
       request,
       dynamicCache,
-      waitUntil: (p) => { p.catch(() => {}); },
+      waitUntil: (p) => {
+        p.catch(() => {});
+      },
       fetch: () => Promise.resolve(ok("new-image")),
     });
 
@@ -202,7 +206,9 @@ describe("ROUTE 3: HTML / API", () => {
       url,
       request,
       dynamicCache,
-      waitUntil: (p) => { p.catch(() => {}); },
+      waitUntil: (p) => {
+        p.catch(() => {});
+      },
       fetch: () => Promise.resolve(ok("about-page")),
     });
 
@@ -216,7 +222,9 @@ describe("ROUTE 3: HTML / API", () => {
     const ctx = createCtx({
       ...req("/"),
       preloadResponse: Promise.resolve(ok("preloaded")),
-      fetch: () => { throw new Error("fetch should not be called"); },
+      fetch: () => {
+        throw new Error("fetch should not be called");
+      },
     });
 
     const res = await router(ctx);

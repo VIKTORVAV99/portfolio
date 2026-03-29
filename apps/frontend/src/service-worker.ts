@@ -1,8 +1,8 @@
 /// <reference types="@sveltejs/kit" />
 /// <reference lib="webworker" />
 
-import { build, files } from "$service-worker";
 import { createRouter } from "$lib/sw-router";
+import { build, files } from "$service-worker";
 
 // Explicitly type the global 'self' object for Service Workers
 declare const self: ServiceWorkerGlobalScope;
