@@ -2,7 +2,7 @@
   import Timeline from "$components/Timeline.svelte";
   import TitleText from "$components/TitleText.svelte";
   import { timelineEntries } from "$data/metadata";
-  import { inview } from "$lib/actions/inview";
+
   import SEO from "$lib/seo/components/SEO.svelte";
   import { SITE_URL } from "$lib/config";
   import type { PageData } from "./$types";
@@ -20,7 +20,7 @@
 
 <div class="page-container">
   <TitleText path="history" subtitle="My timeline so far" />
-  <section class="flex flex-col gap-4 items-center w-full" use:inview>
+  <section class="flex flex-col gap-4 items-center w-full">
     <Timeline entries={timelineEntries} />
   </section>
 </div>
