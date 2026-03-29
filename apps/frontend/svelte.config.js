@@ -22,7 +22,7 @@ const config = {
       smartypants: {
         ellipses: true,
         quotes: true,
-        dashes: 'oldschool'
+        dashes: "oldschool",
       },
       layout: resolve(__dirname, "./src/lib/mdsvex/layout.svelte"),
       highlight: {
