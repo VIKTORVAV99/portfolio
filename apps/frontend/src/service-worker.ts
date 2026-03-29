@@ -1,15 +1,15 @@
 /// <reference types="@sveltejs/kit" />
 /// <reference lib="webworker" />
 
-import { build, files, prerendered } from "$service-worker";
+import { build, files } from "$service-worker";
 
 // Explicitly type the global 'self' object for Service Workers
 declare const self: ServiceWorkerGlobalScope;
 
 /** Single unversioned static cache — entries are surgically added/pruned per deploy */
-const CACHE = `static-cache`;
+const CACHE = "static-cache";
 /** Dynamic cache name, this is not versioned as it's meant to be a rolling cache */
-const DYNAMIC_CACHE = `dynamic-cache`;
+const DYNAMIC_CACHE = "dynamic-cache";
 
 /** Image regex with common extensions */
 const imageRegex = /\.(avif|webp|jpe?g|png|svg|gif)$/i;
@@ -17,27 +17,26 @@ const imageRegex = /\.(avif|webp|jpe?g|png|svg|gif)$/i;
 /** Filter function to exclude images from the eager cache, but allow the favicon we always want to cache */
 const imageFilter = (url: string) => !imageRegex.test(url) || url.includes("favicon");
 
-/** Only top-level prerendered pages, not individual blog posts */
-const topLevelPrerendered = prerendered.filter((p) => !p.startsWith("/blog/"));
-
 /** Assets with content hashes - safe to skip if already cached */
 const HASHED_ASSETS = build.filter(imageFilter);
 
 /** Assets without content hashes - must always be re-fetched */
-const UNHASHED_ASSETS = [...files.filter(imageFilter), ...topLevelPrerendered.filter(imageFilter)];
+const UNHASHED_ASSETS = files.filter(imageFilter);
 
-const EAGER_ASSETS = [...HASHED_ASSETS, ...UNHASHED_ASSETS];
+const EAGER_ASSETS = new Set(HASHED_ASSETS.concat(UNHASHED_ASSETS));
+
+/** The offline page is pre-cached so it's available before the user ever visits it */
+const OFFLINE_PAGE = "/offline";
+
+/** All assets stored in the static cache — EAGER_ASSETS (cache-first) + offline page */
+const ALL_CACHED = new Set(EAGER_ASSETS).add(OFFLINE_PAGE);
 
 /** Helper function to trim the dynamic cache to a maximum number of items */
-const limitCacheSize = async (cacheName: string, maxItems: number) => {
-  const cache = await caches.open(cacheName);
+const limitCacheSize = async (cache: Cache, maxItems: number) => {
   const keys = await cache.keys();
 
   if (keys.length > maxItems) {
-    // Delete the oldest items until we are back under the limit
-    for (let i = 0; i < keys.length - maxItems; i++) {
-      await cache.delete(keys[i]);
-    }
+    await Promise.all(keys.slice(0, keys.length - maxItems).map((key) => cache.delete(key)));
   }
 };
 
@@ -47,19 +46,16 @@ const addFilesToCache = async () => {
   const cached = new Set((await cache.keys()).map((r) => new URL(r.url).pathname));
   const newHashedAssets = HASHED_ASSETS.filter((asset) => !cached.has(asset));
 
-  await cache.addAll([...newHashedAssets, ...UNHASHED_ASSETS]);
+  await cache.addAll(newHashedAssets.concat(UNHASHED_ASSETS, OFFLINE_PAGE));
 };
 
 /** Helper function to prune stale entries from the static cache */
 const pruneStaleEntries = async () => {
   const cache = await caches.open(CACHE);
-  const currentAssets = new Set(EAGER_ASSETS);
-
-  for (const request of await cache.keys()) {
-    if (!currentAssets.has(new URL(request.url).pathname)) {
-      await cache.delete(request);
-    }
-  }
+  const keys = await cache.keys();
+  await Promise.all(
+    keys.filter((r) => !ALL_CACHED.has(new URL(r.url).pathname)).map((r) => cache.delete(r)),
+  );
 };
 
 const KNOWN_CACHES = new Set([CACHE, DYNAMIC_CACHE]);
@@ -68,11 +64,8 @@ const KNOWN_CACHES = new Set([CACHE, DYNAMIC_CACHE]);
  * This is a cleanup function if we ever rename caches
  */
 const deleteUnknownCaches = async () => {
-  for (const key of await caches.keys()) {
-    if (!KNOWN_CACHES.has(key)) {
-      await caches.delete(key);
-    }
-  }
+  const names = await caches.keys();
+  await Promise.all(names.filter((key) => !KNOWN_CACHES.has(key)).map((key) => caches.delete(key)));
 };
 
 self.addEventListener("install", (event) => {
@@ -86,18 +79,25 @@ self.addEventListener("activate", (event) => {
 });
 
 self.addEventListener("fetch", (event) => {
-  const url = new URL(event.request.url);
+  if (event.request.method !== "GET") return;
 
-  if (event.request.method !== "GET" || url.protocol.startsWith("chrome-extension")) {
-    return;
-  }
+  const url = new URL(event.request.url);
+  if (url.protocol === "chrome-extension:") return;
 
   const respond = async () => {
-    const staticCache = await caches.open(CACHE);
-    const dynamicCache = await caches.open(DYNAMIC_CACHE);
+    const [staticCache, dynamicCache] = await Promise.all([
+      caches.open(CACHE),
+      caches.open(DYNAMIC_CACHE),
+    ]);
+
+    /** Cache a response in the dynamic cache and trim to 50 entries */
+    const cacheDynamic = (request: Request, response: Response) =>
+      event.waitUntil(
+        dynamicCache.put(request, response.clone()).then(() => limitCacheSize(dynamicCache, 100)),
+      );
 
     // ROUTE 1: Static Assets (The filtered eager cache) -> Cache-first
-    if (EAGER_ASSETS.includes(url.pathname)) {
+    if (EAGER_ASSETS.has(url.pathname)) {
       const response = await staticCache.match(url.pathname);
       if (response) return response;
     }
@@ -115,8 +115,7 @@ self.addEventListener("fetch", (event) => {
       // Fetch from network. If it fails (offline), the browser naturally handles the error.
       const response = await fetch(event.request);
       if (response.status === 200 && response.type === "basic") {
-        dynamicCache.put(event.request, response.clone());
-        limitCacheSize(DYNAMIC_CACHE, 50);
+        cacheDynamic(event.request, response);
       }
 
       return response;
@@ -127,8 +126,7 @@ self.addEventListener("fetch", (event) => {
       const response = await fetch(event.request);
 
       if (response.status === 200 && response.type === "basic") {
-        dynamicCache.put(event.request, response.clone());
-        limitCacheSize(DYNAMIC_CACHE, 50);
+        cacheDynamic(event.request, response);
       }
 
       return response;
@@ -140,7 +138,7 @@ self.addEventListener("fetch", (event) => {
       if (cachedResponse) return cachedResponse;
 
       if (event.request.mode === "navigate") {
-        const offlinePage = await staticCache.match("/offline");
+        const offlinePage = await staticCache.match(OFFLINE_PAGE);
         if (offlinePage) return offlinePage;
       }
 
