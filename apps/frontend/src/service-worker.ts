@@ -114,7 +114,7 @@ self.addEventListener("fetch", (event) => {
       mode: event.request.mode,
       preloadResponse: event.preloadResponse,
       waitUntil: (p: Promise<unknown>) => event.waitUntil(p),
-      fetch,
+      fetch: (input: RequestInfo | URL, init?: RequestInit) => fetch(input, init),
     });
   };
 
