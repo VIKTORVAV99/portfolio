@@ -1,7 +1,7 @@
 <script lang="ts">
   import NavbarLink from './NavbarLink.svelte';
-  import { DropdownMenu } from "bits-ui";
   import Menu from "@lucide/svelte/icons/menu";
+  import { afterNavigate } from "$app/navigation";
 
   const links = [
     { href: '/', label: 'Home', name: '' },
@@ -9,6 +9,10 @@
     { href: '/history', label: 'History', name: 'history' },
     { href: '/blog', label: 'Blog', name: 'blog' },
   ];
+
+  let open = $state(false);
+
+  afterNavigate(() => { open = false; });
 </script>
 
 <div class="m-4">
@@ -20,18 +24,18 @@
   </nav>
 
   <!-- Mobile nav -->
-  <div class="flex md:hidden justify-start">
-    <DropdownMenu.Root>
-      <DropdownMenu.Trigger aria-label="Navigation menu" class="rounded-full backdrop-blur-sm bg-surface-800/80 p-3 cursor-pointer text-surface-50 outline-none">
-        <Menu size={24} />
-      </DropdownMenu.Trigger>
-      <DropdownMenu.Content sideOffset={8} collisionPadding={16} align="start" class="z-50 rounded-2xl backdrop-blur-sm bg-surface-800/80 py-4 px-8 font-mono">
+  <div class="flex md:hidden flex-col items-start">
+    <button onclick={() => open = !open} aria-label="Navigation menu" class="rounded-full backdrop-blur-sm bg-surface-800/80 p-3 cursor-pointer text-surface-50 outline-none">
+      <Menu size={24} />
+    </button>
+    {#if open}
+      <nav class="mt-2 z-50 rounded-2xl backdrop-blur-sm bg-surface-800/80 py-4 px-8 font-mono">
         {#each links as link}
-          <DropdownMenu.Item class="rounded-xl px-4 py-2 text-surface-50 hover:bg-surface-700/80 cursor-pointer text-lg">
+          <div class="rounded-xl px-4 py-2 text-surface-50 hover:bg-surface-700/80 cursor-pointer text-lg">
             <NavbarLink href={link.href} label={link.label} name={link.name} />
-          </DropdownMenu.Item>
+          </div>
         {/each}
-      </DropdownMenu.Content>
-    </DropdownMenu.Root>
+      </nav>
+    {/if}
   </div>
 </div>

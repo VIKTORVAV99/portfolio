@@ -1,5 +1,4 @@
 <script lang="ts">
-	import UnderConstruction from './banners/UnderConstruction.svelte';
 	import Navbar from '$components/navbar/Navbar.svelte';
 </script>
 

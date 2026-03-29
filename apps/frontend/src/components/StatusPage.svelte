@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { Button } from "bits-ui";
   import type { LucideIcon } from "@lucide/svelte";
   import type { Snippet } from "svelte";
 
@@ -34,10 +33,10 @@
     </p>
   </div>
 
-  <Button.Root
+  <button
     onclick={onAction}
     class="cursor-pointer rounded-full font-mono backdrop-blur-sm bg-surface-800/80 px-6 py-3 text-sm font-medium text-surface-50 transition-colors hover:bg-surface-700/80"
   >
     {@render buttonContent()}
-  </Button.Root>
+  </button>
 </div>
