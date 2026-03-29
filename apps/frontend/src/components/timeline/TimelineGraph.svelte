@@ -105,73 +105,63 @@
       y1={nodeY(maxGridRow, pxPerMonth)}
       x2={graphData.laneX(0)}
       y2={nodeY(1, pxPerMonth)}
-      class="stroke-surface-600 graph-line"
+      class="stroke-surface-600"
       stroke-width={LINE_WIDTH}
       stroke-linecap="round"
-      pathLength="1"
-      style="animation-delay: 200ms;"
     />
 
     <!-- Branch paths (fork curve + vertical + merge curve combined) -->
-    {#each branchPaths as bp, i}
+    {#each branchPaths as bp}
       <path
         d={bp.d}
         fill="none"
         stroke={bp.color}
         stroke-width={LINE_WIDTH}
         stroke-linecap="round"
-        class="graph-line"
-        pathLength="1"
-        style="animation-delay: {300 + i * 100}ms;"
       />
     {/each}
 
     <!-- Leader lines -->
-    {#each graphData.leaderLines as leader, i}
+    {#each graphData.leaderLines as leader}
       <polyline
         points={leader.points.map((p) => `${p.x},${p.y}`).join(" ")}
         fill="none"
         stroke={leader.color}
         stroke-width={1}
         stroke-dasharray="4 3"
-        class="graph-fade"
-        style="animation-delay: {600 + i * 50}ms;"
       />
     {/each}
 
     <!-- Commit nodes -->
-    {#each graphData.nodes as node, i}
+    {#each graphData.nodes as node}
       {@const ny = nodeY(node.row, pxPerMonth)}
       <circle
         cx={graphData.laneX(node.lane)}
         cy={ny}
         r={NODE_RADIUS}
         fill={node.color}
-        class="stroke-surface-950 stroke-3 graph-node"
-        style="animation-delay: {600 + i * 50}ms;"
+        class="stroke-surface-950 stroke-3"
       />
     {/each}
 
     <!-- Trunk labels (year markers + life labels) -->
-    {#each trunkLabels as label, i}
+    {#each trunkLabels as label}
       {@const mx = graphData.laneX(0)}
-      <g class="graph-fade" style="animation-delay: {800 + i * 50}ms;">
-        <rect
-          x={mx - 16}
-          y={label.y - 8}
-          width="32"
-          height="16"
-          rx="3"
-          class="fill-surface-950"
-        />
-        <text
-          x={mx}
-          y={label.y + 4}
-          text-anchor="middle"
-          class="fill-surface-500 font-semibold tracking-[0.05em]"
-          style="font-size: 0.5625rem;">{label.text}</text
-        >
-      </g>
+      <rect
+        x={mx - 16}
+        y={label.y - 8}
+        width="32"
+        height="16"
+        rx="3"
+        class="fill-surface-950"
+      />
+      <text
+        x={mx}
+        y={label.y + 4}
+        text-anchor="middle"
+        class="fill-surface-500 font-semibold tracking-[0.05em]"
+        style="font-size: 0.5625rem;">{label.text}</text
+      >
     {/each}
   </svg>
 </div>
