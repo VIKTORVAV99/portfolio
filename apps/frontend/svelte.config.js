@@ -19,6 +19,11 @@ const config = {
     vitePreprocess(),
     mdsvex({
       extensions: [".md"],
+      smartypants: {
+        ellipses: true,
+        quotes: true,
+        dashes: 'oldschool'
+      },
       layout: resolve(__dirname, "./src/lib/mdsvex/layout.svelte"),
       highlight: {
         highlighter: (code, lang) => {
