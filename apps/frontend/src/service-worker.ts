@@ -58,6 +58,15 @@ const pruneStaleEntries = async () => {
   );
 };
 
+/** Remove dynamic cache entries that are now covered by the static cache */
+const pruneDynamicDuplicates = async () => {
+  const cache = await caches.open(DYNAMIC_CACHE);
+  const keys = await cache.keys();
+  await Promise.all(
+    keys.filter((r) => ALL_CACHED.has(new URL(r.url).pathname)).map((r) => cache.delete(r)),
+  );
+};
+
 const KNOWN_CACHES = new Set([CACHE, DYNAMIC_CACHE]);
 /**
  * Delete any caches not matching our known cache names.
@@ -74,7 +83,14 @@ self.addEventListener("install", (event) => {
 });
 
 self.addEventListener("activate", (event) => {
-  event.waitUntil(Promise.all([pruneStaleEntries(), deleteUnknownCaches()]));
+  event.waitUntil(
+    Promise.all([
+      self.registration.navigationPreload?.enable(),
+      pruneStaleEntries(),
+      pruneDynamicDuplicates(),
+      deleteUnknownCaches(),
+    ]),
+  );
   self.clients.claim();
 });
 
@@ -123,7 +139,7 @@ self.addEventListener("fetch", (event) => {
 
     // ROUTE 3: Everything else (HTML pages, dynamic API routes) -> Network-first
     try {
-      const response = await fetch(event.request);
+      const response = (await event.preloadResponse) || (await fetch(event.request));
 
       if (response.status === 200 && response.type === "basic") {
         cacheDynamic(event.request, response);
