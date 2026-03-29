@@ -1,6 +1,7 @@
 /// <reference types="@sveltejs/kit" />
 /// <reference lib="webworker" />
 
+import { createRouter } from "$lib/sw-router";
 import { build, files } from "$service-worker";
 
 // Explicitly type the global 'self' object for Service Workers
@@ -31,14 +32,12 @@ const OFFLINE_PAGE = "/offline";
 /** All assets stored in the static cache — EAGER_ASSETS (cache-first) + offline page */
 const ALL_CACHED = new Set(EAGER_ASSETS).add(OFFLINE_PAGE);
 
-/** Helper function to trim the dynamic cache to a maximum number of items */
-const limitCacheSize = async (cache: Cache, maxItems: number) => {
-  const keys = await cache.keys();
-
-  if (keys.length > maxItems) {
-    await Promise.all(keys.slice(0, keys.length - maxItems).map((key) => cache.delete(key)));
-  }
-};
+const handleFetch = createRouter({
+  eagerAssets: EAGER_ASSETS,
+  offlinePage: OFFLINE_PAGE,
+  imageRegex,
+  maxDynamicCacheSize: 100,
+});
 
 /** Helper function to add files to the static cache */
 const addFilesToCache = async () => {
@@ -106,60 +105,17 @@ self.addEventListener("fetch", (event) => {
       caches.open(DYNAMIC_CACHE),
     ]);
 
-    /** Cache a response in the dynamic cache and trim to 50 entries */
-    const cacheDynamic = (request: Request, response: Response) =>
-      event.waitUntil(
-        dynamicCache.put(request, response.clone()).then(() => limitCacheSize(dynamicCache, 100)),
-      );
-
-    // ROUTE 1: Static Assets (The filtered eager cache) -> Cache-first
-    if (EAGER_ASSETS.has(url.pathname)) {
-      const response = await staticCache.match(url.pathname);
-      if (response) return response;
-    }
-
-    // ROUTE 2: Images -> Cache-first (Runtime caching)
-    if (event.request.destination === "image" || imageRegex.test(url.pathname)) {
-      const cachedImage = await dynamicCache.match(event.request);
-
-      if (cachedImage) {
-        // "Bump" the frequently accessed image to the back of the queue
-        event.waitUntil(dynamicCache.put(event.request, cachedImage.clone()));
-        return cachedImage;
-      }
-
-      // Fetch from network. If it fails (offline), the browser naturally handles the error.
-      const response = await fetch(event.request);
-      if (response.status === 200 && response.type === "basic") {
-        cacheDynamic(event.request, response);
-      }
-
-      return response;
-    }
-
-    // ROUTE 3: Everything else (HTML pages, dynamic API routes) -> Network-first
-    try {
-      const response = (await event.preloadResponse) || (await fetch(event.request));
-
-      if (response.status === 200 && response.type === "basic") {
-        cacheDynamic(event.request, response);
-      }
-
-      return response;
-    } catch (err) {
-      // Offline fallback
-      const cachedResponse =
-        (await dynamicCache.match(event.request)) || (await staticCache.match(event.request));
-
-      if (cachedResponse) return cachedResponse;
-
-      if (event.request.mode === "navigate") {
-        const offlinePage = await staticCache.match(OFFLINE_PAGE);
-        if (offlinePage) return offlinePage;
-      }
-
-      throw err;
-    }
+    return handleFetch({
+      staticCache,
+      dynamicCache,
+      url,
+      request: event.request,
+      destination: event.request.destination,
+      mode: event.request.mode,
+      preloadResponse: event.preloadResponse,
+      waitUntil: (p: Promise<unknown>) => event.waitUntil(p),
+      fetch: (input: RequestInfo | URL, init?: RequestInit) => fetch(input, init),
+    });
   };
 
   event.respondWith(respond());
