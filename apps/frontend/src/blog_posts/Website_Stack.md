@@ -1,7 +1,7 @@
 ---
 title: "Website: Tech Stack - Building a personal website with SvelteKit and Cloudflare Workers"
 date: 2026-03-29
-last_updated: 2026-03-29
+last_updated: 2026-03-30
 description: "A deep dive into the technical stack behind this website, focusing on SvelteKit, MDsveX for markdown blog posts, TailwindCSS v4, and Cloudflare Workers hosting."
 tags: ["SvelteKit", "MDsveX", "TailwindCSS", "Cloudflare", "Vite"]
 ---
@@ -87,7 +87,7 @@ The secondary reason is that I simply was familiar with their domain and DNS pro
 
 ### Hosting with Cloudflare Workers
 
-For hosting this was a really simple choice and I went with Cloudflare here as well, since I already had the domain and dns configuration it felt like the natural choice. I originally used [Cloudflare Pages](https://pages.cloudflare.com) but recently migrated to [Cloudflare Workers](https://workers.cloudflare.com) without any issues. I had to migrate due to the fact that Pages are getting deprecated and static asset bindings have been added to workers instead.
+For hosting this was a really simple choice and I went with Cloudflare here as well, since I already had the domain and dns configuration it felt like the natural choice. I originally used [Cloudflare Pages](https://pages.cloudflare.com) but recently migrated to [Cloudflare Workers](https://workers.cloudflare.com) without any issues. I had to migrate due to the fact that Pages are [effectively deprecated](https://blog.cloudflare.com/full-stack-development-on-cloudflare-workers/#start-with-workers) as Cloudflare has shifted all development to Workers which also support static assets.
 
 While a big part of the motivation was to unify the interface and products I used it also has its advantages. Here they also have a very generous free tier, which is supported by their global datacenters that provide great performance for websites both large and small (like this one). The performance was especially important to me as it allows me to overengineer many aspects of this site and see how fast I can actually make it. The deployment setup is also really straightforward. I push to GitHub, the CI pipeline runs formatting, linting, type checks and tests, and then Cloudflare handles the build and deploys to their edge network.
 
