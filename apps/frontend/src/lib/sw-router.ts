@@ -59,7 +59,7 @@ export const createRouter = (config: RouterConfig) => {
         }
         return response;
       } catch {
-        return new Response("", { status: 408 });
+        return new Response("", { status: 404 });
       }
     }
 
@@ -83,7 +83,7 @@ export const createRouter = (config: RouterConfig) => {
         if (offlineResponse) return offlineResponse;
       }
 
-      throw err;
+      return new Response("", { status: 404 });
     }
   };
 };

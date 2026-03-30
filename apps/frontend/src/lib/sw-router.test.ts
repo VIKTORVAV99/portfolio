@@ -165,14 +165,14 @@ describe("ROUTE 2: Images", () => {
     expect(await cached!.text()).toBe("new-image");
   });
 
-  it("returns 408 when offline and image is not cached", async () => {
+  it("returns 404 when offline and image is not cached", async () => {
     const ctx = createCtx({
       ...req("/photo.jpg"),
       fetch: () => Promise.reject(new TypeError("Failed to fetch")),
     });
 
     const res = await router(ctx);
-    expect(res.status).toBe(408);
+    expect(res.status).toBe(404);
   });
 
   it("does not throw when offline and image is not cached", async () => {
@@ -280,13 +280,14 @@ describe("ROUTE 3: HTML / API", () => {
     expect(await res.text()).toBe("offline-page");
   });
 
-  it("throws when offline, no cache, and not a navigation", async () => {
+  it("returns 404 when offline, no cache, and not a navigation", async () => {
     const ctx = createCtx({
       ...req("/api/data"),
       mode: "cors",
       fetch: () => Promise.reject(new TypeError("Failed to fetch")),
     });
 
-    expect(router(ctx)).rejects.toThrow("Failed to fetch");
+    const res = await router(ctx);
+    expect(res.status).toBe(404);
   });
 });
