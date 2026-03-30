@@ -10,6 +10,9 @@
 
 <svelte:head>
   <link rel="icon" href={favicon} type="image/svg+xml" sizes="any" />
+  <script type="speculationrules">
+    { "prerender": [{ "where": { "href_matches": "/*" }, "eagerness": "moderate" }] }
+  </script>
 </svelte:head>
 
 <div class="flex flex-col min-h-dvh">
