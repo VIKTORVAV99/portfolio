@@ -16,5 +16,3 @@ const structuredData = [
 export const load = (() => ({
   structuredData,
 })) satisfies PageLoad;
-
-export const prerender = true;

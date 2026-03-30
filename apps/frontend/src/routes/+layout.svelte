@@ -8,8 +8,10 @@
   let { children }: { children: Snippet } = $props();
 
   onMount(() => {
-    navigator.serviceWorker?.addEventListener("controllerchange", () => {
-      location.reload();
+    navigator.serviceWorker?.getRegistrations().then((registrations) => {
+      for (const registration of registrations) {
+        registration.unregister();
+      }
     });
   });
 </script>
