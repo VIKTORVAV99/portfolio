@@ -10,8 +10,6 @@ import { error } from "@sveltejs/kit";
 
 import type { PageLoadEvent } from "./$types";
 
-export const prerender = true;
-
 export const load = async ({ params }: PageLoadEvent) => {
   const posts = getAllPosts();
 

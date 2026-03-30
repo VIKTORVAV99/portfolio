@@ -2,8 +2,6 @@ import { getAllPosts, getAllTags, slugifyTag, paginatePosts } from "$lib/blog";
 
 import type { PageLoadEvent } from "./$types";
 
-export const prerender = true;
-
 export const entries = () => {
   const posts = getAllPosts();
   const tags = getAllTags(posts);

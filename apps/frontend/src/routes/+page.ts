@@ -36,5 +36,3 @@ export const load = (() => ({
   structuredData,
   blogSlugs,
 })) satisfies PageLoad;
-
-export const prerender = true;
