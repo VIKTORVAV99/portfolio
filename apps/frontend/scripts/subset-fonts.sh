@@ -32,7 +32,7 @@ uvx --from "$UVX_FROM" pyftsubset /tmp/inter-trimmed.woff2 \
 # --- Monaspace Neon: restrict wght, pin wdth + slnt ---
 uvx --from "$UVX_FROM" fonttools varLib.instancer \
   "$FONT_DIR/Monaspace-Neon.var.woff2" \
-  wght=400 \
+  wght=400:700 \
   wdth=100 \
   slnt=0 \
   -o /tmp/mono-trimmed.woff2
