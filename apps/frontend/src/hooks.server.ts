@@ -13,7 +13,7 @@ export const handle: Handle = async ({ event, resolve }) => {
     transformPageChunk: ({ html }) => {
       if (prefetchPaths.length === 0) return html;
       const links = prefetchPaths
-        .map((p) => `<link rel="prefetch" href="${p}" as="script" />`)
+        .map((p) => `<link rel="prefetch" href="${p}" />`)
         .join("\n\t\t");
       return html.replace("</head>", `\t\t${links}\n\t</head>`);
     },
