@@ -1,5 +1,5 @@
 import { getAllPosts } from "$lib/blog";
-import { SITE_URL } from "$lib/config";
+import { FALLBACK_HERO_IMAGE, SITE_URL } from "$lib/config";
 import {
   createArticleSchema,
   createBreadcrumbListSchema,
@@ -8,9 +8,9 @@ import {
 } from "$lib/seo";
 import { error } from "@sveltejs/kit";
 
-export const prerender = true;
+import type { PageLoadEvent } from "./$types";
 
-export const load = async ({ params }) => {
+export const load = async ({ params }: PageLoadEvent) => {
   const posts = getAllPosts();
 
   const index = posts.findIndex((p) => p.slug === params.slug.toLowerCase());
@@ -37,6 +37,7 @@ export const load = async ({ params }) => {
     keywords: file.metadata.tags,
     url: postUrl,
     mainEntityOfPage: createWebPageSchema(postUrl),
+    image: file.metadata.image || FALLBACK_HERO_IMAGE,
   });
 
   return {

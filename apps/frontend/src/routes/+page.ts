@@ -1,3 +1,4 @@
+import { getAllPosts } from "$lib/blog";
 import { SITE_URL } from "$lib/config";
 import {
   createWebSiteSchema,
@@ -27,8 +28,11 @@ const structuredData = [
   }),
 ];
 
+const blogSlugs = getAllPosts()
+  .slice(0, 5)
+  .map((post) => post.slug);
+
 export const load = (() => ({
   structuredData,
+  blogSlugs,
 })) satisfies PageLoad;
-
-export const prerender = true;

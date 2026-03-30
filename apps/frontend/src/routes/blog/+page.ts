@@ -2,8 +2,6 @@ import { getAllPosts, paginatePosts, PAGE_SIZE } from "$lib/blog";
 
 import type { PageLoadEvent } from "./$types";
 
-export const prerender = true;
-
 export const entries = (): Record<string, string>[] => {
   const posts = getAllPosts();
   const totalPages = Math.ceil(posts.length / PAGE_SIZE);
@@ -14,4 +12,7 @@ export const entries = (): Record<string, string>[] => {
   return result;
 };
 
-export const load = async ({ url }: PageLoadEvent) => paginatePosts(getAllPosts(), url);
+export const load = async ({ url }: PageLoadEvent) => {
+  const posts = getAllPosts();
+  return { ...paginatePosts(posts, url), allSlugs: posts.map((p) => p.slug) };
+};

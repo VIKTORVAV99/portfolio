@@ -2,8 +2,6 @@ import { getAllPosts, getAllTags, slugifyTag, paginatePosts } from "$lib/blog";
 
 import type { PageLoadEvent } from "./$types";
 
-export const prerender = true;
-
 export const entries = () => {
   const posts = getAllPosts();
   const tags = getAllTags(posts);
@@ -20,5 +18,10 @@ export const load = async ({ params, url }: PageLoadEvent) => {
   const displayTag =
     posts.flatMap((p) => p.tags ?? []).find((t) => slugifyTag(t) === tagSlug) ?? tagSlug;
 
-  return { ...paginatePosts(filtered, url), tag: tagSlug, displayTag, totalPosts: filtered.length };
+  return {
+    ...paginatePosts(filtered, url),
+    tag: tagSlug,
+    displayTag,
+    allSlugs: filtered.map((p) => p.slug),
+  };
 };

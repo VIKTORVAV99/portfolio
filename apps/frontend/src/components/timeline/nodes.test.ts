@@ -120,6 +120,8 @@ describe("buildBranchNodes", () => {
         ],
         forkRow: 10,
         endRow: 5,
+        curveOffset: 3,
+        isOngoing: true,
         color: "#3b82f6",
       },
     ];
@@ -148,6 +150,8 @@ describe("buildBranchNodes", () => {
         ],
         forkRow: 10,
         endRow: 5,
+        curveOffset: 3,
+        isOngoing: false,
         color: "#22c55e",
       },
     ];
@@ -179,6 +183,8 @@ describe("buildBranchNodes", () => {
         ],
         forkRow: 10,
         endRow: 5,
+        curveOffset: 3,
+        isOngoing: false,
         color: "#3b82f6",
       },
     ];

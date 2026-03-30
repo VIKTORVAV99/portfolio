@@ -1,4 +1,4 @@
-import { NODE_RADIUS, LEADER_CHANNEL_GAP, MAX_LEADER_CHANNELS } from "./constants";
+import { NODE_RADIUS, DOT_MARGIN, LEADER_CHANNEL_GAP, MAX_LEADER_CHANNELS } from "./constants";
 import { nodeY, type CommitNode, type LeaderLine } from "./types";
 
 export const buildLeaderLines = (
@@ -8,6 +8,8 @@ export const buildLeaderLines = (
   pxPerMonth: number,
   trunkX: number,
 ): LeaderLine[] => {
+  const visibleNodes = nodes.filter((n) => n.entry.type !== "life" || n.entry.showDates);
+
   // Separate channel tracking for left and right sides
   const rightChannelRanges: Array<Array<{ min: number; max: number }>> = Array.from(
     { length: MAX_LEADER_CHANNELS },
@@ -19,32 +21,30 @@ export const buildLeaderLines = (
   );
 
   // Compute outermost dot edges per side so channels are always past all dots
-  let rightOuterDotEdge = trunkX + NODE_RADIUS + 2;
-  let leftOuterDotEdge = trunkX - NODE_RADIUS - 2;
+  const dotEdge = NODE_RADIUS + DOT_MARGIN;
+  let rightOuterDotEdge = trunkX + dotEdge;
+  let leftOuterDotEdge = trunkX - dotEdge;
 
-  for (const node of nodes) {
-    if (node.entry.type === "life" && !node.entry.showDates) continue;
+  for (const node of visibleNodes) {
     const nx = laneX(node.lane);
     if (node.side === "right") {
-      rightOuterDotEdge = Math.max(rightOuterDotEdge, nx + NODE_RADIUS + 2);
+      rightOuterDotEdge = Math.max(rightOuterDotEdge, nx + dotEdge);
     } else {
-      leftOuterDotEdge = Math.min(leftOuterDotEdge, nx - NODE_RADIUS - 2);
+      leftOuterDotEdge = Math.min(leftOuterDotEdge, nx - dotEdge);
     }
   }
 
-  const rightChannelBase = rightOuterDotEdge + 2;
-  const leftChannelBase = leftOuterDotEdge - 2;
+  const rightChannelBase = rightOuterDotEdge + DOT_MARGIN;
+  const leftChannelBase = leftOuterDotEdge - DOT_MARGIN;
 
   const lines: LeaderLine[] = [];
 
-  for (const node of nodes) {
-    if (node.entry.type === "life" && !node.entry.showDates) continue;
-
+  for (const node of visibleNodes) {
     const nx = laneX(node.lane);
     const dotY = nodeY(node.row, pxPerMonth);
     const cardY = nodeY(node.gridRow, pxPerMonth);
     const isLeft = node.side === "left";
-    const dotEdgeX = nx + (isLeft ? -NODE_RADIUS - 2 : NODE_RADIUS + 2);
+    const dotEdgeX = nx + (isLeft ? -dotEdge : dotEdge);
     const targetX = isLeft ? 0 : graphWidth;
 
     if (Math.abs(dotY - cardY) < 1) {

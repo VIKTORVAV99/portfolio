@@ -7,7 +7,12 @@
   import { SITE_URL } from "$lib/config";
 
   let { data }: { data: PageData } = $props();
+
+  const blogSlugs = $derived(data.blogSlugs);
 </script>
+
+{#snippet treeChar(char: string)}<span class="text-2xl text-surface-500" aria-hidden="true">{char}</span>{/snippet}
+{#snippet treeLink(href: string, label: string, prefix: string)}<a {href} class="flex items-center [text-decoration:none]!">{@render treeChar(prefix)}<span class="hover:underline underline-offset-4">{label}</span></a>{/snippet}
 
 <SEO
   title="Viktor Andersson - Software Engineer"
@@ -18,10 +23,14 @@
 <div class="page-container">
   <TitleText path="" subtitle="Welcome" />
   <ProfileCard />
-  <nav class="font-mono text-lg flex flex-col w-full">
-    <span aria-hidden="true"><Highlight>~</Highlight>/</span>
-    <a href="/about" class="underline-offset-4"><span aria-hidden="true">├── </span>about</a>
-    <a href="/history" class="underline-offset-4"><span aria-hidden="true">├── </span>history</a>
-    <a href="/blog" class="underline-offset-4"><span aria-hidden="true">└── </span>blog</a>
+  <nav class="font-mono text-lg flex flex-col w-full leading-tight whitespace-pre">
+    <span><Highlight>~</Highlight>/</span>
+    {@render treeLink("/about", "about", "├── ")}
+    {@render treeLink("/history", "history", "├── ")}
+    {@render treeLink("/blog", "blog/", "└─┬ ")}
+    {#each blogSlugs as slug}
+      {@render treeLink(`/blog/${slug}`, slug, "  ├── ")}
+    {/each}
+    {@render treeLink("/blog", "...", "  └── ")}
   </nav>
 </div>

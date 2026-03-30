@@ -3,33 +3,32 @@
   import SEO from "$lib/seo/components/SEO.svelte";
   import BlogPostList from "$components/blog/BlogPostList.svelte";
   import { SITE_URL } from "$lib/config";
-  import { createBreadcrumbListSchema, createCollectionPageSchema, createItemListSchema } from "$lib/seo";
+  import { buildPaginationURLs } from "$lib/helpers/paginationURLs";
+  import { createBreadcrumbListSchema, createCollectionPageRefSchema, createCollectionPageSchema, createDefinedTermSchema, createItemListSchema } from "$lib/seo";
   import TitleText from "$components/TitleText.svelte";
 
   let { data }: { data: PageData } = $props();
 
   const baseURL = $derived(`${SITE_URL}/blog/tag/${data.tag}`);
 
-  const canonicalURL = $derived(data.currentPage === 1
-    ? baseURL
-    : `${baseURL}?page=${data.currentPage}`);
+  const { canonicalURL, prevURL, nextURL } = $derived(
+    buildPaginationURLs(baseURL, data.currentPage, data.totalPages),
+  );
 
-  const prevURL = $derived(data.currentPage > 1
-    ? (data.currentPage === 2 ? baseURL : `${baseURL}?page=${data.currentPage - 1}`)
-    : undefined);
+  const totalPosts = $derived(data.allSlugs.length);
 
-  const nextURL = $derived(data.currentPage < data.totalPages
-    ? `${baseURL}?page=${data.currentPage + 1}`
-    : undefined);
+  const description = $derived(`Browse ${totalPosts} blog ${totalPosts === 1 ? "post" : "posts"} tagged with "${data.displayTag}".`);
 
   const structuredData = $derived([
     createCollectionPageSchema({
       name: `Posts tagged "${data.displayTag}"`,
-      description: `Blog posts tagged with "${data.displayTag}".`,
+      description,
       url: canonicalURL,
       mainEntity: createItemListSchema(
-        data.pagedPosts.map((post) => `${SITE_URL}/blog/${post.slug}`),
+        data.allSlugs.map((slug) => `${SITE_URL}/blog/${slug}`),
       ),
+      isPartOf: createCollectionPageRefSchema(`${SITE_URL}/blog`),
+      about: createDefinedTermSchema(data.displayTag),
     }),
     createBreadcrumbListSchema([
       { name: "Home", url: SITE_URL },
@@ -40,9 +39,9 @@
 </script>
 
 <SEO
-  noIndex={data.totalPosts < 4}
+  noIndex={totalPosts < 4}
   title={`Viktor Andersson | #${data.displayTag}${data.currentPage > 1 ? ` — Page ${data.currentPage}` : ""}`}
-  description={`Blog posts tagged with "${data.displayTag}".`}
+  description={description}
   canonicalURL={canonicalURL}
   prevURL={prevURL}
   nextURL={nextURL}
