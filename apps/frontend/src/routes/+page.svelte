@@ -11,7 +11,8 @@
   const blogSlugs = $derived(data.blogSlugs);
 </script>
 
-{#snippet treeLink(href: string, label: string, isLast: boolean, indent: boolean = false)}<a {href} class="underline-offset-4{indent ? ' pl-8' : ''}"><span class="inline-block text-surface-500" aria-hidden="true">{isLast ? '└──' : '├──'}</span>{label}</a>{/snippet}
+{#snippet treeChar(char: string)}<span class="text-2xl text-surface-500" aria-hidden="true">{char}</span>{/snippet}
+{#snippet treeLink(href: string, label: string, prefix: string)}<a {href} class="flex items-center [text-decoration:none]!">{@render treeChar(prefix)}<span class="hover:underline underline-offset-4">{label}</span></a>{/snippet}
 
 <SEO
   title="Viktor Andersson - Software Engineer"
@@ -22,14 +23,14 @@
 <div class="page-container">
   <TitleText path="" subtitle="Welcome" />
   <ProfileCard />
-  <nav class="font-mono text-lg flex flex-col w-full leading-tight">
+  <nav class="font-mono text-lg flex flex-col w-full leading-tight whitespace-pre">
     <span><Highlight>~</Highlight>/</span>
-    {@render treeLink("/about", "about", false)}
-    {@render treeLink("/history", "history", false)}
-    {@render treeLink("/blog", "blog/", true)}
+    {@render treeLink("/about", "about", "├── ")}
+    {@render treeLink("/history", "history", "├── ")}
+    {@render treeLink("/blog", "blog/", "└─┬ ")}
     {#each blogSlugs as slug}
-      {@render treeLink(`/blog/${slug}`, slug, false, true)}
+      {@render treeLink(`/blog/${slug}`, slug, "  ├── ")}
     {/each}
-    {@render treeLink("/blog", "...", true, true)}
+    {@render treeLink("/blog", "...", "  └── ")}
   </nav>
 </div>

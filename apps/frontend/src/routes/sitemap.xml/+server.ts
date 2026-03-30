@@ -14,7 +14,7 @@ const profileLastmod = PROFILE_DATE_MODIFIED.split("T")[0];
 
 export const _staticPages = [
   { path: "", priority: "1.0", changefreq: "weekly", lastmod: profileLastmod },
-  { path: "/blog", priority: "0.9", changefreq: "weekly" },
+  { path: "/blog", priority: "0.9", changefreq: "weekly", lastmod: profileLastmod },
   { path: "/about", priority: "0.8", changefreq: "monthly", lastmod: profileLastmod },
   { path: "/history", priority: "0.8", changefreq: "monthly", lastmod: profileLastmod },
 ];
@@ -35,24 +35,24 @@ ${pages
 </urlset>`;
 
 export const GET = async () => {
-  // Since prerender is true, this date is locked in exactly at build time, which is what we want for a sitemap.
-  const buildDate = new Date().toISOString().split("T")[0];
-
   const posts = import.meta.glob("$blogs/*.md", { eager: true });
   const blogPages = Object.entries(posts).map(([path, file]: [string, any]) => {
     const slug = path.split("/").at(-1)?.replace(/\.md$/, "").toLowerCase() ?? "";
-    const date = file.metadata?.last_updated || file.metadata?.date;
-    const lastmod = date ? new Date(date).toISOString().split("T")[0] : buildDate;
+    const lastmod = new Date(file.metadata?.last_updated || file.metadata?.date)
+      .toISOString()
+      .split("T")[0];
     return { path: `/blog/${slug}`, priority: "0.7", changefreq: "monthly", lastmod };
   });
 
   const allPosts = getAllPosts();
 
-  // lastmod for /blog = newest post's date
-  const newestPostDate =
-    allPosts.length > 0
-      ? new Date(allPosts[0].last_updated || allPosts[0].date).toISOString().split("T")[0]
-      : buildDate;
+  // lastmod for /blog = newest post's last_updated or date
+  const newestPostDate = new Date(allPosts[0].last_updated || allPosts[0].date)
+    .toISOString()
+    .split("T")[0];
+
+  // lastmod for homepage = newest post's original date (homepage only uses slugs)
+  const newestPostOriginalDate = new Date(allPosts[0].date).toISOString().split("T")[0];
 
   const tagPages = getAllTags(allPosts)
     .map((tag) => {
@@ -67,11 +67,12 @@ export const GET = async () => {
     .filter(Boolean) as SitemapPage[];
 
   const allPages = [
-    ..._staticPages.map((p) =>
-      Object.assign({}, p, {
-        lastmod: p.path === "" || p.path === "/blog" ? newestPostDate : (p.lastmod ?? buildDate),
-      }),
-    ),
+    ..._staticPages.map((p) => {
+      const page = Object.assign({}, p);
+      if (page.path === "") page.lastmod = newestPostOriginalDate;
+      if (page.path === "/blog") page.lastmod = newestPostDate;
+      return page;
+    }),
     ...blogPages,
     ...tagPages,
   ];
