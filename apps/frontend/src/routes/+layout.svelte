@@ -3,9 +3,15 @@
   import "../app.css";
   import Footer from "$components/Footer.svelte";
   import Header from "$components/Header.svelte";
-  import type { Snippet } from "svelte";
+  import { onMount, type Snippet } from "svelte";
 
   let { children }: { children: Snippet } = $props();
+
+  onMount(() => {
+    navigator.serviceWorker?.addEventListener("controllerchange", () => {
+      location.reload();
+    });
+  });
 </script>
 
 <svelte:head>
