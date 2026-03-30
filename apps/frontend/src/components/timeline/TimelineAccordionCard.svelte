@@ -2,7 +2,7 @@
 	import type { TimelineEntry } from '$interfaces/timelineEntry';
 	import ChevronsUpDown from '@lucide/svelte/icons/chevrons-up-down';
 	import ChevronsDownUp from '@lucide/svelte/icons/chevrons-down-up';
-	import TimelineCard from './TimelineCard.svelte';
+	import Link from '$components/Link.svelte';
 
 	let {
 		entry,
@@ -23,6 +23,32 @@
 	const isRight = $derived(accentSide === 'right');
 </script>
 
+{#snippet timelineCard()}
+	<p class="text-sm">{entry.title}</p>
+	{#if entry.location}
+		<div class="flex flex-wrap text-sm text-surface-300" class:justify-end={isRight}>
+			<p>{entry.location}</p>
+			{#if entry.employmentType}
+				<span class="mx-1">|</span>
+				<p>{entry.employmentType}</p>
+			{:else if entry.degree}
+				<span class="mx-1">|</span>
+				<p>{entry.degree}</p>
+			{/if}
+		</div>
+	{/if}
+	{#if entry.description}
+		<p class="text-sm mt-2 leading-normal text-surface-300">
+			{entry.description}
+		</p>
+	{/if}
+	{#if entry.link}
+		<Link href={entry.link} mono class="text-sm mt-2 {isRight ? 'ml-auto' : ''}">
+			{entry.linkLabel ?? entry.link}
+		</Link>
+	{/if}
+{/snippet}
+
 <div
 	class="w-full rounded-lg bg-surface-800 overflow-hidden"
 	style="{isRight ? 'border-right' : 'border-left'}: 4px solid {color}"
@@ -42,6 +68,6 @@
 		{/if}
 	</button>
 	<div class="px-3 pb-2{isRight ? ' text-right' : ''}" class:hidden={!isOpen}>
-		<TimelineCard {entry} {accentSide} />
+		{@render timelineCard()}
 	</div>
 </div>

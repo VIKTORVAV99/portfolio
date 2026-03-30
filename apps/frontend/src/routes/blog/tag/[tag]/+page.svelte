@@ -3,6 +3,7 @@
   import SEO from "$lib/seo/components/SEO.svelte";
   import BlogPostList from "$components/blog/BlogPostList.svelte";
   import { SITE_URL } from "$lib/config";
+  import { buildPaginationURLs } from "$lib/helpers/paginationURLs";
   import { createBreadcrumbListSchema, createCollectionPageRefSchema, createCollectionPageSchema, createDefinedTermSchema, createItemListSchema } from "$lib/seo";
   import TitleText from "$components/TitleText.svelte";
 
@@ -10,17 +11,9 @@
 
   const baseURL = $derived(`${SITE_URL}/blog/tag/${data.tag}`);
 
-  const canonicalURL = $derived(data.currentPage === 1
-    ? baseURL
-    : `${baseURL}?page=${data.currentPage}`);
-
-  const prevURL = $derived(data.currentPage > 1
-    ? (data.currentPage === 2 ? baseURL : `${baseURL}?page=${data.currentPage - 1}`)
-    : undefined);
-
-  const nextURL = $derived(data.currentPage < data.totalPages
-    ? `${baseURL}?page=${data.currentPage + 1}`
-    : undefined);
+  const { canonicalURL, prevURL, nextURL } = $derived(
+    buildPaginationURLs(baseURL, data.currentPage, data.totalPages),
+  );
 
   const totalPosts = $derived(data.allSlugs.length);
 

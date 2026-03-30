@@ -3,22 +3,15 @@
   import SEO from "$lib/seo/components/SEO.svelte";
   import BlogPostList from "$components/blog/BlogPostList.svelte";
   import { SITE_URL } from "$lib/config";
+  import { buildPaginationURLs } from "$lib/helpers/paginationURLs";
   import { createBreadcrumbListSchema, createCollectionPageSchema, createItemListSchema } from "$lib/seo";
   import TitleText from "$components/TitleText.svelte";
 
   let { data }: { data: PageData } = $props();
 
-  const canonicalURL = $derived(data.currentPage === 1
-    ? `${SITE_URL}/blog`
-    : `${SITE_URL}/blog?page=${data.currentPage}`);
-
-  const prevURL = $derived(data.currentPage > 1
-    ? (data.currentPage === 2 ? `${SITE_URL}/blog` : `${SITE_URL}/blog?page=${data.currentPage - 1}`)
-    : undefined);
-
-  const nextURL = $derived(data.currentPage < data.totalPages
-    ? `${SITE_URL}/blog?page=${data.currentPage + 1}`
-    : undefined);
+  const { canonicalURL, prevURL, nextURL } = $derived(
+    buildPaginationURLs(`${SITE_URL}/blog`, data.currentPage, data.totalPages),
+  );
 
   const structuredData = $derived([
     createCollectionPageSchema({
