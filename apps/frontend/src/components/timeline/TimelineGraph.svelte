@@ -20,6 +20,22 @@
     totalHeight: number;
   } = $props();
 
+  let inView = $state(false);
+
+  const observeInView = (node: HTMLElement) => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          inView = true;
+          observer.unobserve(node);
+        }
+      },
+      { threshold: 0.15 },
+    );
+    observer.observe(node);
+    return { destroy: () => observer.disconnect() };
+  };
+
   const maxGridRow = $derived(Math.max(...graphData.nodes.map((n) => n.gridRow)));
 
   const trunkLabels = $derived.by(() => {
@@ -91,7 +107,9 @@
 
 <div
   class="{graphData.mode === 'compact' ? 'col-start-1' : 'col-start-2'} relative"
+  class:in-view={inView}
   style="grid-row: 1 / {graphData.totalGridRows + 1}; width: {graphData.graphWidth}px;"
+  use:observeInView
 >
   <svg
     width={graphData.graphWidth}
@@ -175,3 +193,51 @@
     {/each}
   </svg>
 </div>
+
+<style>
+  /* SVG graph draw-in */
+  .graph-line {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+
+  .in-view .graph-line {
+    animation: draw-line 1.2s ease forwards;
+  }
+
+  @keyframes draw-line {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  .graph-node {
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(0);
+  }
+
+  .in-view .graph-node {
+    animation: pop-in 0.4s ease forwards;
+  }
+
+  @keyframes pop-in {
+    to {
+      transform: scale(1);
+    }
+  }
+
+  .graph-fade {
+    opacity: 0;
+  }
+
+  .in-view .graph-fade {
+    animation: fade-in 0.5s ease forwards;
+  }
+
+  @keyframes fade-in {
+    to {
+      opacity: 1;
+    }
+  }
+</style>
