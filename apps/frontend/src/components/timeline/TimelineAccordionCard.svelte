@@ -41,9 +41,7 @@
 			<ChevronsUpDown size={16} class="shrink-0 text-surface-400" />
 		{/if}
 	</button>
-	{#if isOpen}
-		<div class="px-3 pb-2{isRight ? ' text-right' : ''}">
-			<TimelineCard {entry} {accentSide} />
-		</div>
-	{/if}
+	<div class="px-3 pb-2{isRight ? ' text-right' : ''}" class:hidden={!isOpen}>
+		<TimelineCard {entry} {accentSide} />
+	</div>
 </div>
