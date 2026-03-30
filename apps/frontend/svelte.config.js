@@ -39,6 +39,7 @@ const config = {
   ],
   kit: {
     adapter: adapter(),
+    inlineStyleThreshold: Infinity,
     alias: {
       $blogs: "./src/blog_posts",
       $components: "./src/components",
