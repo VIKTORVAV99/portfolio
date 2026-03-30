@@ -97,7 +97,7 @@ self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
   const url = new URL(event.request.url);
-  if (url.protocol === "chrome-extension:") return;
+  if (url.origin !== self.location.origin) return;
 
   const respond = async () => {
     const [staticCache, dynamicCache] = await Promise.all([
