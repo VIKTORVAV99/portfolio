@@ -28,7 +28,9 @@ const structuredData = [
   }),
 ];
 
-const blogSlugs = getAllPosts().slice(0, 5).map((post) => post.slug);
+const blogSlugs = getAllPosts()
+  .slice(0, 5)
+  .map((post) => post.slug);
 
 export const load = (() => ({
   structuredData,
