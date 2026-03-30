@@ -68,10 +68,10 @@ export const GET = async () => {
 
   const allPages = [
     ..._staticPages.map((p) => {
-      let lastmod = p.lastmod;
-      if (p.path === "") lastmod = newestPostOriginalDate;
-      if (p.path === "/blog") lastmod = newestPostDate;
-      return { ...p, lastmod };
+      const page = Object.assign({}, p);
+      if (page.path === "") page.lastmod = newestPostOriginalDate;
+      if (page.path === "/blog") page.lastmod = newestPostDate;
+      return page;
     }),
     ...blogPages,
     ...tagPages,

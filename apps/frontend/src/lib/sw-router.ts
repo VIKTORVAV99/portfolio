@@ -72,7 +72,7 @@ export const createRouter = (config: RouterConfig) => {
       }
 
       return response;
-    } catch (err) {
+    } catch {
       const cachedResponse =
         (await dynamicCache.match(request)) || (await staticCache.match(request));
 
