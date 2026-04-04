@@ -6,7 +6,7 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
     {
       "color": "#3b82f6",
       "curveOffset": 1,
-      "endRow": 81,
+      "endRow": 82,
       "entries": [
         {
           "description": "Summer worker at the restaurant.",
@@ -22,7 +22,7 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
           "type": "work",
         },
       ],
-      "forkRow": 81,
+      "forkRow": 82,
       "id": "__ungrouped_2",
       "isOngoing": false,
       "lane": 1,
@@ -32,7 +32,7 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
     {
       "color": "#22c55e",
       "curveOffset": 3,
-      "endRow": 42,
+      "endRow": 43,
       "entries": [
         {
           "description": "Summer job and recurring weekend work at the restaurant, bistro and Swedish Food Market.",
@@ -48,7 +48,7 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
           "type": "work",
         },
       ],
-      "forkRow": 43,
+      "forkRow": 44,
       "id": "__ungrouped_3",
       "isOngoing": false,
       "lane": 1,
@@ -58,7 +58,7 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
     {
       "color": "#f59e0b",
       "curveOffset": 3,
-      "endRow": 73,
+      "endRow": 74,
       "entries": [
         {
           "degree": "High School Diploma",
@@ -74,7 +74,7 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
           "type": "education",
         },
       ],
-      "forkRow": 101,
+      "forkRow": 102,
       "id": "__ungrouped_0",
       "isOngoing": false,
       "lane": -1,
@@ -84,7 +84,7 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
     {
       "color": "#ef4444",
       "curveOffset": 3,
-      "endRow": 13,
+      "endRow": 14,
       "entries": [
         {
           "degree": "Bachelor of Science",
@@ -102,7 +102,7 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
           "type": "education",
         },
       ],
-      "forkRow": 41,
+      "forkRow": 42,
       "id": "__ungrouped_1",
       "isOngoing": false,
       "lane": -1,
@@ -146,7 +146,7 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
           "type": "work",
         },
       ],
-      "forkRow": 37,
+      "forkRow": 38,
       "id": "electricity-maps",
       "isOngoing": true,
       "lane": 1,
@@ -161,11 +161,11 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
       "points": [
         {
           "x": 129,
-          "y": 656,
+          "y": 664,
         },
         {
           "x": 160,
-          "y": 656,
+          "y": 664,
         },
       ],
     },
@@ -174,19 +174,19 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
       "points": [
         {
           "x": 129,
-          "y": 348,
+          "y": 356,
         },
         {
           "x": 131,
-          "y": 348,
+          "y": 356,
         },
         {
           "x": 131,
-          "y": 352,
+          "y": 360,
         },
         {
           "x": 160,
-          "y": 352,
+          "y": 360,
         },
       ],
     },
@@ -195,11 +195,11 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
       "points": [
         {
           "x": 31,
-          "y": 704,
+          "y": 712,
         },
         {
           "x": 0,
-          "y": 704,
+          "y": 712,
         },
       ],
     },
@@ -208,11 +208,11 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
       "points": [
         {
           "x": 31,
-          "y": 224,
+          "y": 232,
         },
         {
           "x": 0,
-          "y": 224,
+          "y": 232,
         },
       ],
     },
@@ -221,19 +221,19 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
       "points": [
         {
           "x": 129,
-          "y": 196,
+          "y": 204,
         },
         {
           "x": 131,
-          "y": 196,
+          "y": 204,
         },
         {
           "x": 131,
-          "y": 200,
+          "y": 208,
         },
         {
           "x": 160,
-          "y": 200,
+          "y": 208,
         },
       ],
     },
@@ -242,11 +242,19 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
       "points": [
         {
           "x": 129,
-          "y": 48,
+          "y": 52,
+        },
+        {
+          "x": 131,
+          "y": 52,
+        },
+        {
+          "x": 131,
+          "y": 56,
         },
         {
           "x": 160,
-          "y": 48,
+          "y": 56,
         },
       ],
     },
@@ -264,10 +272,10 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
         "title": "Born",
         "type": "life",
       },
-      "gridRow": 326,
-      "gridRowEnd": 329,
+      "gridRow": 327,
+      "gridRowEnd": 330,
       "lane": 0,
-      "row": 326,
+      "row": 327,
       "side": "right",
     },
     {
@@ -286,10 +294,10 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
         "title": "FOOD Co-Worker",
         "type": "work",
       },
-      "gridRow": 81,
-      "gridRowEnd": 84,
+      "gridRow": 82,
+      "gridRowEnd": 85,
       "lane": 1,
-      "row": 81,
+      "row": 82,
       "side": "right",
     },
     {
@@ -308,10 +316,10 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
         "title": "FOOD Co-Worker",
         "type": "work",
       },
-      "gridRow": 43,
-      "gridRowEnd": 47,
+      "gridRow": 44,
+      "gridRowEnd": 48,
       "lane": 1,
-      "row": 42.5,
+      "row": 43.5,
       "side": "right",
     },
     {
@@ -330,10 +338,10 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
         "title": "Information and Media Technology",
         "type": "education",
       },
-      "gridRow": 87,
-      "gridRowEnd": 105,
+      "gridRow": 88,
+      "gridRowEnd": 106,
       "lane": -1,
-      "row": 87,
+      "row": 88,
       "side": "left",
     },
     {
@@ -354,10 +362,10 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
         "title": "Digital Design and Innovation",
         "type": "education",
       },
-      "gridRow": 27,
-      "gridRowEnd": 45,
+      "gridRow": 28,
+      "gridRowEnd": 46,
       "lane": -1,
-      "row": 27,
+      "row": 28,
       "side": "left",
     },
     {
@@ -379,10 +387,10 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
         "title": "Open Source Community Engineer",
         "type": "work",
       },
-      "gridRow": 24,
-      "gridRowEnd": 41,
+      "gridRow": 25,
+      "gridRowEnd": 42,
       "lane": 1,
-      "row": 23.5,
+      "row": 24.5,
       "side": "right",
     },
     {
@@ -403,13 +411,13 @@ exports[`buildGraphData snapshot matches desktop snapshot 1`] = `
         "title": "Software Engineer",
         "type": "work",
       },
-      "gridRow": 5,
-      "gridRowEnd": 10,
+      "gridRow": 6,
+      "gridRowEnd": 11,
       "lane": 1,
-      "row": 5,
+      "row": 5.5,
       "side": "right",
     },
   ],
-  "totalGridRows": 329,
+  "totalGridRows": 330,
 }
 `;
