@@ -7,7 +7,7 @@ import {
 } from "$lib/seo";
 import { siteOwnerPerson } from "$lib/seo/person";
 
-import type { PageLoad } from "./$types";
+import type { PageServerLoad } from "./$types";
 
 const structuredData = [
   createWebSiteSchema({
@@ -35,4 +35,4 @@ const blogSlugs = getAllPosts()
 export const load = (() => ({
   structuredData,
   blogSlugs,
-})) satisfies PageLoad;
+})) satisfies PageServerLoad;

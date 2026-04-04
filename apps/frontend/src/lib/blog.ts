@@ -8,8 +8,6 @@ export interface BlogPostMeta {
   tags?: string[];
   slug: string;
   readingTime: number;
-  /** Raw mdsvex module – only used by [slug]/+page.ts for the rendered component. */
-  _file?: any;
 }
 
 const WORDS_PER_MINUTE = 200;
@@ -20,18 +18,26 @@ const calculateReadingTime = (raw: string): number => {
   return Math.max(1, Math.round(words / WORDS_PER_MINUTE));
 };
 
+export const slugFromPath = (path: string): string | undefined =>
+  path.split("/").at(-1)?.replace(/\.md$/, "").toLowerCase();
+
 export const getAllPosts = (): BlogPostMeta[] => {
-  const paths = import.meta.glob("$blogs/*.md", { eager: true });
-  const rawPaths = import.meta.glob("$blogs/*.md", { eager: true, query: "?raw" });
+  const modules = import.meta.glob("$blogs/*.md", { eager: true });
+  const rawPaths = import.meta.glob("$blogs/*.md", {
+    eager: true,
+    query: "?raw",
+    import: "default",
+  });
   const posts: BlogPostMeta[] = [];
 
-  for (const path in paths) {
-    const file = paths[path] as any;
-    const raw = (rawPaths[path] as any)?.default ?? "";
-    const slug = path.split("/").at(-1)?.replace(/\.md$/, "").toLowerCase();
+  for (const path in modules) {
+    const file = modules[path] as any;
+    const metadata = file?.metadata as Record<string, any> | undefined;
+    const raw = (rawPaths[path] as string) ?? "";
+    const slug = slugFromPath(path);
 
-    if (file && typeof file === "object" && "metadata" in file && slug) {
-      posts.push({ ...file.metadata, slug, readingTime: calculateReadingTime(raw), _file: file });
+    if (metadata && slug) {
+      posts.push({ ...metadata, slug, readingTime: calculateReadingTime(raw) } as BlogPostMeta);
     }
   }
 
