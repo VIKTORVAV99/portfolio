@@ -24,10 +24,15 @@ export default defineConfig({
       },
     },
     assetsInlineLimit: (filePath) => {
-      // Don't inline the favicon as this prevents Google Image Bot from indexing it.
+      // Don't inline favicons as this prevents Google Image Bot from indexing them.
       // Which in turn prevents the favicon from showing up in search results
       // and when sharing links on social media.
-      if (filePath.endsWith("favicon.svg")) {
+      if (
+        filePath.endsWith("favicon.svg") ||
+        filePath.endsWith("apple-touch-icon.png") ||
+        filePath.endsWith("icon-48x48.png") ||
+        filePath.endsWith("icon-96x96.png")
+      ) {
         return false;
       }
       // For other files use the default limit of 4kb

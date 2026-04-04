@@ -1,5 +1,8 @@
 <script lang="ts">
-  import favicon from "$lib/assets/favicon.svg";
+  import iconSVG from "$lib/assets/favicon.svg";
+  import appleTouchIcon from "$lib/assets/apple-touch-icon.png";
+  import icon48 from "$lib/assets/icon-48x48.png";
+  import icon96 from "$lib/assets/icon-96x96.png";
   import "../app.css";
   import Menu from "@lucide/svelte/icons/menu";
   import { afterNavigate } from "$app/navigation";
@@ -42,7 +45,10 @@
 {/snippet}
 
 <svelte:head>
-  <link rel="icon" href={favicon} type="image/svg+xml" sizes="any" />
+  <link rel="icon" href={iconSVG} type="image/svg+xml" sizes="any" />
+  <link rel="icon" href={icon48} type="image/png" sizes="48x48" />
+  <link rel="icon" href={icon96} type="image/png" sizes="96x96" />
+  <link rel="apple-touch-icon" href={appleTouchIcon} />
 </svelte:head>
 
 <div class="flex flex-col min-h-dvh">
