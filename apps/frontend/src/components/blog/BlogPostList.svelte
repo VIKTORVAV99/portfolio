@@ -24,7 +24,7 @@
 {#snippet blogPostCard(post: BlogPostMeta, last: boolean)}
   <li>
     <article class="flex flex-col gap-2">
-      <a href="/blog/{post.slug}" class="text-2xl font-bold text-surface-100 hover:text-green-500 transition-colors w-fit">
+      <a href="/blog/{post.slug}" data-sveltekit-preload-data="tap" class="text-2xl font-bold text-surface-100 hover:text-green-500 transition-colors w-fit">
         {post.title}
       </a>
       <PostDate date={post.date} readingTime={post.readingTime} />

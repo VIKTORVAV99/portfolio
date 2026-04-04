@@ -2,45 +2,23 @@
   import type { PageData } from './$types';
   import SEO from "$lib/seo/components/SEO.svelte";
   import BlogPostList from "$components/blog/BlogPostList.svelte";
-  import { SITE_URL } from "$lib/config";
-  import { buildPaginationURLs } from "$lib/helpers/paginationURLs";
-  import { createBreadcrumbListSchema, createCollectionPageSchema, createItemListSchema } from "$lib/seo";
   import TitleText from "$components/TitleText.svelte";
 
   let { data }: { data: PageData } = $props();
-
-  const { canonicalURL, prevURL, nextURL } = $derived(
-    buildPaginationURLs(`${SITE_URL}/blog`, data.currentPage, data.totalPages),
-  );
-
-  const structuredData = $derived([
-    createCollectionPageSchema({
-      name: "Blog",
-      description: "Thoughts on software engineering, climate tech, and open source.",
-      url: canonicalURL,
-      mainEntity: createItemListSchema(
-        data.allSlugs.map((slug) => `${SITE_URL}/blog/${slug}`),
-      ),
-    }),
-    createBreadcrumbListSchema([
-      { name: "Home", url: SITE_URL },
-      { name: "Blog" },
-    ]),
-  ]);
 </script>
 
 <SEO
   title={`Viktor Andersson | Blog${data.currentPage > 1 ? ` — Page ${data.currentPage}` : ""}`}
-  description="The blog section of Viktor Andersson's personal website..."
-  canonicalURL={canonicalURL}
-  prevURL={prevURL}
-  nextURL={nextURL}
-  structuredData={structuredData}
+  description={data.description}
+  canonicalURL={data.canonicalURL}
+  prevURL={data.prevURL}
+  nextURL={data.nextURL}
+  structuredData={data.structuredData}
 />
 
 <div class="page-container">
 
-  <TitleText path="blog" subtitle="Thoughts on software engineering, climate tech, and open source" />
+  <TitleText path="blog" subtitle={data.description} />
 
   <BlogPostList posts={data.pagedPosts} currentPage={data.currentPage} totalPages={data.totalPages} />
 </div>
