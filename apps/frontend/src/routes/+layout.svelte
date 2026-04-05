@@ -8,7 +8,7 @@
   import { afterNavigate } from "$app/navigation";
   import { page } from "$app/state";
   import Highlight from "$components/Highlight.svelte";
-  import { onMount, type Snippet } from "svelte";
+  import { type Snippet } from "svelte";
 
   const links = [
     { href: '/', label: 'Home', name: '' },
@@ -23,14 +23,6 @@
   let { children }: { children: Snippet } = $props();
 
   afterNavigate(() => { open = false; });
-
-  onMount(() => {
-    navigator.serviceWorker?.getRegistrations().then((registrations) => {
-      for (const registration of registrations) {
-        registration.unregister();
-      }
-    });
-  });
 </script>
 
 {#snippet navbarLink(href: string, label: string, name: string)}
