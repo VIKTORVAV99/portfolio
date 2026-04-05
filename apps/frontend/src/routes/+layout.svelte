@@ -11,29 +11,37 @@
   import { type Snippet } from "svelte";
 
   const links = [
-    { href: '/', label: 'Home', name: '' },
-    { href: '/about', label: 'About', name: 'about' },
-    { href: '/history', label: 'History', name: 'history' },
-    { href: '/blog', label: 'Blog', name: 'blog' },
-  ];
+    { href: "/", label: "Home", name: "" },
+    { href: "/about", label: "About", name: "about" },
+    { href: "/history", label: "History", name: "history" },
+    { href: "/blog", label: "Blog", name: "blog" },
+  ] as const;
 
   let open = $state(false);
   const year = $derived(new Date().getFullYear());
 
   let { children }: { children: Snippet } = $props();
 
-  afterNavigate(() => { open = false; });
+  afterNavigate(() => {
+    open = false;
+  });
 </script>
 
-{#snippet navbarLink(href: string, label: string, name: string)}
-  <a {href} class="text-lg flex-1 text-center rounded-full underline-offset-4 font-medium min-w-20 outline-none" aria-label={label}>
-    {#if page.url.pathname === href}
-      <span class="inline-block">&nbsp;</span>>
-    {:else}
-      cd
-    {/if}
-    <Highlight>~</Highlight>/{name}
-  </a>
+{#snippet navbarLinks()}
+  {#each links as link}
+    <a
+      href={link.href}
+      class="text-lg md:flex-1 md:text-center max-md:py-2 max-md:px-4 rounded-full underline-offset-4 font-medium min-w-20 outline-none"
+      aria-label={link.label}
+    >
+      {#if page.url.pathname === link.href}
+        <span class="inline-block">&nbsp;</span>>
+      {:else}
+        cd
+      {/if}
+      <Highlight>~</Highlight>/{link.name}
+    </a>
+  {/each}
 {/snippet}
 
 <svelte:head>
@@ -43,38 +51,49 @@
   <link rel="apple-touch-icon" href={appleTouchIcon} />
 </svelte:head>
 
-<div class="flex flex-col min-h-dvh">
+<!-- #region Header -->
   <header class="sticky top-0 z-10 w-full">
     <div class="m-4">
       <!-- Desktop nav -->
-      <nav class="hidden md:flex font-mono w-fill max-w-5xl mx-auto justify-evenly items-center gap-8 py-4 px-8 rounded-full backdrop-blur-sm bg-surface-800/80">
-        {#each links as link}
-          {@render navbarLink(link.href, link.label, link.name)}
-        {/each}
+      <nav
+        class="hidden md:flex font-mono w-fill max-w-5xl mx-auto justify-evenly items-center gap-8 py-4 px-8 rounded-full backdrop-blur-sm bg-surface-800/80"
+      >
+        {@render navbarLinks()}
       </nav>
 
       <!-- Mobile nav -->
-      <div class="flex md:hidden flex-col items-start">
-        <button onclick={() => open = !open} aria-label="Navigation menu" class="rounded-full backdrop-blur-sm bg-surface-800/80 p-3 cursor-pointer text-surface-50 outline-none">
+      <div class="relative flex md:hidden flex-col items-start">
+        <button
+          onclick={() => (open = !open)}
+          aria-label="Navigation menu"
+          class="rounded-full backdrop-blur-sm bg-surface-800/80 p-3 cursor-pointer text-surface-50 outline-none"
+        >
           <Menu size={24} />
         </button>
         {#if open}
-          <nav class="mt-2 z-50 rounded-2xl backdrop-blur-sm bg-surface-800/80 py-4 px-8 font-mono">
-            {#each links as link}
-              <div class="rounded-xl px-4 py-2 text-surface-50 hover:bg-surface-700/80 cursor-pointer text-lg">
-                {@render navbarLink(link.href, link.label, link.name)}
-              </div>
-            {/each}
+          <nav
+            class="absolute flex flex-col gap-1 justify-start top-full mt-2 z-50 rounded-2xl backdrop-blur-sm bg-surface-800/80 py-4 px-4 font-mono"
+          >
+            {@render navbarLinks()}
           </nav>
         {/if}
       </div>
     </div>
   </header>
+  <!-- #endregion -->
+  <!-- #region Main -->
   <main class="flex-1 flex px-4 md:px-8 lg:px-0 flex-col">
     {@render children()}
   </main>
+  <!-- #endregion -->
+  <!-- #region Footer -->
   <footer class="flex flex-col w-screen mt-8 mb-2 justify-center items-center">
     <small>{year} &copy; Viktor Andersson </small>
-    <small>Source code licensed under <a href="https://github.com/VIKTORVAV99/personal-website/blob/main/LICENSE" rel="license">MIT license</a></small>
+    <small
+      >Source code licensed under <a
+        href="https://github.com/VIKTORVAV99/personal-website/blob/main/LICENSE"
+        rel="license">MIT license</a
+      ></small
+    >
   </footer>
-</div>
+  <!-- #endregion -->
