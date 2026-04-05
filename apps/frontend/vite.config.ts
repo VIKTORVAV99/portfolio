@@ -1,11 +1,23 @@
 import { enhancedImages } from "@sveltejs/enhanced-img";
 import { sveltekit } from "@sveltejs/kit/vite";
 import tailwindcss from "@tailwindcss/vite";
+import { FontaineTransform } from "fontaine";
+import { dirname, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
 import { defineConfig } from "vite";
 import { imagetools } from "vite-imagetools";
 
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
 export default defineConfig({
   plugins: [
+    FontaineTransform.vite({
+      fallbacks: {
+        Inter: ["Arial"],
+        "Monaspace Neon": ["Courier New"],
+      },
+      resolvePath: (id) => resolve(__dirname, "src", id),
+    }),
     tailwindcss(),
     imagetools({
       include: /^[^?]+\.(avif|gif|heif|jpeg|jpg|png|svg|tiff|webp)(\?.*)?$/,
