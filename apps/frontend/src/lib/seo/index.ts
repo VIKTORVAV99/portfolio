@@ -1,13 +1,33 @@
 import { SITE_URL } from "$lib/config";
 
+const postalAddressType = "PostalAddress" as const;
+const placeType = "Place" as const;
+const organizationType = "Organization" as const;
+const employeeRoleType = "EmployeeRole" as const;
+const educationalOrganizationType = "EducationalOrganization" as const;
+const collegeOrUniversityType = "CollegeOrUniversity" as const;
+const highSchoolType = "HighSchool" as const;
+const educationalCredentialType = "EducationalOccupationalCredential" as const;
+const webPageType = "WebPage" as const;
+const softwareSourceCodeType = "SoftwareSourceCode" as const;
+const personType = "Person" as const;
+const blogPostingType = "BlogPosting" as const;
+const profilePageType = "ProfilePage" as const;
+const listItemType = "ListItem" as const;
+const itemListType = "ItemList" as const;
+const breadcrumbListType = "BreadcrumbList" as const;
+const definedTermType = "DefinedTerm" as const;
+const collectionPageType = "CollectionPage" as const;
+const webSiteType = "WebSite" as const;
+
 export interface PostalAddressSchema {
-  "@type": "PostalAddress";
+  "@type": typeof postalAddressType;
   addressLocality?: string;
   addressCountry?: string;
 }
 
 export interface PlaceSchema {
-  "@type": "Place";
+  "@type": typeof placeType;
   address: PostalAddressSchema;
 }
 
@@ -15,12 +35,12 @@ export const createPlaceSchema = (
   addressLocality: string,
   addressCountry: string,
 ): PlaceSchema => ({
-  "@type": "Place",
-  address: { "@type": "PostalAddress", addressLocality, addressCountry },
+  "@type": placeType,
+  address: { "@type": postalAddressType, addressLocality, addressCountry },
 });
 
 export interface OrganizationSchema {
-  "@type": "Organization";
+  "@type": typeof organizationType;
   name: string;
   url?: string;
   description?: string;
@@ -30,10 +50,10 @@ export interface OrganizationSchema {
 
 export const createOrganizationSchema = (
   options: Omit<OrganizationSchema, "@type">,
-): OrganizationSchema => ({ "@type": "Organization", ...options });
+): OrganizationSchema => ({ "@type": organizationType, ...options });
 
 export interface EmployeeRoleSchema {
-  "@type": "EmployeeRole";
+  "@type": typeof employeeRoleType;
   roleName?: string;
   startDate?: string;
   endDate?: string;
@@ -42,10 +62,10 @@ export interface EmployeeRoleSchema {
 
 export const createEmployeeRoleSchema = (
   options: Omit<EmployeeRoleSchema, "@type">,
-): EmployeeRoleSchema => ({ "@type": "EmployeeRole", ...options });
+): EmployeeRoleSchema => ({ "@type": employeeRoleType, ...options });
 
 export interface EducationalOrganizationSchema {
-  "@type": "EducationalOrganization";
+  "@type": typeof educationalOrganizationType;
   name: string;
   url?: string;
   sameAs?: string[];
@@ -54,10 +74,10 @@ export interface EducationalOrganizationSchema {
 
 export const createEducationalOrganizationSchema = (
   options: Omit<EducationalOrganizationSchema, "@type">,
-): EducationalOrganizationSchema => ({ "@type": "EducationalOrganization", ...options });
+): EducationalOrganizationSchema => ({ "@type": educationalOrganizationType, ...options });
 
 export interface CollegeOrUniversitySchema {
-  "@type": "CollegeOrUniversity";
+  "@type": typeof collegeOrUniversityType;
   name: string;
   url?: string;
   sameAs?: string[];
@@ -66,10 +86,10 @@ export interface CollegeOrUniversitySchema {
 
 export const createCollegeOrUniversitySchema = (
   options: Omit<CollegeOrUniversitySchema, "@type">,
-): CollegeOrUniversitySchema => ({ "@type": "CollegeOrUniversity", ...options });
+): CollegeOrUniversitySchema => ({ "@type": collegeOrUniversityType, ...options });
 
 export interface HighSchoolSchema {
-  "@type": "HighSchool";
+  "@type": typeof highSchoolType;
   name: string;
   url?: string;
   sameAs?: string[];
@@ -78,34 +98,38 @@ export interface HighSchoolSchema {
 
 export const createHighSchoolSchema = (
   options: Omit<HighSchoolSchema, "@type">,
-): HighSchoolSchema => ({ "@type": "HighSchool", ...options });
+): HighSchoolSchema => ({ "@type": highSchoolType, ...options });
 
 export interface EducationalCredentialSchema {
-  "@type": "EducationalOccupationalCredential";
+  "@type": typeof educationalCredentialType;
   name: string;
-  credentialCategory?: { "@type": "DefinedTerm"; name: string; termCode?: string };
+  credentialCategory?: DefinedTermSchema;
   educationalLevel?: string;
   datePublished?: string;
   recognizedBy?: EducationalOrganizationSchema | CollegeOrUniversitySchema | HighSchoolSchema;
 }
 
+export const createEducationalCredentialSchema = (
+  options: Omit<EducationalCredentialSchema, "@type">,
+): EducationalCredentialSchema => ({ "@type": educationalCredentialType, ...options });
+
 export interface WebPageSchema {
-  "@type": "WebPage";
+  "@type": typeof webPageType;
   "@id": string;
 }
 
 export const createWebPageSchema = (id: string): WebPageSchema => ({
-  "@type": "WebPage",
+  "@type": webPageType,
   "@id": id,
 });
 
 export interface SoftwareSourceCodeSchema {
-  "@type": "SoftwareSourceCode";
+  "@type": typeof softwareSourceCodeType;
   name: string;
   description?: string;
   codeRepository?: string; // URL to the GitHub repo
   programmingLanguage?: string | string[]; // e.g., ["TypeScript", "Svelte"]
-  author?: PersonSchema | { "@type": "Person"; name: string; url?: string };
+  author?: PersonSchema;
   license?: string; // URL to the license (e.g., MIT)
   dateCreated?: string;
   dateModified?: string;
@@ -113,10 +137,10 @@ export interface SoftwareSourceCodeSchema {
 
 export const createSoftwareSourceCodeSchema = (
   options: Omit<SoftwareSourceCodeSchema, "@type">,
-): SoftwareSourceCodeSchema => ({ "@type": "SoftwareSourceCode", ...options });
+): SoftwareSourceCodeSchema => ({ "@type": softwareSourceCodeType, ...options });
 
 export interface PersonSchema {
-  "@type": "Person";
+  "@type": typeof personType;
   /**
    * The "@id" property is optional but can be very useful for uniquely identifying the person in structured data, especially when linking to other entities.
    * It should be a URL that ideally points to a page about the person (e.g., their profile page).
@@ -129,7 +153,7 @@ export interface PersonSchema {
   givenName?: string;
   familyName?: string;
   url?: string;
-  image?: string | string[]; // Added
+  image?: string | string[];
   homeLocation?: string | PlaceSchema;
   jobTitle?: string;
   description?: string;
@@ -149,7 +173,7 @@ export interface PersonSchema {
 }
 
 export const createPersonSchema = (options: Omit<PersonSchema, "@type">): PersonSchema => ({
-  "@type": "Person",
+  "@type": personType,
   ...options,
 });
 
@@ -178,12 +202,12 @@ export interface ArticleSchema {
 export const createArticleSchema = (
   options: Omit<ArticleSchema, "@type"> & { "@type"?: "Article" | "BlogPosting" | "NewsArticle" },
 ): ArticleSchema => ({
-  "@type": options["@type"] || "BlogPosting",
+  "@type": options["@type"] || blogPostingType,
   ...options,
 });
 
 export interface ProfilePageSchema {
-  "@type": "ProfilePage";
+  "@type": typeof profilePageType;
   dateCreated?: string;
   dateModified?: string;
   mainEntity: PersonSchema;
@@ -191,10 +215,10 @@ export interface ProfilePageSchema {
 
 export const createProfilePageSchema = (
   options: Omit<ProfilePageSchema, "@type">,
-): ProfilePageSchema => ({ "@type": "ProfilePage", ...options });
+): ProfilePageSchema => ({ "@type": profilePageType, ...options });
 
 export interface ListItemSchema {
-  "@type": "ListItem";
+  "@type": typeof listItemType;
   position: number;
   name?: string;
   url?: string;
@@ -202,22 +226,22 @@ export interface ListItemSchema {
 }
 
 export interface ItemListSchema {
-  "@type": "ItemList";
+  "@type": typeof itemListType;
   numberOfItems?: number;
   itemListElement: Pick<ListItemSchema, "@type" | "position" | "item">[];
 }
 
 export interface BreadcrumbListSchema {
-  "@type": "BreadcrumbList";
+  "@type": typeof breadcrumbListType;
   itemListElement: Pick<ListItemSchema, "@type" | "position" | "name" | "item">[];
 }
 
 export const createBreadcrumbListSchema = (
   items: { name: string; url?: string }[],
 ): BreadcrumbListSchema => ({
-  "@type": "BreadcrumbList",
+  "@type": breadcrumbListType,
   itemListElement: items.map((entry, i) => ({
-    "@type": "ListItem" as const,
+    "@type": listItemType,
     position: i + 1,
     name: entry.name,
     ...(entry.url && { item: entry.url }),
@@ -225,37 +249,37 @@ export const createBreadcrumbListSchema = (
 });
 
 export const createItemListSchema = (urls: string[]): ItemListSchema => ({
-  "@type": "ItemList",
+  "@type": itemListType,
   numberOfItems: urls.length,
   itemListElement: urls.map((url, i) => ({
-    "@type": "ListItem" as const,
+    "@type": listItemType,
     position: i + 1,
     item: url,
   })),
 });
 
 export interface DefinedTermSchema {
-  "@type": "DefinedTerm";
+  "@type": typeof definedTermType;
   name: string;
+  termCode?: string;
 }
 
-export const createDefinedTermSchema = (name: string): DefinedTermSchema => ({
-  "@type": "DefinedTerm",
-  name,
-});
+export const createDefinedTermSchema = (
+  options: Omit<DefinedTermSchema, "@type">,
+): DefinedTermSchema => ({ "@type": definedTermType, ...options });
 
 export interface CollectionPageRefSchema {
-  "@type": "CollectionPage";
+  "@type": typeof collectionPageType;
   url: string;
 }
 
 export const createCollectionPageRefSchema = (url: string): CollectionPageRefSchema => ({
-  "@type": "CollectionPage",
+  "@type": collectionPageType,
   url,
 });
 
 export interface CollectionPageSchema {
-  "@type": "CollectionPage";
+  "@type": typeof collectionPageType;
   name: string;
   description?: string;
   url: string;
@@ -266,10 +290,10 @@ export interface CollectionPageSchema {
 
 export const createCollectionPageSchema = (
   options: Omit<CollectionPageSchema, "@type">,
-): CollectionPageSchema => ({ "@type": "CollectionPage", ...options });
+): CollectionPageSchema => ({ "@type": collectionPageType, ...options });
 
 export interface WebSiteSchema {
-  "@type": "WebSite";
+  "@type": typeof webSiteType;
   "@id"?: string;
   name: string;
   url: string;
@@ -279,7 +303,7 @@ export interface WebSiteSchema {
 }
 
 export const createWebSiteSchema = (options: Omit<WebSiteSchema, "@type">): WebSiteSchema => ({
-  "@type": "WebSite",
+  "@type": webSiteType,
   ...options,
 });
 
@@ -313,11 +337,13 @@ export const toISOEndDate = (date: string): string => {
   return new Date(date).toISOString();
 };
 
+const schemaURL = "https://schema.org/";
+
 export const toJsonLd = (schema: StructuredDataSchema | StructuredDataSchema[]): string => {
   try {
     const payload = Array.isArray(schema)
-      ? { "@context": "https://schema.org", "@graph": schema }
-      : { "@context": "https://schema.org", ...schema };
+      ? { "@context": schemaURL, "@graph": schema }
+      : { "@context": schemaURL, ...schema };
 
     const json = JSON.stringify(payload);
 

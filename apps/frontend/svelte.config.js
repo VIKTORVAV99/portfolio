@@ -14,6 +14,7 @@ const shikiHighlighter = await createHighlighter({
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
+  runes: true,
   extensions: [".svelte", ".md"],
   preprocess: [
     vitePreprocess(),

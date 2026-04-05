@@ -1,67 +1,68 @@
 import type { TimelineEntry } from "$interfaces/timelineEntry";
 
+const electricityMapsBase = {
+  organization: "Electricity Maps",
+  type: "work",
+  showDates: true,
+  group: "electricity-maps",
+  link: "https://electricitymaps.com",
+  linkLabel: "open electricitymaps.com",
+} as const;
+
 const primaryWorkEntries: TimelineEntry[] = [
   {
+    ...electricityMapsBase,
     title: "Open Source Community Engineer",
-    organization: "Electricity Maps",
-    type: "work",
     employmentType: "Part-time",
     startYear: 2022,
     startMonth: 12,
     endYear: 2025,
     endMonth: 6,
-    showDates: true,
     description:
       "Building and nurturing the open source community of electricitymaps-contrib as well as maintaining the open source repository of Electricity Maps. Which contains the date ingestion parsers and contained the frontend code of the public web app.",
     location: "Remote, Denmark",
-    group: "electricity-maps",
-    link: "https://electricitymaps.com",
-    linkLabel: "open electricitymaps.com",
   },
   {
+    ...electricityMapsBase,
     title: "Software Engineer",
-    organization: "Electricity Maps",
-    type: "work",
     employmentType: "Full-time",
     startYear: 2025,
     startMonth: 7,
     endYear: null,
-    showDates: true,
     description:
       "Engineering core data ingestion, validation and processing systems for near real-time electricity data.",
     location: "Hybrid, Denmark",
-    group: "electricity-maps",
-    link: "https://electricitymaps.com",
-    linkLabel: "open electricitymaps.com",
   },
 ];
+
+const ikeaBase = {
+  organization: "IKEA",
+  type: "work",
+  showDates: true,
+  location: "Älmhult, Sweden",
+} as const;
+
 const secondaryWorkEntries: TimelineEntry[] = [
   {
+    ...ikeaBase,
     title: "FOOD Co-Worker",
-    organization: "IKEA",
-    type: "work",
     employmentType: "Seasonal",
     startYear: 2019,
     startMonth: 6,
     endYear: 2019,
     endMonth: 8,
-    showDates: true,
     description: "Summer worker at the restaurant.",
-    location: "Älmhult, Sweden",
   },
   {
+    ...ikeaBase,
     title: "FOOD Co-Worker",
-    organization: "IKEA",
-    type: "work",
     employmentType: "Contract",
     startYear: 2022,
     startMonth: 6,
     endYear: 2023,
     endMonth: 1,
-    showDates: true,
     description:
       "Summer job and recurring weekend work at the restaurant, bistro and Swedish Food Market.",
-    location: "Älmhult, Sweden",
   },
 ];
 const educationEntries: TimelineEntry[] = [

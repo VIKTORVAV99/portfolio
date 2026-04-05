@@ -4,6 +4,8 @@ import { PROFILE_DATE_CREATED, PROFILE_DATE_MODIFIED, siteOwnerPerson } from "$l
 
 import type { PageServerLoad } from "./$types";
 
+const description = "The timeline of my professional and educational history.";
+
 const structuredData = [
   createProfilePageSchema({
     dateCreated: PROFILE_DATE_CREATED,
@@ -16,4 +18,4 @@ const structuredData = [
   createBreadcrumbListSchema([{ name: "Home", url: SITE_URL }, { name: "History" }]),
 ];
 
-export const load = (() => ({ structuredData })) satisfies PageServerLoad;
+export const load = (() => ({ structuredData, description })) satisfies PageServerLoad;

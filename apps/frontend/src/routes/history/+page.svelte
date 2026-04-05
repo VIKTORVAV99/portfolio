@@ -11,14 +11,14 @@
 
 <SEO
   title="Viktor Andersson | History"
-  description="A timeline of my professional and educational history."
+  description={data.description}
   canonicalURL={`${SITE_URL}/history`}
   type="profile"
   structuredData={data.structuredData}
 />
 
 <div class="page-container">
-  <TitleText path="history" subtitle="My timeline so far" />
+  <TitleText path="history" subtitle={data.description} />
   <section class="flex flex-col gap-4 items-center w-full">
     <Timeline entries={timelineEntries} />
   </section>
