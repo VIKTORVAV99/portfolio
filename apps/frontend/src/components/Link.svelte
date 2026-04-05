@@ -20,7 +20,7 @@
   {href}
   target={isExternal ? "_blank" : undefined}
   rel={isExternal ? "noopener noreferrer" : undefined}
-  class="inline-flex items-center gap-0.5 {mono ? 'font-mono' : ''} {className}"
+  class={['inline-flex items-center gap-0.5', mono && 'font-mono', className]}
   {...restProps}
 >
   {@render children()}

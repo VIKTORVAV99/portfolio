@@ -41,11 +41,11 @@
 
 {#snippet chevron(href: string | undefined, label: string, Icon: LucideIcon)}
   {#if href}
-    <a {href} class="{box} text-surface-300 hover:text-green-500 transition-colors" aria-label={label}>
+    <a {href} class={[box, 'text-surface-300 hover:text-green-500 transition-colors']} aria-label={label}>
       <Icon size={16} />
     </a>
   {:else}
-    <span class="{box} text-surface-300 opacity-30 cursor-not-allowed" aria-disabled="true">
+    <span class={[box, 'text-surface-300 opacity-30 cursor-not-allowed']} aria-disabled="true">
       <Icon size={16} />
     </span>
   {/if}
@@ -68,9 +68,9 @@
 
           {#each Array.from({ length: totalPages }, (_, i) => i + 1) as page}
             {#if page === currentPage}
-              <span class="{box} text-green-500" aria-current="page">{page}</span>
+              <span class={[box, 'text-green-500']} aria-current="page">{page}</span>
             {:else}
-              <a href={pageHref(page)} class="{box} text-surface-300 hover:text-green-500 transition-colors">{page}</a>
+              <a href={pageHref(page)} class={[box, 'text-surface-300 hover:text-green-500 transition-colors']}>{page}</a>
             {/if}
           {/each}
 

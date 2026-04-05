@@ -78,7 +78,7 @@
 
 <div class="w-full max-w-5xl mx-auto">
 	<div
-		class="grid w-full {isCompact ? 'grid-cols-[auto_1fr]' : 'grid-cols-[1fr_auto_1fr]'}"
+		class={['grid w-full', isCompact ? 'grid-cols-[auto_1fr]' : 'grid-cols-[1fr_auto_1fr]']}
 		style="grid-template-rows: repeat({graphData.totalGridRows}, {PX_PER_MONTH}px);"
 	>
 		<!-- Graph -->
@@ -89,7 +89,11 @@
 			{#if !(node.entry.type === 'life' && !node.entry.showDates)}
 				{@const isLeft = node.side === 'left'}
 				<div
-					class="{isLeft ? 'col-start-1' : isCompact ? 'col-start-2' : 'col-start-3'} flex {isLeft ? 'justify-end' : 'justify-start'} self-start"
+					class={[
+						isLeft ? 'col-start-1' : isCompact ? 'col-start-2' : 'col-start-3',
+						'flex self-start',
+						isLeft ? 'justify-end' : 'justify-start'
+					]}
 					style="grid-row: {node.gridRow} / {node.gridRowEnd};"
 					use:observeCardHeight={node.entry}
 				>

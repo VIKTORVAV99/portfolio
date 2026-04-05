@@ -52,33 +52,27 @@
 </svelte:head>
 
 <!-- #region Header -->
-  <header class="sticky top-0 z-10 w-full">
-    <div class="m-4">
-      <!-- Desktop nav -->
+  <header class="sticky top-0 z-10 w-full m-4">
+    <!-- Desktop nav -->
+    <nav
+      class="hidden md:flex font-mono w-fill max-w-5xl mx-auto justify-evenly items-center gap-8 py-4 px-8 rounded-full backdrop-blur-sm bg-surface-800/80"
+    >
+      {@render navbarLinks()}
+    </nav>
+    <!-- Mobile nav -->
+    <details class="relative md:hidden" bind:open>
+      <summary
+        aria-label="Navigation menu"
+        class="list-none cursor-pointer rounded-full backdrop-blur-sm bg-surface-800/80 p-3 text-surface-50 outline-none w-fit"
+      >
+        <Menu size={24} />
+      </summary>
       <nav
-        class="hidden md:flex font-mono w-fill max-w-5xl mx-auto justify-evenly items-center gap-8 py-4 px-8 rounded-full backdrop-blur-sm bg-surface-800/80"
+        class="absolute flex flex-col gap-1 justify-start top-full mt-2 z-50 rounded-2xl backdrop-blur-sm bg-surface-800/80 py-4 px-4 font-mono"
       >
         {@render navbarLinks()}
       </nav>
-
-      <!-- Mobile nav -->
-      <div class="relative flex md:hidden flex-col items-start">
-        <button
-          onclick={() => (open = !open)}
-          aria-label="Navigation menu"
-          class="rounded-full backdrop-blur-sm bg-surface-800/80 p-3 cursor-pointer text-surface-50 outline-none"
-        >
-          <Menu size={24} />
-        </button>
-        {#if open}
-          <nav
-            class="absolute flex flex-col gap-1 justify-start top-full mt-2 z-50 rounded-2xl backdrop-blur-sm bg-surface-800/80 py-4 px-4 font-mono"
-          >
-            {@render navbarLinks()}
-          </nav>
-        {/if}
-      </div>
-    </div>
+    </details>
   </header>
   <!-- #endregion -->
   <!-- #region Main -->
