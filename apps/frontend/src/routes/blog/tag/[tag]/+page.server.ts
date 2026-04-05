@@ -47,7 +47,7 @@ export const load = async ({ params, url }: PageServerLoadEvent) => {
       url: canonicalURL,
       mainEntity: createItemListSchema(allSlugs.map((slug) => `${SITE_URL}/blog/${slug}`)),
       isPartOf: createCollectionPageRefSchema(`${SITE_URL}/blog`),
-      about: createDefinedTermSchema(displayTag),
+      about: createDefinedTermSchema({ name: displayTag }),
     }),
     createBreadcrumbListSchema([
       { name: "Home", url: SITE_URL },

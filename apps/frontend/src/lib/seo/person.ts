@@ -7,6 +7,8 @@ import {
   createHighSchoolSchema,
   createEmployeeRoleSchema,
   createPlaceSchema,
+  createDefinedTermSchema,
+  createEducationalCredentialSchema,
   toISOStartDate,
   toISOEndDate,
 } from "$lib/seo";
@@ -75,18 +77,16 @@ export const siteOwnerPerson = createPersonSchema({
   ],
   alumniOf: hh,
   hasCredential: [
-    {
-      "@type": "EducationalOccupationalCredential",
+    createEducationalCredentialSchema({
       name: "Bachelor of Science in Digital Design and Innovation",
-      credentialCategory: { "@type": "DefinedTerm", name: "Degree", termCode: "BSc" },
+      credentialCategory: createDefinedTermSchema({ name: "Degree", termCode: "BSc" }),
       educationalLevel: "Bachelor",
       datePublished: toISOEndDate("2025-06"),
       recognizedBy: hh,
-    },
-    {
-      "@type": "EducationalOccupationalCredential",
+    }),
+    createEducationalCredentialSchema({
       name: "High School Diploma in Information and Media Technology",
-      credentialCategory: { "@type": "DefinedTerm", name: "High School Diploma" },
+      credentialCategory: createDefinedTermSchema({ name: "High School Diploma" }),
       educationalLevel: "Upper secondary",
       datePublished: toISOEndDate("2020-06"),
       recognizedBy: createHighSchoolSchema({
@@ -94,7 +94,7 @@ export const siteOwnerPerson = createPersonSchema({
         location: createPlaceSchema("Älmhult", "SE"),
         sameAs: ["https://www.wikidata.org/wiki/Q89791742"],
       }),
-    },
+    }),
   ],
   sameAs: [
     "https://github.com/viktorvav99",
