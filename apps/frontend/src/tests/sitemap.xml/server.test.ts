@@ -1,6 +1,6 @@
 import { describe, it, expect } from "bun:test";
 
-import { _buildSitemapXml, _staticPages } from "./+server";
+import { _buildSitemapXml, _staticPages } from "../../routes/sitemap.xml/+server";
 
 const buildDate = "2026-03-20";
 

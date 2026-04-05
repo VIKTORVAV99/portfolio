@@ -43,31 +43,27 @@
 		</p>
 	{/if}
 	{#if entry.link}
-		<Link href={entry.link} mono class="text-sm mt-2 {isRight ? 'ml-auto' : ''}">
+		<Link href={entry.link} mono class={['text-sm mt-2', isRight && 'ml-auto']}>
 			{entry.linkLabel ?? entry.link}
 		</Link>
 	{/if}
 {/snippet}
 
-<div
-	class="w-full rounded-lg bg-surface-800 overflow-hidden"
+<details
+	bind:open={isOpen}
+	class="group w-full rounded-lg bg-surface-800 overflow-hidden"
 	style="{isRight ? 'border-right' : 'border-left'}: 4px solid {color}"
 >
-	<button
-		onclick={() => isOpen = !isOpen}
-		aria-expanded={isOpen}
-		class="flex w-full items-center justify-between px-3 py-2 gap-2 cursor-pointer {isRight
+	<summary
+		class="list-none cursor-pointer flex w-full items-center justify-between px-3 py-2 gap-2 {isRight
 			? 'text-right flex-row-reverse'
 			: 'text-left'}"
 	>
 		<span class="text-lg font-medium truncate">{entry.organization}</span>
-		{#if isOpen}
-			<ChevronsDownUp size={16} class="shrink-0 text-surface-400" />
-		{:else}
-			<ChevronsUpDown size={16} class="shrink-0 text-surface-400" />
-		{/if}
-	</button>
-	<div class="px-3 pb-2{isRight ? ' text-right' : ''}" class:hidden={!isOpen}>
+		<ChevronsDownUp size={16} class="hidden group-open:block shrink-0 text-surface-400" />
+		<ChevronsUpDown size={16} class="block group-open:hidden shrink-0 text-surface-400" />
+	</summary>
+	<div class="px-3 pb-2" class:text-right={isRight}>
 		{@render timelineCard()}
 	</div>
-</div>
+</details>

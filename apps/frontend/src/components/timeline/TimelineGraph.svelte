@@ -106,8 +106,11 @@
 </script>
 
 <div
-  class="{graphData.mode === 'compact' ? 'col-start-1' : 'col-start-2'} relative"
-  class:in-view={inView}
+  class={[
+    graphData.mode === 'compact' ? 'col-start-1' : 'col-start-2',
+    'relative',
+    inView && 'in-view'
+  ]}
   style="grid-row: 1 / {graphData.totalGridRows + 1}; width: {graphData.graphWidth}px;"
   use:observeInView
 >
